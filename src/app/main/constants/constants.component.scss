@@ -1,0 +1,17 @@
+.displayTable {
+
+    border-spacing:0px;
+}
+
+.displayTable > tr {
+    border-bottom:1px solid #eee;
+    border-spacing:0px;
+    padding:20px 0px;
+    display:inline-block;
+    width:100%;
+}
+
+.displayTable > tr > td {
+    border-spacing:0px;
+
+}

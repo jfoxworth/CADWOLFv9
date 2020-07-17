@@ -1,34 +1,43 @@
+
+// Standard angular items
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
 
+// Fuse specific items
 import { FuseSharedModule } from '@fuse/shared.module';
 
-import { SampleComponent } from './sample.component';
+
+// Components
+import { ConstantsComponent } from './constants.component';
+
+
+// Services
+
+
+
+// Material Imports
+
 
 const routes = [
     {
-        path     : 'sample',
-        component: SampleComponent
+        path     : 'constants',
+        component: ConstantsComponent
     }
 ];
 
 @NgModule({
     declarations: [
-        SampleComponent
+        ConstantsComponent
     ],
     imports     : [
         RouterModule.forChild(routes),
-
-        TranslateModule,
-
         FuseSharedModule
     ],
     exports     : [
-        SampleComponent
+        ConstantsComponent
     ]
 })
 
-export class SampleModule
+export class ConstantsModule
 {
 }

@@ -1,0 +1,88 @@
+<div class="page-layout carded fullwidth">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- CONTENT HEADER -->
+        <div class="header accent p-24" fxLayout="row" fxLayoutAlign="start center">
+        </div>
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+
+            <!-- CONTENT TOOLBAR --
+            <div class="toolbar px-24 py-8">
+                <span>Content toolbar</span>
+            </div>
+            <!-- / CONTENT TOOLBAR -->
+
+            <!-- CONTENT -->
+            <div class="content p-24">
+
+            	<div class="text-center">
+            		<h1>Constants in CADWOLF</h1>
+            	</div>
+
+            	<div class="text-center w-80-p"
+            		 style="margin:0px 10%">
+            		<div class="mat-subheading-2">
+            			The items below are common mathematical and scientific constants that are used often in calculations. They can entered into any CADWOLF equation using the value shown in the X column. If they have a symbol, they will be representated as that symbol in the displayed equation.
+            		</div>
+            	</div>
+
+
+
+            	<table class="displayTable w-80-p"
+            		   style="margin:0px 10%">
+
+					<tr	class="projectRow w-100-p">
+						<th class="mat-subheading-2 text-center w-15-p">Name</th>
+						<th class="mat-subheading-2 text-center w-15-p">Symbol</th>
+						<th class="mat-subheading-2 text-center w-30-p">Value</th>
+						<th class="mat-subheading-2 text-center w-10-p">Units</th>
+						<th class="mat-subheading-2 text-center w-30-p">Description</th>
+					</tr>
+
+					<tr	class="projectRow w-100-p"
+					    *ngFor="let const of constants">
+
+						<td class="mat-subheading-2 text-center  w-15-p">
+							{{const.name}}
+						</td>
+
+						<td class="mat-subheading-2 text-center w-15-p">
+							{{const.showValue}}
+						</td>
+
+						<td class="mat-subheading-2 text-center w-30-p">
+							{{const.value}}
+						</td>
+
+						<td class="mat-subheading-2 text-center w-10-p">
+							{{const.units}}
+						</td>
+
+						<td class="mat-subheading-2 text-center w-30-p">
+							{{const.description}}
+						</td>
+
+					</tr>
+
+            	</table>
+
+
+            </div>
+            <!-- / CONTENT -->
+
+        </div>
+        <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>

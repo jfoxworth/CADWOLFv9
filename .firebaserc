@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "cadwolf-59b04"
+  },
+  "targets": {
+    "cadwolf-59b04": {
+      "hosting": {
+        "fuse": [
+          "cadwolf-59b04"
+        ]
+      }
+    }
   }
 }
