@@ -33,6 +33,7 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firest
 })
 export class ProfileComponent implements OnInit {
 
+	user 			: any;
 	userData 		: any;
 	displayStatus  	: string 	=  'view';
 	userId 			: string;
@@ -58,20 +59,39 @@ export class ProfileComponent implements OnInit {
 
 	ngOnInit(): void {
 
-        // This is a one time get for the constants. It is not an observable
-        this.ProfileService.profileStatus
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((profileData)=>{
-            	this.profileData = profileData;
-				this.profileImage = this.UserService.getProfileImage( profileData );
-		    });
+      
+		// Get the user data
+        this.user = JSON.parse(localStorage.getItem('cadwolfUser'));
 
+        if ( this.user )
+        {
+			var docRef = this.afs.collection('users').doc(this.user.uid);
+			var userInfo = docRef.ref.get().then(response=> {
+				localStorage.setItem('cadwolfUserData', JSON.stringify(response.data()));
 
-		// Set the user data
-        this.userData = JSON.parse(localStorage.getItem('cadwolfUserData'));
+		        this.ProfileService.profileStatus
+		            .pipe(takeUntil(this._unsubscribeAll))
+		            .subscribe((profileData)=>{
+		            	this.profileData = profileData;
+						this.profileImage = this.UserService.getProfileImage( profileData );
 
-        // Set the title
-		this.titleService.setTitle( 'Profile for CADWOLF User '+this.userData.userName );
+				        // Set the title
+						this.titleService.setTitle( 'Profile for CADWOLF User '+this.profileData.userName );
+				    });
+			});
+		}else{
+	        this.ProfileService.profileStatus
+	            .pipe(takeUntil(this._unsubscribeAll))
+	            .subscribe((profileData)=>{
+	            	this.profileData = profileData;
+					this.profileImage = this.UserService.getProfileImage( profileData );
+
+			        // Set the title
+					this.titleService.setTitle( 'Profile for CADWOLF User '+this.profileData.userName );
+			    });
+
+		}
+
 
 		// Get id from URL
 		this.userId = this.route.snapshot.paramMap.get('id');

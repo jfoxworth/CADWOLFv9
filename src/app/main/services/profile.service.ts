@@ -55,7 +55,7 @@ export class ProfileService {
 		}else if ( (userId != '') && ( userId !== null ) && ( userId !== undefined ) )
 		{
 			// If the user defined by the URL is the same as the one logged in
-			if ( userData !== undefined )
+			if ( userData )
 			{
 				if ( ( userData.uid == userId ) ||
 					 ( userData.userName == userId ) )

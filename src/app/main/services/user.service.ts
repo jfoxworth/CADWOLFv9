@@ -30,16 +30,21 @@ export class UserService {
 	**/
 	getProfileImage( userData ) {
 
-		console.log('In the getProfileImage, I am using the id of '+userData.uid);
-		console.log(userData);
-
-		if ( userData.imageType  === undefined )
+		if ( ( userData === undefined ) || ( userData === null ) )
 		{
 			console.log('The image type is undefined');
 			var path = '/profile/default.jpeg';
-		}else{
-			var path = '/profile/'+userData.uid+'.'+userData.imageType;			
-			console.log('The path is '+path);
+		}else
+		{
+
+			if ( userData.imageType  === undefined )
+			{
+				console.log('The image type is undefined');
+				var path = '/profile/default.jpeg';
+			}else{
+				var path = '/profile/'+userData.uid+'.'+userData.imageType;			
+				console.log('The path is '+path);
+			}
 		}
 
 

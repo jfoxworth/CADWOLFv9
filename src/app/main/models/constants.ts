@@ -1,5 +1,4 @@
 export interface Constant {
-   uid: string;
    description: string;
    measurement: string;
    name: string;

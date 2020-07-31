@@ -15,7 +15,10 @@ import { TeamsComponent } from './teams.component';
 
 
 
-// Material Imports
+// Material Items
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
 
 
 const routes = [
@@ -31,7 +34,12 @@ const routes = [
     ],
     imports     : [
         RouterModule.forChild(routes),
-        FuseSharedModule
+        FuseSharedModule,
+
+        MatButtonModule,
+        MatInputModule,
+        MatIconModule,
+
     ],
     exports     : [
         TeamsComponent

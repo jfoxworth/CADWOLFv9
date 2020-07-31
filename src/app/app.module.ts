@@ -46,6 +46,7 @@ import { environment } from '../environments/environment';
 import { ConstantsService } from 'app/main/services/constants.service';
 import { UnitsService } from 'app/main/services/units.service';
 import { ProfileService } from 'app/main/services/profile.service';
+import { TeamsService } from 'app/main/services/teams.service';
 
 
 
@@ -106,7 +107,8 @@ const appRoutes: Routes = [
     providers :[
         ConstantsService,
         UnitsService,
-        ProfileService
+        ProfileService,
+        TeamsService,
     ],
 
 	bootstrap   : [

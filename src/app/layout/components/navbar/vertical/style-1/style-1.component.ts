@@ -1,5 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { RouterModule, Routes, ActivatedRoute } from '@angular/router';
+
 
 // RXJS itemss
 import { BehaviorSubject, Observable, Subject } from 'rxjs';

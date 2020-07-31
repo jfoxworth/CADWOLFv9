@@ -1,1 +1,49 @@
-<p>teams works!</p>
+<div id="teams" class="page-layout simple fullwidth">
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- CONTENT HEADER -->
+        <div class="header pb-24 pl-48" 
+        	 fxLayout="row" 
+        	 fxLayoutAlign="start center"
+        	 style="background-image:url('/assets/images/backgrounds/topper.png'); height:190px; background-size:cover">
+        	<h1 class="mt-0">Teams for {{userData.userName}}</h1>
+        </div>
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+
+            <!-- CONTENT -->
+            <div class="content p-24 center">
+
+				<button mat-raised-button 
+						color="primary"
+						class="w-20-p mt-20 center"
+						style="margin-left:40%; min-width:200px"
+						(click)="this.TeamsService.addTeam( this.userData.uid )">
+						ADD NEW TEAM
+				</button>
+
+            	<table class="displayTable w-80-p"
+            		   style="margin:0px 10%">
+
+					<tr	class="projectRow w-100-p">
+						<th class="mat-subheading-2 text-center w-15-p">Name</th>
+						<th class="mat-subheading-2 text-center w-15-p">Symbol</th>
+						<th class="mat-subheading-2 text-center w-30-p">Value</th>
+						<th class="mat-subheading-2 text-center w-10-p">Units</th>
+						<th class="mat-subheading-2 text-center w-30-p">Description</th>
+					</tr>
+
+				</table>
+
+			</div>
+
+		</div>
+		<!-- / CENTER -->
+
+	</div>
+
+</div>

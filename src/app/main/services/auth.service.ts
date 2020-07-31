@@ -15,6 +15,11 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firest
 import { User } from "app/main/models/users";
 
 
+// Services
+import { ProfileService } from 'app/main/services/profile.service';
+
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +33,7 @@ export class AuthService {
     public afAuth: AngularFireAuth, // Inject Firebase auth service
     public router: Router,
     public ngZone: NgZone, // NgZone service to remove outside scope warning
+    public ProfileService: ProfileService, 
   ) {
     /* Saving user data in localstorage when
     logged in and setting up null when logged out */
@@ -38,6 +44,7 @@ export class AuthService {
         JSON.parse(localStorage.getItem('cadwolfUser'));
       } else {
         localStorage.setItem('cadwolfUser', null);
+        localStorage.setItem('cadwolfUserData', null);
         JSON.parse(localStorage.getItem('cadwolfUser'));
       }
     })
@@ -56,6 +63,7 @@ export class AuthService {
 			var userInfo = docRef.ref.get().then(response=> {
 				localStorage.setItem('cadwolfUserData', JSON.stringify(response.data()));
 				console.log('Setting user data to '+JSON.stringify(response.data()));
+        this.ProfileService.updateProfileImages( response.data() );
 	        	this.router.navigate(['profile']);
 			});
 
