@@ -1,5 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+
+// Standard angular items
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Title }     from '@angular/platform-browser';
+
+// RXJS itemss
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
+
+// Models
 import { Constant } from 'app/main/models/constants';
 
 
@@ -8,45 +17,46 @@ import { ConstantsService } from 'app/main/services/constants.service';
 
 
 @Component({
-  selector: 'app-constants',
-  templateUrl: './constants.component.html',
-  styleUrls: ['./constants.component.scss']
+    selector: 'constants',
+    templateUrl: './constants.component.html',
+    styleUrls: ['./constants.component.scss']
 })
-export class ConstantsComponent implements OnInit {
+export class ConstantsComponent implements OnInit, OnDestroy
+{
 
 	constants : Constant[];
+    private _unsubscribeAll: Subject<any>;
+
 
 	constructor(
         private ConstantsService: ConstantsService,
+        private titleService: Title
   	) 
-	{}
-
-
+	{        
+        this._unsubscribeAll = new Subject();        
+    }
 
 
 
 	ngOnInit(): void {
 
-  		this.ConstantsService.getConstants()
-  			.subscribe(result => {
 
-	            var tempArray = [];
-	            var docData;
-	            result.forEach((doc) => {
-	                docData=doc.data();
-	                docData.uid=doc.id;
-	                docData.base = JSON.parse(docData.base);
-	                //console.log(doc.id, '=>', doc.data());
-	                tempArray.push(docData);
-	            });
-				this.constants = tempArray;
+		this.titleService.setTitle( 'Constants in Cadwolf' );
 
-				console.log('The constants are ...');
-				console.log(this.constants);
-
-        });
-
+        // This is a one time get for the constants. It is not an observable
+        this.ConstantsService.constantsStatus
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((constants)=>{this.constants = constants;});
 
 	}
+
+
+	ngOnDestroy():void {
+
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
+
+  	}	
 
 }

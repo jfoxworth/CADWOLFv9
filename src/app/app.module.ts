@@ -6,6 +6,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 import { TranslateModule } from '@ngx-translate/core';
 import 'hammerjs';
 
@@ -23,6 +25,13 @@ import { AppComponent } from 'app/app.component';
 import { LayoutModule } from 'app/layout/layout.module';
 import { ProfileModule } from 'app/main/profile/profile.module';
 import { ConstantsModule } from 'app/main/constants/constants.module';
+import { UnitsModule } from 'app/main/units/units.module';
+import { LoginModule } from 'app/main/login/login.module';
+import { RegisterModule } from 'app/main/register/register.module';
+import { ForgotPasswordModule } from 'app/main/forgotpassword/forgotpassword.module';
+import { ResetPasswordModule } from 'app/main/resetpassword/resetpassword.module';
+import { MailConfModule } from 'app/main/mailconf/mailconf.module';
+import { TeamsModule } from './main/teams/teams.module';
 
 
 // Firebase Items
@@ -34,9 +43,10 @@ import { environment } from '../environments/environment';
 
 
 // Services
-import { FirebaseService } from 'app/main/services/firebase.service';
 import { ConstantsService } from 'app/main/services/constants.service';
 import { UnitsService } from 'app/main/services/units.service';
+import { ProfileService } from 'app/main/services/profile.service';
+
 
 
 
@@ -78,6 +88,13 @@ const appRoutes: Routes = [
 		LayoutModule,
 		ProfileModule,
 		ConstantsModule,
+		UnitsModule,
+		TeamsModule,
+		LoginModule,
+		RegisterModule,
+		ForgotPasswordModule,
+		ResetPasswordModule,
+		MailConfModule,
 
 		// Firebase 
         AngularFireModule.initializeApp(environment.firebase),
@@ -89,7 +106,7 @@ const appRoutes: Routes = [
     providers :[
         ConstantsService,
         UnitsService,
-        FirebaseService,
+        ProfileService
     ],
 
 	bootstrap   : [

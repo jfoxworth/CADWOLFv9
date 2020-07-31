@@ -1,14 +1,15 @@
-<div class="page-layout carded fullwidth">
+<div class="page-layout simple fullwidth">
 
-    <!-- TOP BACKGROUND -->
-    <div class="top-bg accent"></div>
-    <!-- / TOP BACKGROUND -->
 
     <!-- CENTER -->
     <div class="center">
 
         <!-- CONTENT HEADER -->
-        <div class="header accent p-24" fxLayout="row" fxLayoutAlign="start center">
+        <div class="header pb-24 pl-48" 
+        	 fxLayout="row" 
+        	 fxLayoutAlign="start center"
+        	 style="background-image:url('/assets/images/backgrounds/topper.png'); height:190px; background-size:cover">
+        	<h1 class="mt-0">Constants in CADWOLF</h1>
         </div>
         <!-- / CONTENT HEADER -->
 
@@ -24,19 +25,6 @@
             <!-- CONTENT -->
             <div class="content p-24">
 
-            	<div class="text-center">
-            		<h1>Constants in CADWOLF</h1>
-            	</div>
-
-            	<div class="text-center w-80-p"
-            		 style="margin:0px 10%">
-            		<div class="mat-subheading-2">
-            			The items below are common mathematical and scientific constants that are used often in calculations. They can entered into any CADWOLF equation using the value shown in the X column. If they have a symbol, they will be representated as that symbol in the displayed equation.
-            		</div>
-            	</div>
-
-
-
             	<table class="displayTable w-80-p"
             		   style="margin:0px 10%">
 
@@ -51,24 +39,54 @@
 					<tr	class="projectRow w-100-p"
 					    *ngFor="let const of constants">
 
-						<td class="mat-subheading-2 text-center  w-15-p">
+						<td class="mat-body-1 text-center  w-15-p"
+							*ngIf="const.name">
 							{{const.name}}
 						</td>
 
-						<td class="mat-subheading-2 text-center w-15-p">
+						<td class="mat-body-1 text-center  w-15-p"
+							*ngIf="!const.name">
+							-
+						</td>
+
+						<td class="mat-body-1 text-center w-15-p"
+							*ngIf="const.showValue">
 							{{const.showValue}}
 						</td>
 
-						<td class="mat-subheading-2 text-center w-30-p">
+						<td class="mat-body-1 text-center  w-15-p"
+							*ngIf="!const.showValue">
+							-
+						</td>
+
+						<td class="mat-body-1 text-center w-30-p"
+							*ngIf="const.value">
 							{{const.value}}
 						</td>
 
-						<td class="mat-subheading-2 text-center w-10-p">
+						<td class="mat-body-1 text-center  w-15-p"
+							*ngIf="!const.value">
+							-
+						</td>
+
+						<td class="mat-body-1 text-center w-10-p"
+							*ngIf="const.units">
 							{{const.units}}
 						</td>
 
-						<td class="mat-subheading-2 text-center w-30-p">
+						<td class="mat-body-1 text-center  w-15-p"
+							*ngIf="!const.units">
+							-
+						</td>
+
+						<td class="mat-body-1 text-center w-30-p"
+							*ngIf="const.description">
 							{{const.description}}
+						</td>
+
+						<td class="mat-body-1 text-center  w-15-p"
+							*ngIf="!const.description">
+							-
 						</td>
 
 					</tr>

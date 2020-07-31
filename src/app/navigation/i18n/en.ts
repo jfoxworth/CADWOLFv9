@@ -8,8 +8,14 @@ export const locale = {
             'PROFILE' : {
                 'TITLE': 'Profile'
             },
+            'WORKSPACE' : {
+                'TITLE': 'My Workspace'
+            },
             'CHAT' : {
                 'TITLE': 'Chat'
+            },
+            'TEAMS' : {
+                'TITLE': 'Teams'
             },
             'DOCUMENTS' : {
                 'TITLE': 'Documents'

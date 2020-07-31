@@ -11,12 +11,10 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firest
 
 
 
-// My Services
-import { FirebaseService } from 'app/main/services/firebase.service';
-
-
 // Models
 import { User } from "app/main/models/users";
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -30,48 +28,58 @@ export class AuthService {
     public afAuth: AngularFireAuth, // Inject Firebase auth service
     public router: Router,
     public ngZone: NgZone, // NgZone service to remove outside scope warning
-    public FirebaseService:FirebaseService
   ) {
     /* Saving user data in localstorage when
     logged in and setting up null when logged out */
     this.afAuth.authState.subscribe(user => {
       if (user) {
         this.userData = user;
-        localStorage.setItem('user', JSON.stringify(this.userData));
-        JSON.parse(localStorage.getItem('user'));
+        localStorage.setItem('cadwolfUser', JSON.stringify(this.userData));
+        JSON.parse(localStorage.getItem('cadwolfUser'));
       } else {
-        localStorage.setItem('user', null);
-        JSON.parse(localStorage.getItem('user'));
+        localStorage.setItem('cadwolfUser', null);
+        JSON.parse(localStorage.getItem('cadwolfUser'));
       }
     })
   }
 
   // Sign in with email/password
   SignIn(email, password) {
+    
+    
     return this.afAuth.signInWithEmailAndPassword(email, password)
       .then((result) => {
         this.ngZone.run(() => {
 
-			var userInfo = this.FirebaseService.getDocById( 'users', result.user.uid ).then(response=> {
-				localStorage.setItem('userData', JSON.stringify(response.data()));
+      
+			var docRef = this.afs.collection('users').doc(result.user.uid);
+			var userInfo = docRef.ref.get().then(response=> {
+				localStorage.setItem('cadwolfUserData', JSON.stringify(response.data()));
 				console.log('Setting user data to '+JSON.stringify(response.data()));
 	        	this.router.navigate(['profile']);
 			});
+
+
         });
         this.SetUserData(result.user);
       }).catch((error) => {
         window.alert(error.message)
       })
+      
   }
 
   // Sign up with email/password
-  SignUp(email, password) {
+  SignUp(displayName, email, password) {
     return this.afAuth.createUserWithEmailAndPassword(email, password)
       .then((result) => {
         /* Call the SendVerificaitonMail() function when new user sign
         up and returns promise */
         this.SendVerificationMail();
         this.SetUserData(result.user);
+		this.afs.collection('users').doc(result.user.uid).update({'userName':displayName});
+        localStorage.setItem('cadwolfUser', JSON.stringify(result.user));
+        localStorage.setItem('cadwolfUserData', JSON.stringify(result.user));
+
       }).catch((error) => {
         window.alert(error.message)
       })

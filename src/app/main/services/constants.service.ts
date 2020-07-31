@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 
 // Services
 import { AuthService } from 'app/main/services/auth.service';
-import { FirebaseService } from 'app/main/services/firebase.service';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 
 // Models
@@ -20,12 +19,21 @@ import { Constant } from 'app/main/models/constants';
 })
 export class ConstantsService {
 
-  constructor(	private FirebaseService : FirebaseService,		// My firebase service
-  				public afs: AngularFirestore   					// Inject Firestore service
- ) {}
+	constants : Constant[];
+	constantsStatus : BehaviorSubject<any>;
+
+	constructor(	public afs: AngularFirestore )   					// Inject Firestore service
+ 	{
+
+		this.constantsStatus = new BehaviorSubject([]);
 
 
-  	constants : any;
+		this.getConstants();
+
+ 	
+	}
+
+
 
 
 	/*
@@ -34,15 +42,23 @@ export class ConstantsService {
 	 *
 	 * 
 	 */
-	getConstants( ):Observable<any>
+	getConstants( )
 	{
-		console.log('In the get constants function ' );
-
-
-		// Get projects collection, create an id, and then set a new project 
-		// with the data for this design
-		return this.afs.collection('constants').get();
-
+		this.afs.collection('constants').get()
+			.subscribe(result => {
+	            var tempArray = [];
+	            var docData;
+	            result.forEach((doc) => {
+	                docData=doc.data();
+	                docData.uid=doc.id;
+	                if ( typeof(docData.base) ==  'string' )
+	                {
+	                	docData.base = JSON.parse(docData.base);
+	                }
+	                tempArray.push(docData);
+	            });
+				this.constantsStatus.next(tempArray);
+        });
 
 
 	}

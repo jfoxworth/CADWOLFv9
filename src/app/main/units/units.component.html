@@ -1,0 +1,76 @@
+<div class="page-layout simple fullwidth">
+
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- CONTENT HEADER -->
+        <div class="header pb-24 pl-48" 
+        	 fxLayout="row" 
+        	 fxLayoutAlign="start center"
+        	 style="background-image:url('/assets/images/backgrounds/topper.png'); height:190px; background-size:cover">
+        	<h1 class="mt-0">Units in CADWOLF</h1>
+        </div>
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+
+            <!-- CONTENT -->
+            <div class="content p-24">
+
+
+            	<table class="displayTable w-80-p"
+            		   style="margin:0px 10%">
+
+					<tr	class="projectRow w-100-p">
+						<th class="mat-subheading-2 text-center w-20-p">Name</th>
+						<th class="mat-subheading-2 text-center w-10-p">Symbol</th>
+						<th class="mat-subheading-2 text-center w-15-p">Class</th>
+						<th class="mat-subheading-2 text-center w-20-p">Quantity</th>
+						<th class="mat-subheading-2 text-center w-10-p">Conv Unit</th>
+						<th class="mat-subheading-2 text-center w-25-p">Conv Factor</th>
+					</tr>
+
+					<tr	class="projectRow w-100-p"
+					    *ngFor="let unit of units">
+
+						<td class="mat-body-1 text-center  w-20-p">
+							{{unit.name}}
+						</td>
+
+						<td class="mat-body-1 text-center w-10-p">
+							{{unit.unit}}
+						</td>
+
+						<td class="mat-body-1 text-center w-15-p">
+							{{unit.class}}
+						</td>
+
+						<td class="mat-body-1 text-center w-20-p">
+							{{unit.quantity}}
+						</td>
+
+						<td class="mat-body-1 text-center w-10-p">
+							{{unit.conv_unit}}
+						</td>
+
+						<td class="mat-body-1 text-center w-25-p">
+							{{unit.conv_factor}}
+						</td>
+
+					</tr>
+
+            	</table>
+
+
+            </div>
+            <!-- / CONTENT -->
+
+        </div>
+        <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>

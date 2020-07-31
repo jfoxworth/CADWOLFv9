@@ -1,1 +1,145 @@
-<p>profile works!</p>
+<div class="page-layout simple fullwidth">
+
+	<!-- No User -->
+	<div class="center"
+		 *ngIf="displayStatus == 'noUser'">
+
+		<!-- CONTENT -->
+		<div class="content p-24">No user was indentified in the URL and you are not logged in. Please log in to view your profile or enter a user name or id in the URL after the word 'profile'.
+		</div>
+
+	</div>
+
+
+
+
+	<!-- CENTER -->
+	<div class="center"
+		 *ngIf="profileData && displayStatus !='noUser'">
+
+		<!-- CONTENT HEADER -->
+		<div class="header pb-24 pl-48" 
+			 fxLayout="row" 
+			 fxLayoutAlign="start center"
+			 style="background-image:url('/assets/images/backgrounds/topper.png'); height:190px; background-size:cover">
+			<h1 class="mt-0">User Profile - {{profileData.userName}}</h1>
+		</div>
+		<!-- / CONTENT HEADER -->
+
+
+
+		<!-- CONTENT -->
+		<div class="content p-24">
+
+			<div class="w-80-p"
+				 style="margin:0px 10% 0px 10%"
+				 fxLayout="row">
+
+				<div class="w-80-p"
+					 style="margin:0px 20% 0px 0px">
+
+					<h2 class="underlineMe">User Data</h2>
+
+					<div fxLayout="row"
+						 *ngIf="profileData.name && displayStatus=='display'">
+						<h4>Name - </h4><h4>{{profileData.name}}</h4>
+					</div>
+
+					<div fxLayout="row"
+						 *ngIf="displayStatus=='canEdit'">
+						<h4>Name - </h4>
+						<mat-form-field class="w-300 ml-12">
+						    <mat-label>Name</mat-label>
+						    <input matInput 
+						    	   placeholder="Common Name" 
+						    	   [(ngModel)]="profileData.name"
+						    	   (keyup.enter)="saveChanges()">
+						</mat-form-field>
+  					</div>
+
+
+					<div fxLayout="row">
+						<h4>User Name - </h4><h4>{{profileData.userName}}</h4>
+					</div>
+
+					<div fxLayout="row">
+						<h4>Email - </h4><h4>{{profileData.email}}</h4>
+					</div>
+
+					<h2 class="underlineMe"
+						*ngIf="(profileData.bio!='' && displayStatus=='display') || (displayStatus == 'canEdit')">
+						User Bio
+					</h2>
+
+					<div *ngIf="profileData.bio!='' && displayStatus=='display'">{{profileData.bio}}</div>
+
+					<div *ngIf="displayStatus=='canEdit'" class="w-500">
+						<mat-form-field class="example-full-width w-500">
+							<mat-label>Enter your bio</mat-label>
+							<textarea matInput 
+									  placeholder="" 
+									  [(ngModel)]="profileData.bio"
+									  (keyup.enter)="saveChanges()">
+									  	
+							</textarea>
+						</mat-form-field>
+					</div>
+
+
+				</div>
+
+				<div class="w-25-p">
+					
+
+					<div>
+
+						<img [src]="profileImage | async"
+							 class="profileAvatar avatar massive" >
+
+						<input class="ng-hide mainBg" 
+							   style="display:none"
+					   		   id="input-file-id" 
+							   multiple type="file"
+							   accept=".png,.jpg,.jpeg,.gif"
+							   (change)="onUpload($event)" />
+
+	            
+						<label for="input-file-id" 
+							   style="position:relative; top:-20px">
+			                <mat-icon class="secondary-text s-48 mat-icon-no-color"
+			                          style="color:#ccc; cursor:pointer;"
+			                          matTooltip="change profile photo"
+			                          aria-hidden="true"
+			                          *ngIf="displayStatus=='canEdit'">
+			                          add_circle_outline
+			                </mat-icon>
+			            </label>
+
+			        </div>
+
+					<button mat-raised-button 
+							color="accent"
+							class="w-100-p mt-20"
+							*ngIf="displayStatus=='display'">
+							ADD AS CONTACT
+					</button>
+
+					<button mat-raised-button 
+							color="accent"
+							class="w-100-p mt-20"
+							[routerLink]="['/profile/'+profileData.userName]">
+							VIEW WORKSPACE
+					</button>
+
+
+				</div>
+
+			
+			</div>
+
+		</div>
+		<!-- / CONTENT -->
+
+	</div>
+
+</div>
