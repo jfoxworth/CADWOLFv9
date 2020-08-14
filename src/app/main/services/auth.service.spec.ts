@@ -1,45 +1,68 @@
-import { TestBed } from '@angular/core/testing';
-import { AuthService } from './auth.service';
 
+// Testing Stuff
+import { TestBed } from '@angular/core/testing';
+
+
+// Standard Angular Items
+import { RouterModule, Routes, ActivatedRoute } from '@angular/router';
 import { Injectable, NgZone } from '@angular/core';
-import { User } from "app/main/services/users";
-import { auth } from 'firebase/app';
+import { Router } from "@angular/router";
+
+
+// Models
+import { User } from "app/main/models/users";
+
+
+// Services
+import { AuthService } from './auth.service';
+import { ProfileService } from './profile.service';
+import { mockItems } from 'app/main/services/mockItems';
+
+
+// Firebase
+import { AngularFireStorage } from '@angular/fire/storage';
 import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { Router } from "@angular/router";
-import { FirebaseService } from 'app/main/services/firebase.service';
-import { AngularFireStorage } from '@angular/fire/storage';
-import { RouterModule, Routes, ActivatedRoute } from '@angular/router';
-import { mockItems } from 'app/main/services/mockItems';
+import { auth } from 'firebase/app';
+
+
+// Mocks
+import { mockRouteService } from 'app/main/services/mocks/mockRouteService';
+import { mockFirestore } from 'app/main/services/mocks/mockFirestore';
+import { mockFirestorage } from 'app/main/services/mocks/mockFirestorage';
+import { mockFireAuth } from 'app/main/services/mocks/mockFireAuth';
+
 
 
 describe('AuthService', () => {
 	let service: AuthService;
 
 	// Mock items unique to this page
-	let	AngularFireAuthStub : AngularFireAuth;
-	let	FirebaseServiceStub : FirebaseService;
-	let AngularStorageStub : AngularFireStorage;
-	let AngularFireStoreStub : AngularFirestore;
 	let router : Router;
 	let NgZone : NgZone;
 
-	// Mock Items pulled from external mock file
-	let MockGroup = new mockItems();
-	const AngularFireStub = MockGroup.AngularFireStub();
-	const RouteStub = MockGroup.RouteStub();
-	const mockAngularFireAuth = MockGroup.AngularAuthStub();
+	let MockGroup = new mockFirestore();
+	const mockFirestoreService = MockGroup.mockFirestoreStub();
+
+	let MockGroupFirestorage = new mockFirestorage();
+	const mockFirestorageService = MockGroupFirestorage.mockFirestorageStub();
+
+	let MockGroupFireAuth = new mockFireAuth();
+	const mockFireAuthService = MockGroupFireAuth.mockFireAuthStub();
+
+	let MockGroupRoutes = new mockRouteService();
+	const mockRouteServ = MockGroupRoutes.AuthRouteStub();
 
 
 
 	beforeEach(() => {
 
 		TestBed.configureTestingModule({
-			providers: [ { provide: AngularFirestore, 	useValue : AngularFireStoreStub },
-						 { provide: AngularFireAuth, 	useValue : mockAngularFireAuth }, 
-						 { provide: Router, 			useValue : RouteStub },
-						 { provide: NgZone, 			useValue : NgZone },
-						 { provide: FirebaseService, 	useValue : AngularFireStub } ]
+			providers: [ { provide : AngularFirestore, 	useValue : mockFirestoreService },
+						 { provide : AngularFireAuth, 	useValue : mockFireAuthService }, 
+						 { provide : Router, 			useValue : mockRouteServ },
+						 { provide : NgZone, 			useValue : NgZone },
+						 { provide : ProfileService, 	useValue : {} } ]
 		});
 
 		service = TestBed.inject(AuthService);

@@ -37,7 +37,7 @@ export class ProfileComponent implements OnInit {
 	userData 		: any;
 	displayStatus  	: string 	=  'view';
 	userId 			: string;
-	profileData 	: any 		= {};
+	profileData 	: any		= {};
 	profileImage 	: any;
     private _unsubscribeAll: Subject<any>;
 
@@ -63,44 +63,26 @@ export class ProfileComponent implements OnInit {
 		// Get the user data
         this.user = JSON.parse(localStorage.getItem('cadwolfUser'));
 
-        if ( this.user )
-        {
-			var docRef = this.afs.collection('users').doc(this.user.uid);
-			var userInfo = docRef.ref.get().then(response=> {
-				localStorage.setItem('cadwolfUserData', JSON.stringify(response.data()));
 
-		        this.ProfileService.profileStatus
-		            .pipe(takeUntil(this._unsubscribeAll))
-		            .subscribe((profileData)=>{
-		            	this.profileData = profileData;
-						this.profileImage = this.UserService.getProfileImage( profileData );
+		// Subscribe to the profile data
+        this.ProfileService.profileStatus
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((profileData)=>{
+            	this.profileData = profileData;
+				this.profileImage = this.UserService.getProfileImage( profileData );
 
-				        // Set the title
-						this.titleService.setTitle( 'Profile for CADWOLF User '+this.profileData.userName );
-				    });
-			});
-		}else{
-	        this.ProfileService.profileStatus
-	            .pipe(takeUntil(this._unsubscribeAll))
-	            .subscribe((profileData)=>{
-	            	this.profileData = profileData;
-					this.profileImage = this.UserService.getProfileImage( profileData );
-
-			        // Set the title
-					this.titleService.setTitle( 'Profile for CADWOLF User '+this.profileData.userName );
-			    });
-
-		}
-
+		        // Set the title
+				this.titleService.setTitle( 'Profile for CADWOLF User '+this.profileData.userName );
+		    });
 
 		// Get id from URL
 		this.userId = this.route.snapshot.paramMap.get('id');
 
 		// Determine if view status
-		this.displayStatus = this.ProfileService.checkUserViewerStatus(this.userId);
+		this.displayStatus = this.ProfileService.checkUserViewerStatus( this.userId );
 
 		// Determine if user info to be displayed
-		this.ProfileService.setProfileData(this.userId);
+		this.ProfileService.setProfileData( this.userId );
 
 
 	}

@@ -7,6 +7,7 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatBadgeModule } from '@angular/material/badge';
 
 import { TranslateModule } from '@ngx-translate/core';
 import 'hammerjs';
@@ -32,6 +33,7 @@ import { ForgotPasswordModule } from 'app/main/forgotpassword/forgotpassword.mod
 import { ResetPasswordModule } from 'app/main/resetpassword/resetpassword.module';
 import { MailConfModule } from 'app/main/mailconf/mailconf.module';
 import { TeamsModule } from './main/teams/teams.module';
+import { WorkspaceModule } from './main/workspace/workspace.module';
 
 
 // Firebase Items
@@ -47,6 +49,8 @@ import { ConstantsService } from 'app/main/services/constants.service';
 import { UnitsService } from 'app/main/services/units.service';
 import { ProfileService } from 'app/main/services/profile.service';
 import { TeamsService } from 'app/main/services/teams.service';
+import { WorkspaceService } from 'app/main/services/workspace.service';
+import { LogService } from 'app/main/services/log.service';
 
 
 
@@ -77,6 +81,7 @@ const appRoutes: Routes = [
 		// Material
 		MatButtonModule,
 		MatIconModule,
+		MatBadgeModule,
 
 		// Fuse modules
 		FuseModule.forRoot(fuseConfig),
@@ -96,6 +101,7 @@ const appRoutes: Routes = [
 		ForgotPasswordModule,
 		ResetPasswordModule,
 		MailConfModule,
+		WorkspaceModule,
 
 		// Firebase 
         AngularFireModule.initializeApp(environment.firebase),
@@ -109,6 +115,8 @@ const appRoutes: Routes = [
         UnitsService,
         ProfileService,
         TeamsService,
+        WorkspaceService,
+        LogService
     ],
 
 	bootstrap   : [

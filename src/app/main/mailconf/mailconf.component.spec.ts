@@ -1,25 +1,73 @@
+
+// Standard Angular Items
+import { Title }   from '@angular/platform-browser';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+
+// Testing items
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MailconfComponent } from './mailconf.component';
 
-describe('MailconfComponent', () => {
-  let component: MailconfComponent;
-  let fixture: ComponentFixture<MailconfComponent>;
+// Services
+import { FuseConfigService } from '@fuse/services/config.service';
+
+// Components
+import { MailConfirmComponent } from './mailconf.component';
+
+
+
+describe('MailConfirmComponent', () => {
+
+
+
+  let component: MailConfirmComponent;
+  let fixture: ComponentFixture<MailConfirmComponent>;
+
+  const formBuilder: FormBuilder = new FormBuilder();
+
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MailconfComponent ]
+      declarations: [ MailConfirmComponent ]
     })
     .compileComponents();
   }));
 
+
+
   beforeEach(() => {
-    fixture = TestBed.createComponent(MailconfComponent);
+
+    TestBed.configureTestingModule({
+      imports: [ BrowserAnimationsModule ],
+      declarations: [ MailConfirmComponent ],
+      providers: [ { provide : FuseConfigService,   useValue : {} } ]
+
+    });
+
+     
+    fixture = TestBed.createComponent(MailConfirmComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+
   });
+
+
+
+
+
+
+  /*
+  *
+  *  UNIT TESTS
+  *
+  */
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+
+
+
 });

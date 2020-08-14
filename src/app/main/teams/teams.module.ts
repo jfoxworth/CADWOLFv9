@@ -9,6 +9,7 @@ import { FuseSharedModule } from '@fuse/shared.module';
 
 // Components
 import { TeamsComponent } from './teams.component';
+import { TeamComponent } from './team/team.component';
 
 
 // Services
@@ -19,18 +20,26 @@ import { TeamsComponent } from './teams.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
-
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 const routes = [
     {
         path     : 'teams',
         component: TeamsComponent
+    },
+    {
+        path     : 'teams/:teamId/:teamSlug',
+        component: TeamComponent,
+        resolve  : {
+        }
     }
 ];
 
 @NgModule({
     declarations: [
-        TeamsComponent
+        TeamsComponent,
+        TeamComponent
     ],
     imports     : [
         RouterModule.forChild(routes),
@@ -39,10 +48,13 @@ const routes = [
         MatButtonModule,
         MatInputModule,
         MatIconModule,
+        MatBadgeModule,
+        MatTooltipModule,
 
     ],
     exports     : [
-        TeamsComponent
+        TeamsComponent,
+        TeamComponent
     ]
 })
 

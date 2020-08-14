@@ -1,0 +1,295 @@
+<div class="page-layout simple fullwidth">
+
+	<!-- No Team -->
+	<div class="center"
+		 *ngIf="displayStatus == 'noTeam'">
+
+		<!-- CONTENT -->
+		<div class="content p-24">No team was found with the id given in the URL.</div>
+
+	</div>
+
+
+
+
+	<!-- CENTER -->
+	<div class="center"
+		 *ngIf="teamData && displayStatus !='noTeam'">
+
+
+	    <!-- HEADER -->
+	    <div class="header accent p-24" 
+	    	 fxLayout="row" 
+	    	 fxLayoutAlign="start center">
+
+	        <button mat-icon-button 
+	        		class="mr-0 mr-sm-16" 
+	        		id="teamLink"
+	        		[routerLink]="'/teams'">
+	            <mat-icon>arrow_back</mat-icon>
+	        </button>
+	        
+	        <h2>Back to teams list</h2>
+
+	    </div>
+	    <!-- / HEADER -->
+
+
+
+		<!-- CONTENT -->
+		<div class="content p-24">
+
+			<div class="w-80-p"
+				 style="margin:0px 10% 0px 10%"
+				 fxLayout="row">
+
+				<div class="w-80-p"
+					 style="margin:0px 20% 0px 0px">
+
+					<h2 class="underlineMe">Team Data</h2>
+
+					<div fxLayout="row"
+						 id="displayName"
+						 *ngIf="teamData.name && displayStatus=='display'">
+						<h4>Name - </h4>
+						<h4 class="ml-20">{{teamData.name}}</h4>
+					</div>
+
+					<div fxLayout="row"
+						 id="editName"
+						 *ngIf="displayStatus=='canEdit'">
+						<h4>Name - </h4>
+						<mat-form-field class="w-300 ml-12">
+						    <mat-label>Name</mat-label>
+						    <input matInput 
+						    	   placeholder="Common Name" 
+						    	   [(ngModel)]="teamData.name"
+						    	   (keyup.enter)="saveChanges()">
+						</mat-form-field>
+  					</div>
+
+					<div fxLayout="row">
+						<h4>Creation Date - </h4>
+						<h4 class="ml-20">{{teamData.dateCreated | date:'long'}}</h4>
+					</div>
+
+					<div fxLayout="row">
+						<h4>Creation By - </h4>
+						<h4 class="ml-20">{{teamData.creatorName}}</h4>
+					</div>
+
+					<h2 class="underlineMe"
+						*ngIf="(teamData.bio!='' && displayStatus=='display') || (displayStatus == 'canEdit')">
+						Description
+					</h2>
+
+					<div *ngIf="teamData.bio!='' && displayStatus=='display'">{{teamData.description}}</div>
+
+					<div *ngIf="displayStatus=='canEdit'" class="w-500">
+						<mat-form-field class="example-full-width w-500">
+							<mat-label>Enter team description</mat-label>
+							<textarea matInput 
+									  placeholder="" 
+									  [(ngModel)]="teamData.description"
+									  (keyup.enter)="saveChanges()">
+									  	
+							</textarea>
+						</mat-form-field>
+					</div>
+
+
+				</div>
+
+				<div class="w-25-p">
+					
+
+					<div>
+						<img [src]="teamImage | async"
+							 class="profileAvatar avatar massive" >
+
+						<input class="ng-hide mainBg" 
+							   *ngIf="displayStatus=='canEdit'"
+							   style="display:none"
+					   		   id="input-file-id" 
+							   multiple type="file"
+							   accept=".png,.jpg,.jpeg,.gif"
+							   (change)="onUpload($event)" />
+
+	            
+						<label for="input-file-id" 
+							   style="position:relative; top:-20px">
+			                <mat-icon class="secondary-text s-48 mat-icon-no-color"
+			                          style="color:#ccc; cursor:pointer;"
+			                          aria-hidden="true"
+			                          *ngIf="displayStatus=='canEdit'">
+			                          add_circle_outline
+			                </mat-icon>
+			            </label>
+
+			        </div>
+
+			        <div class="text-center mb-12 mat-body-2"
+			        	 *ngIf="memberDataFlag">
+			        	Team Members - {{teamMemberData.length}}
+			        </div>
+			        
+			        <div class="text-center mb-12 mat-body-2"
+			        	 *ngIf="invitedMemberDataFlag">
+			        	Invitations - {{invitedTeamMemberData.length}}
+			        </div>
+
+					<mat-form-field appearance="outline"
+									id="inviteeBox"
+									*ngIf="displayStatus=='canEdit'">
+					    <mat-label>Invite user to team</mat-label>
+					    <input matInput 
+					    	   [(ngModel)]="inviteeText" 
+					    	   placeholder="Enter User Name"
+					    	   (keyup.enter)=checkUserName()>
+					    <mat-icon matSuffix *ngIf="!inviteeFound">perm_identity</mat-icon>
+					    <mat-icon matSuffix *ngIf="inviteeFound" style="cursor:pointer" (click)="inviteUserToTeam()">add_circle</mat-icon>
+					    <mat-hint [ngStyle]="{color:hintColor}">{{hintText}}</mat-hint>
+					</mat-form-field>
+
+				</div>
+
+			
+			</div>
+
+		</div>
+		<!-- / CONTENT -->
+
+
+
+
+
+
+
+
+
+		<!-- Users who have been invited -->
+		<div class="content p-24"
+			 *ngIf="invitedMemberDataFlag && invitedTeamMemberData.length>0">
+
+			<h2 class="text-center">Users Invited To Team</h2>
+    
+        	<table class="displayTable w-80-p"
+        		   id="invitedTable"
+        		   style="margin:0px 10%">
+
+				<tr	class="projectRow w-100-p">
+					<th class="mat-subheading-2 text-center w-25-p">User</th>
+					<th class="mat-subheading-2 text-center w-20-p">Date Invited</th>
+					<th class="mat-subheading-2 text-center w-25-p">Added By</th>
+					<th class="mat-subheading-2 text-center w-20-p">Admin Status</th>
+					<th class="mat-subheading-2 text-center w-10-p"></th>
+				</tr>
+
+				<tr class="projectRow"
+					*ngFor="let user of invitedTeamMemberData">
+
+					<td class="mat-body-2 text-center w-25-p">
+						<img class="avatar" [src]="user.profileImage | async">
+						{{user.userName}} 
+					</td>
+
+					<td class="mat-body-2 text-center w-20-p">{{user.dateCreated | date:'short'}}</td>
+					
+					<td class="mat-body-2 text-center w-25-p">{{user.adderUserName}}</td>
+
+					<td class="mat-body-2 text-center w-20-p"
+						*ngIf="user.admin">
+						Admin
+					</td>
+
+					<td class="mat-body-2 text-center w-20-p"
+						*ngIf="!user.admin">
+						Member
+					</td>
+
+					<td class="w-10-p"
+						*ngIf="displayStatus=='canEdit' || userData.uid==teamData.creatorId">
+						<mat-icon style="cursor:pointer"
+								  class="deleteInvitee"
+								  matTooltip="Delete member from team"
+								  (click)="deleteTeamMember(teamData, user.uid)">
+							cancel
+						</mat-icon>
+						
+					</td>
+
+
+				</tr>
+
+			</table>
+
+		</div>
+		<!-- / Users who have been invited -->
+
+
+
+
+
+
+		<!-- Members of the team -->
+		<div class="content p-24">
+
+			<h2 class="text-center">Current Team Members</h2>
+    
+        	<table class="displayTable w-80-p"
+        		   style="margin:0px 10%"
+        		   id="teamTable"
+        		   *ngIf="dataFlag">
+
+				<tr	class="projectRow w-100-p">
+					<th class="mat-subheading-2 text-center w-25-p">User</th>
+					<th class="mat-subheading-2 text-center w-20-p">Date Added</th>
+					<th class="mat-subheading-2 text-center w-25-p">Added By</th>
+					<th class="mat-subheading-2 text-center w-20-p">Admin Status</th>
+					<th class="mat-subheading-2 text-center w-10-p"></th>
+				</tr>
+
+				<tr class="projectRow"
+					*ngFor="let user of teamMemberData">
+
+					<td class="mat-body-2 text-center w-25-p">
+						<img class="avatar" [src]="user.profileImage | async">
+						{{user.userName}} 
+					</td>
+
+					<td class="mat-body-2 text-center w-20-p">{{user.dateCreated | date:'short'}}</td>
+					
+					<td class="mat-body-2 text-center w-25-p">{{user.adderUserName}}</td>
+
+					<td class="mat-body-2 text-center w-20-p"
+						*ngIf="user.admin">
+						Admin
+					</td>
+
+					<td class="mat-body-2 text-center w-20-p"
+						*ngIf="!user.admin">
+						Member
+					</td>
+
+					<td class="w-10-p"
+						*ngIf="displayStatus=='canEdit' || userData.uid==teamData.creatorId">
+						<mat-icon style="cursor:pointer"
+								  matTooltip="Delete member from team"
+								  class="deleteMember"
+								  (click)="deleteTeamMember(teamData, user.uid)">
+							cancel
+						</mat-icon>
+						
+					</td>
+
+
+				</tr>
+
+			</table>
+
+		</div>
+		<!-- / Members of the team -->
+
+	</div>
+
+</div>

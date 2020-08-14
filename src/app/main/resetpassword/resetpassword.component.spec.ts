@@ -1,25 +1,73 @@
+
+// Standard Angular Items
+import { Title }   from '@angular/platform-browser';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+
+// Testing items
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ResetpasswordComponent } from './resetpassword.component';
 
-describe('ResetpasswordComponent', () => {
-  let component: ResetpasswordComponent;
-  let fixture: ComponentFixture<ResetpasswordComponent>;
+// Services
+import { FuseConfigService } from '@fuse/services/config.service';
+
+// Components
+import { ResetPasswordComponent } from './resetpassword.component';
+
+
+describe('ResetPasswordComponent', () => {
+
+
+
+  let component: ResetPasswordComponent;
+  let fixture: ComponentFixture<ResetPasswordComponent>;
+
+  const formBuilder: FormBuilder = new FormBuilder();
+
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ResetpasswordComponent ]
-    })
-    .compileComponents();
+	TestBed.configureTestingModule({
+	  declarations: [ ResetPasswordComponent ]
+	})
+	.compileComponents();
   }));
 
+
+
   beforeEach(() => {
-    fixture = TestBed.createComponent(ResetpasswordComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+
+	TestBed.configureTestingModule({
+	  imports: [ BrowserAnimationsModule ],
+	  declarations: [ ResetPasswordComponent ],
+	  providers: [ { provide : FuseConfigService,   useValue : {} },
+				   { provide : FormBuilder,	   		useValue: formBuilder} ]
+
+	});
+
+	 
+	fixture = TestBed.createComponent(ResetPasswordComponent);
+	component = fixture.componentInstance;
+	fixture.detectChanges();
+
   });
 
+
+
+
+
+
+  /*
+  *
+  *  UNIT TESTS
+  *
+  */
+
   it('should create', () => {
-    expect(component).toBeTruthy();
+	expect(component).toBeTruthy();
   });
+
+
+
+
 });

@@ -1,25 +1,80 @@
+
+
+
+// Standard Angular Items
+import { Title }	 from '@angular/platform-browser';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+
+// Testing items
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ForgotpasswordComponent } from './forgotpassword.component';
 
-describe('ForgotpasswordComponent', () => {
-  let component: ForgotpasswordComponent;
-  let fixture: ComponentFixture<ForgotpasswordComponent>;
+// Components
+import { ForgotPasswordComponent } from './forgotpassword.component';
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ForgotpasswordComponent ]
-    })
-    .compileComponents();
-  }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ForgotpasswordComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+// Services
+import { FuseConfigService } from '@fuse/services/config.service';
+
+
+
+
+describe('ForgotPasswordComponent', () => {
+
+	let component: ForgotPasswordComponent;
+	let fixture: ComponentFixture<ForgotPasswordComponent>;
+
+	const formBuilder: FormBuilder = new FormBuilder();
+
+
+	beforeEach(async(() => {
+		TestBed.configureTestingModule({
+			declarations: [ ForgotPasswordComponent ]
+ 		})
+		.compileComponents();
+  	}));
+
+	
+
+
+	beforeEach(() => {
+
+		TestBed.configureTestingModule({
+			imports: [ BrowserAnimationsModule ],
+			declarations: [ ForgotPasswordComponent ],
+			providers: [ { provide : FuseConfigService, 	useValue : {} },
+						 { provide : FormBuilder, 			useValue: formBuilder} ]
+
+		});
+
+	   
+		fixture = TestBed.createComponent(ForgotPasswordComponent);
+		component = fixture.componentInstance;
+		fixture.detectChanges();
+
+	});
+
+
+
+
+  /*
+  *
+  *  UNIT TESTS
+  *
+  */
+
+  it('should create forgot password', () => {
+	expect(component).toBeTruthy();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+
+
 });
+
+
+
+
+
+

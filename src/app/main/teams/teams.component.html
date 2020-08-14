@@ -1,7 +1,15 @@
 <div id="teams" class="page-layout simple fullwidth">
 
     <!-- CENTER -->
-    <div class="center">
+    <div class="center"
+    	 *ngIf="errorFlag"
+    	 id="errorBox">
+    	 <h1>You must be logged in to create or view your teams</h1>
+    </div>
+
+    <!-- CENTER -->
+    <div class="center"
+    	 *ngIf="!errorFlag">
 
         <!-- CONTENT HEADER -->
         <div class="header pb-24 pl-48" 
@@ -20,21 +28,47 @@
 
 				<button mat-raised-button 
 						color="primary"
-						class="w-20-p mt-20 center"
+						class="w-20-p mt-20 center mb-24"
+						id="createTeamButton"
 						style="margin-left:40%; min-width:200px"
-						(click)="this.TeamsService.addTeam( this.userData.uid )">
-						ADD NEW TEAM
+						(click)="this.TeamsService.addTeam( this.userData )">
+						CREATE NEW TEAM
 				</button>
 
             	<table class="displayTable w-80-p"
-            		   style="margin:0px 10%">
+            		   style="margin:0px 10%"
+            		   *ngIf="dataFlag"
+            		   id="dataTable">
 
 					<tr	class="projectRow w-100-p">
-						<th class="mat-subheading-2 text-center w-15-p">Name</th>
-						<th class="mat-subheading-2 text-center w-15-p">Symbol</th>
-						<th class="mat-subheading-2 text-center w-30-p">Value</th>
-						<th class="mat-subheading-2 text-center w-10-p">Units</th>
-						<th class="mat-subheading-2 text-center w-30-p">Description</th>
+						<th class="mat-subheading-2 text-center w-35-p">Name</th>
+						<th class="mat-subheading-2 text-center w-25-p">Creator</th>
+						<th class="mat-subheading-2 text-center w-20-p">Date Created</th>
+						<th class="mat-subheading-2 text-center w-20-p">Privacy</th>
+					</tr>
+
+					<tr class="projectRow"
+						*ngFor="let team of teamsData"
+						[routerLink]="'/teams/'+team.uid+'/'+team.name">
+
+						<td class="mat-body-2 text-center w-35-p">
+							<img class="avatar" [src]="team.teamImage | async">
+							{{team.name}} 
+							<span [matBadge]="team.members.length"  matBadgeColor="accent" matBadgeOverlap="false"></span>
+						</td>
+						<td class="mat-body-2 text-center w-25-p">{{team.creatorName}}</td>
+						<td class="mat-body-2 text-center w-20-p">{{team.dateCreated | date:'short'}}</td>
+
+						<td class="mat-body-2 text-center w-20-p"
+							*ngIf="team.private">
+							Private Team
+						</td>
+
+						<td class="mat-body-2 text-center w-20-p"
+							*ngIf="!team.private">
+							Public Team
+						</td>
+
 					</tr>
 
 				</table>

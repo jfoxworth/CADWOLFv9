@@ -22,8 +22,8 @@ export class ProfileService {
 
 
 
-	constructor( public afs 			: AngularFirestore,
-  				public UserService 	: UserService ) 
+	constructor( 	public afs 			: AngularFirestore,
+  					public UserService 	: UserService ) 
 	{ 
 
 		this.profileStatus = new BehaviorSubject([]);
@@ -40,19 +40,18 @@ export class ProfileService {
   	*/
 	checkUserViewerStatus( userId ):string
 	{
-
 		// Pull the data from the local storage
 		let userData = JSON.parse(localStorage.getItem('cadwolfUserData'));
 
 
 		// No user defined by URL or by login
-		if ( ( (userId == '') || ( userId === null ) || ( userId === undefined ) ) &&
+		if ( ( (userId == '') || ( userId === null ) || ( userId === undefined ) || ( userId == 'null' ) ) &&
 		   ( ( userData === null ) || ( userData === undefined ) || ( userData == 'undefined' ) ) )
 		{
 			return "noUser"
 
 		// A user is defined by URL
-		}else if ( (userId != '') && ( userId !== null ) && ( userId !== undefined ) )
+		}else if ( (userId != '') && ( userId !== null ) && ( userId !== undefined ) && ( userId !== 'null' ) )
 		{
 			// If the user defined by the URL is the same as the one logged in
 			if ( userData )
@@ -107,10 +106,13 @@ export class ProfileService {
 			var docRef = this.afs.collection("users").doc(userId);
 
 			docRef.ref.get().then((doc) => {
+
 			    if (doc.exists) {
 					this.profileStatus.next(doc.data()); 
 
 			    } else {
+
+			    	console.log('I am here.');
 
 					this.afs.collection('users', ref => ref.where('userName', '==', userId))
 					.get()

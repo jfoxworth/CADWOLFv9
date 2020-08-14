@@ -1,0 +1,179 @@
+
+
+<div class="page-layout simple right-sidenav inner-sidenav"
+	 *ngIf="dataFlag">
+
+
+	<!-- CONTENT -->
+	<div class="content" 
+		 md-background-bg 
+		 layout="row" 
+		 layout-fill 
+		 layout-align="start start">
+
+		<div class="mainColumn" ms-scroll>
+
+			<!-- List View -->
+			<div class="cadwolfBox">
+
+				<div class="cadwolfBoxToolbar"
+					 layout="row"
+					 layout-align="space-between center">
+					<div class="cadwolfToolbarTools"
+						 flex="90">
+						{{workspaceData.name}}
+					</div>
+
+				</div>
+
+
+				<div flex="90"
+					 flex-offset="5"
+					 class="md-body-1 workspaceDescription">
+					 {{workspaceData.description}}
+				</div>
+
+
+
+
+				<!-- The add item row -->
+				<div fxLayout = "row"
+					 class="mb-20 mt-40"
+					 style="width:50%; margin:0 auto;">
+
+					<button mat-fab 
+							id="addItem"
+							color="warn" 
+							aria-label="Example icon button with a home icon"
+							(click)="addOptionDisplay=!addOptionDisplay">
+						<mat-icon class="">add</mat-icon>
+					</button>
+
+					<div id="addOptions"
+						 *ngIf="addOptionDisplay">
+
+
+						<button mat-mini-fab 
+								color="accent" 
+								aria-label="Add workspace"
+								matTooltip="Add workspace"
+								class="ml-28 mt-8"
+								matTooltipPosition="below"
+								(click)="newFile('0')">
+				        	<mat-icon>folder</mat-icon>
+				        </button>
+
+
+						<button mat-mini-fab 
+								color="accent" 
+								aria-label="Add document"
+								matTooltip="Add document"
+								class="ml-28 mt-8"
+								matTooltipPosition="below"
+								(click)="newFile('0')">
+				        	<mat-icon>description</mat-icon>
+				        </button>
+
+
+						<button mat-mini-fab 
+								color="accent" 
+								aria-label="Add dataset"
+								matTooltip="Add dataset"
+								class="ml-28 mt-8"
+								matTooltipPosition="below"
+								(click)="newFile('0')">
+				        	<mat-icon>build</mat-icon>
+				        </button>
+
+
+
+						<button mat-mini-fab 
+								color="accent" 
+								aria-label="Add part tree"
+								matTooltip="Add part tree"
+								class="ml-28 mt-8"
+								matTooltipPosition="below"
+								(click)="newFile('0')">
+				        	<mat-icon>table_chart</mat-icon>
+				        </button>
+
+
+
+						<button mat-mini-fab 
+								color="accent" 
+								aria-label="Add image"
+								matTooltip="Add image"
+								class="ml-28 mt-8"
+								matTooltipPosition="below"
+								(click)="newFile('0')">
+				        	<mat-icon>camera_alt</mat-icon>
+				        </button>
+
+
+
+						<button mat-mini-fab 
+								color="accent" 
+								aria-label="Add forum"
+								matTooltip="Add forum"
+								class="ml-28 mt-8"
+								matTooltipPosition="below"
+								(click)="newFile('0')">
+				        	<mat-icon>chat</mat-icon>
+				        </button>
+
+					</div>
+
+
+				</div>
+				<!-- The add item row -->
+
+
+
+				<div class="fileList">
+
+
+					<!-- The main header row -->
+					<div class="list-header"
+						 fxLayout="row">
+
+						<div class="tableHeader col1">File Name</div>
+						<div class="tableHeader col2">Date Created</div>
+						<div class="tableHeader col3">Date Modified</div>
+						<div class="tableHeader col4">Version</div>
+						<div class="tableHeader col5">Log</div>
+						<div class="tableHeader col6">Order</div>
+						
+
+					</div>
+					<!-- / The main header row -->
+
+
+					<!-- The list for the items in a workspace -->
+					<div class="fileListItem"
+						 fxLayout="row"
+						 *ngFor="let file of workspaceFiles">
+
+						<div class="fileItem col1">{{file.name}}</div>
+						<div class="fileItem col2">{{file.dateCreated | date:'shortdate'}}</div>
+						<div class="fileItem col3">{{file.dateModified | date:'shortdate'}}</div>
+						<div class="fileItem col4">{{file.version}}</div>
+						<div class="fileItem col5"></div>
+						<div class="fileItem col6">{{file.order}}</div>
+
+						<mat-divider></mat-divider>
+					</div>
+					<!-- / The list for the items in a workspace -->
+
+				</div>
+
+
+			</div>
+
+		</div>
+
+
+	</div>
+
+
+
+</div>

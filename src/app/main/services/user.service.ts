@@ -55,4 +55,27 @@ export class UserService {
   	}
 
 
+
+
+
+
+
+ 
+	/*
+	*
+	*
+	* check a potential user name against the database
+	*
+	**/
+	checkUserName( potentialUserName ) 
+	{
+		console.log('Checking for name '+potentialUserName);
+		return this.afs.collection('users', ref => ref.where('userName', '==', potentialUserName))
+		.get();
+
+	}
+
+
+
+
 }

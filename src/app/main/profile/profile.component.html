@@ -5,17 +5,25 @@
 		 *ngIf="displayStatus == 'noUser'">
 
 		<!-- CONTENT -->
-		<div class="content p-24">No user was indentified in the URL and you are not logged in. Please log in to view your profile or enter a user name or id in the URL after the word 'profile'.
+		<div class="content p-24"
+			 id="noUserText">
+			No user was indentified in the URL and you are not logged in. Please log in to view your profile or enter a user name or id in the URL after the word 'profile'.
 		</div>
 
 	</div>
 
 
 
+	<!-- CENTER -->
+	<div class="center"
+		 *ngIf="!profileData.userName">
+		<h2 id="invalidUser">The user id that was entered was not found to be valid</h2>
+	</div>
+
 
 	<!-- CENTER -->
 	<div class="center"
-		 *ngIf="profileData && displayStatus !='noUser'">
+		 *ngIf="profileData.userName && (displayStatus !='noUser')">
 
 		<!-- CONTENT HEADER -->
 		<div class="header pb-24 pl-48" 
@@ -59,7 +67,7 @@
 
 
 					<div fxLayout="row">
-						<h4>User Name - </h4><h4>{{profileData.userName}}</h4>
+						<h4>User Name - </h4><h4 id="validUserName">{{profileData.userName}}</h4>
 					</div>
 
 					<div fxLayout="row">
@@ -120,9 +128,11 @@
 					<button mat-raised-button 
 							color="accent"
 							class="w-100-p mt-20"
-							*ngIf="displayStatus=='display'">
+							id="addContact"
+							*ngIf="user.uid && user.uid!=profileData.uid">
 							ADD AS CONTACT
 					</button>
+
 
 					<button mat-raised-button 
 							color="accent"

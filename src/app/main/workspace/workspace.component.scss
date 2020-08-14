@@ -1,0 +1,85 @@
+.mainColumn {
+	
+	width:80%;
+	margin:40px 10%;
+
+
+	.cadwolfBox {
+
+		width:100%;
+		min-width:100%;
+		background-color : #fff;
+		border : 1px solid #ccc;
+		margin: 0px 0px 20px 0px;
+
+
+		.cadwolfBoxToolbar {
+			color : #000;
+			border-bottom : 1px solid #ccc;
+			height:75px;
+			min-height:75px;
+
+			.cadwolfToolbarTools {
+				font-size:1.2em;
+				height:40px;
+				padding:12px 20px;
+				color: #888;
+				letter-spacing : 0.7px;
+			}
+		
+		}
+
+
+		.workspaceDescription {
+
+			padding:20px 10%;
+			color: #222;
+			font-size:1em;
+			letter-spacing:1.2px;
+		}
+
+
+		.fileList {
+
+			width:80%;
+			margin:0px 10% 50px 10%;
+
+			.col1 { width : 40%; }
+			.col2 { width : 15%; }
+			.col3 { width : 15%; }
+			.col4 { width : 10%; }
+			.col5 { width : 10%; }
+			.col6 { width : 10%; }
+
+			.fileItem {
+				padding : 10px 0px;
+				text-align:center;
+				font-size:1em;
+			}
+
+
+			.fileListItem:hover {
+				cursor:pointer;
+				background-color : #ccc;
+			}
+
+			.list-header {
+
+				font-weight:bold;
+				width:100%;
+				font-size:1.2em;
+				border-bottom:1px solid #ccc;
+				padding:0px 5px 10px 0px;
+
+				.tableHeader {
+					text-align:center;
+
+				}
+			}
+		
+		}
+	}
+
+
+}
+

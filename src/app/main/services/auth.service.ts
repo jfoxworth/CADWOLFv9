@@ -158,6 +158,7 @@ SendVerificationMail() {
     return this.afAuth.signOut().then(() => {
       localStorage.removeItem('user');
       localStorage.removeItem('userData');
+      localStorage.removeItem('cadwolfUserData');
       this.router.navigate(['login']);
     })
   }
