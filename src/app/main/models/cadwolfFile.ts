@@ -10,4 +10,8 @@ export interface CadwolfFile {
 	order 			: number;
 	parentId		: string;
 	version 		: number;
+
+	viewPermType 	: number;
+	editPermType 	: number;
+	adminPermType 	: number;
 }

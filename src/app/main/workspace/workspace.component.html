@@ -38,8 +38,8 @@
 
 				<!-- The add item row -->
 				<div fxLayout = "row"
-					 class="mb-20 mt-40"
-					 style="width:50%; margin:0 auto;">
+					 class="mb-20 mt-40 mb-40"
+					 style="width:50%; margin:0 auto; min-width:500px">
 
 					<button mat-fab 
 							id="addItem"
@@ -140,8 +140,6 @@
 						<div class="tableHeader col2">Date Created</div>
 						<div class="tableHeader col3">Date Modified</div>
 						<div class="tableHeader col4">Version</div>
-						<div class="tableHeader col5">Log</div>
-						<div class="tableHeader col6">Order</div>
 						
 
 					</div>
@@ -153,12 +151,19 @@
 						 fxLayout="row"
 						 *ngFor="let file of workspaceFiles">
 
-						<div class="fileItem col1">{{file.name}}</div>
-						<div class="fileItem col2">{{file.dateCreated | date:'shortdate'}}</div>
-						<div class="fileItem col3">{{file.dateModified | date:'shortdate'}}</div>
+						<div class="fileItem col1"
+							 fxLayout="row">
+							<mat-icon *ngIf="file.fileType==0" class="mr-20">folder</mat-icon>
+							<mat-icon *ngIf="file.fileType==1" class="mr-20">description</mat-icon>
+							<mat-icon *ngIf="file.fileType==2" class="mr-20">build</mat-icon>
+							<mat-icon *ngIf="file.fileType==3" class="mr-20">table_chart</mat-icon>
+							<mat-icon *ngIf="file.fileType==4" class="mr-20">camera_alt</mat-icon>
+							<mat-icon *ngIf="file.fileType==5" class="mr-20">chat</mat-icon>
+							{{file.name}}
+						</div>
+						<div class="fileItem col2">{{file.dateCreated | date:'short'}}</div>
+						<div class="fileItem col3">{{file.dateModified | date:'short'}}</div>
 						<div class="fileItem col4">{{file.version}}</div>
-						<div class="fileItem col5"></div>
-						<div class="fileItem col6">{{file.order}}</div>
 
 						<mat-divider></mat-divider>
 					</div>

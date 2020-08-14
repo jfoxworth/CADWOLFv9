@@ -15,6 +15,8 @@ import { takeUntil } from 'rxjs/operators';
 // Models
 import { CadwolfFile } from 'app/main/models/cadwolfFile';
 import { LogEntry } from 'app/main/models/log';
+import { Permission } from 'app/main/models/permission';
+
 
 
 // Services
@@ -30,11 +32,12 @@ import { LogService } from 'app/main/services/log.service';
 export class WorkspaceComponent implements OnInit, OnDestroy
 {
 
-	workspaceFiles 				: any[];
+	workspaceFiles 				: CadwolfFile[];
 	errorFlag 					: boolean = false;
 	workspaceData 				: CadwolfFile;
 	dataFlag 					: boolean = false;
 	dataFilesFlag 				: boolean = false;
+    permissions           		: Permission[];
     private _unsubscribeAll 	: Subject<any>;
 
     addOptionDisplay 			: boolean = false;
@@ -67,8 +70,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((workspace)=>
             { 
-            	console.log('Here 1'); 
-            	console.log(workspace); 
             	this.workspaceData = workspace;
             	if ( this.workspaceData.uid )
             	{
@@ -81,14 +82,28 @@ export class WorkspaceComponent implements OnInit, OnDestroy
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((workspaceFiles)=>
             { 
-            	console.log('Here 2'); 
-            	console.log(workspaceFiles); 
             	this.workspaceFiles = workspaceFiles;
             	if ( this.workspaceFiles.length > 0 )
             	{
 	            	this.dataFilesFlag = true;
 	            }
+
             });
+
+
+        // This is an observable for the permissions
+        this.workspaceService.permStatus
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((result)=>
+            { 
+                console.log('The permissions are ...');
+                console.log(result);
+                if (result)
+                {
+                	this.permissions.push(result);
+            	}
+            });
+
 
 	}
 
