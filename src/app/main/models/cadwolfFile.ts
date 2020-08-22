@@ -1,7 +1,8 @@
 export interface CadwolfFile {
 	uid 			: string;
 	creatorId 		: string;
-	dateCreated 	: string;
+	dateCreated 	: number;
+	dateModified 	: number;
 	fileType 		: number;
 	itemData 		: string;
 	name 			: string;
@@ -10,6 +11,8 @@ export interface CadwolfFile {
 	order 			: number;
 	parentId		: string;
 	version 		: number;
+	deleted 		: boolean;
+	description 	: string;
 
 	viewPermType 	: number;
 	editPermType 	: number;

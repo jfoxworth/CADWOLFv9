@@ -1,0 +1,44 @@
+
+
+.fileList {
+
+	width:80%;
+	margin:0px 10% 50px 10%;
+
+	.col1 { width : 35%; cursor:pointer; }
+	.col2 { width : 25%; text-align:center; }
+	.col3 { width : 25%; text-align:center;  }
+	.col4 { width : 10%; text-align:center;  }
+	.col5 { width : 40%; text-align:center;  }
+	.col6 { width : 10%; text-align:center;  }
+
+	.fileListItem {
+		padding : 15px 0px;
+		font-size:1.1em;
+	}
+
+
+	.fileListItem:hover {
+
+	}
+
+	.editOption {
+		cursor:pointer;
+	}
+
+	.list-header {
+
+		font-weight:bold;
+		width:100%;
+		font-size:1.2em;
+		border-bottom:1px solid #ccc;
+		padding:0px 5px 10px 0px;
+
+		.tableHeader {
+			text-align:center;
+
+		}
+	}
+
+}
+

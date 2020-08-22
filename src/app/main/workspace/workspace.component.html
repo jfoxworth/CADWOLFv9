@@ -38,6 +38,7 @@
 
 				<!-- The add item row -->
 				<div fxLayout = "row"
+					 *ngIf="displayType=='edit'"
 					 class="mb-20 mt-40 mb-40"
 					 style="width:50%; margin:0 auto; min-width:500px">
 
@@ -45,6 +46,8 @@
 							id="addItem"
 							color="warn" 
 							aria-label="Example icon button with a home icon"
+							matTooltip="Add Item"
+							matTooltipPosition="below"
 							(click)="addOptionDisplay=!addOptionDisplay">
 						<mat-icon class="">add</mat-icon>
 					</button>
@@ -54,7 +57,7 @@
 
 
 						<button mat-mini-fab 
-								color="accent" 
+								color="#2D323E"
 								aria-label="Add workspace"
 								matTooltip="Add workspace"
 								class="ml-28 mt-8"
@@ -65,59 +68,59 @@
 
 
 						<button mat-mini-fab 
-								color="accent" 
+								color="#2D323E"
 								aria-label="Add document"
 								matTooltip="Add document"
 								class="ml-28 mt-8"
 								matTooltipPosition="below"
-								(click)="newFile('0')">
+								(click)="newFile('1')">
 				        	<mat-icon>description</mat-icon>
 				        </button>
 
 
 						<button mat-mini-fab 
-								color="accent" 
+								color="#2D323E"
 								aria-label="Add dataset"
 								matTooltip="Add dataset"
 								class="ml-28 mt-8"
 								matTooltipPosition="below"
-								(click)="newFile('0')">
+								(click)="newFile('2')">
 				        	<mat-icon>build</mat-icon>
 				        </button>
 
 
 
 						<button mat-mini-fab 
-								color="accent" 
+								color="#2D323E"
 								aria-label="Add part tree"
 								matTooltip="Add part tree"
 								class="ml-28 mt-8"
 								matTooltipPosition="below"
-								(click)="newFile('0')">
+								(click)="newFile('3')">
 				        	<mat-icon>table_chart</mat-icon>
 				        </button>
 
 
 
 						<button mat-mini-fab 
-								color="accent" 
+								color="#2D323E"
 								aria-label="Add image"
 								matTooltip="Add image"
 								class="ml-28 mt-8"
 								matTooltipPosition="below"
-								(click)="newFile('0')">
+								(click)="newFile('4')">
 				        	<mat-icon>camera_alt</mat-icon>
 				        </button>
 
 
 
 						<button mat-mini-fab 
-								color="accent" 
+								color="#2D323E"
 								aria-label="Add forum"
 								matTooltip="Add forum"
 								class="ml-28 mt-8"
 								matTooltipPosition="below"
-								(click)="newFile('0')">
+								(click)="newFile('5')">
 				        	<mat-icon>chat</mat-icon>
 				        </button>
 
@@ -125,51 +128,27 @@
 
 
 				</div>
-				<!-- The add item row -->
+				<!-- / The add item row -->
 
 
 
-				<div class="fileList">
+				<!-- If the user can edit the workspace -->
+				<workspace-edit-list *ngIf="dataFilesFlag && displayType=='edit'"
+							  [permissions]="permissions"
+							  [workspace-data]="workspaceData"
+							  [workspaceFiles]="workspaceFiles">
+
+				</workspace-edit-list>
 
 
-					<!-- The main header row -->
-					<div class="list-header"
-						 fxLayout="row">
+				<!-- If the user cannot edit the workspace -->
+				<workspace-view-list *ngIf="dataFilesFlag && displayType=='view'"
+							  [permissions]="permissions"
+							  [workspace-data]="workspaceData"
+							  [workspaceFiles]="workspaceFiles">
 
-						<div class="tableHeader col1">File Name</div>
-						<div class="tableHeader col2">Date Created</div>
-						<div class="tableHeader col3">Date Modified</div>
-						<div class="tableHeader col4">Version</div>
-						
+				</workspace-view-list>
 
-					</div>
-					<!-- / The main header row -->
-
-
-					<!-- The list for the items in a workspace -->
-					<div class="fileListItem"
-						 fxLayout="row"
-						 *ngFor="let file of workspaceFiles">
-
-						<div class="fileItem col1"
-							 fxLayout="row">
-							<mat-icon *ngIf="file.fileType==0" class="mr-20">folder</mat-icon>
-							<mat-icon *ngIf="file.fileType==1" class="mr-20">description</mat-icon>
-							<mat-icon *ngIf="file.fileType==2" class="mr-20">build</mat-icon>
-							<mat-icon *ngIf="file.fileType==3" class="mr-20">table_chart</mat-icon>
-							<mat-icon *ngIf="file.fileType==4" class="mr-20">camera_alt</mat-icon>
-							<mat-icon *ngIf="file.fileType==5" class="mr-20">chat</mat-icon>
-							{{file.name}}
-						</div>
-						<div class="fileItem col2">{{file.dateCreated | date:'short'}}</div>
-						<div class="fileItem col3">{{file.dateModified | date:'short'}}</div>
-						<div class="fileItem col4">{{file.version}}</div>
-
-						<mat-divider></mat-divider>
-					</div>
-					<!-- / The list for the items in a workspace -->
-
-				</div>
 
 
 			</div>

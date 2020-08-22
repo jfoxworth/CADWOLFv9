@@ -1,0 +1,129 @@
+
+<div class="fileList"
+	 id="editlist">
+
+
+	<!-- The main header row -->
+	<div class="list-header"
+		 fxLayout="row">
+
+		<div class="tableHeader col1">File Name</div>
+		<div class="tableHeader col2">Date Modified</div>
+		<div class="tableHeader col5">Edit Options</div>
+
+	</div>
+	<!-- / The main header row -->
+
+
+	<!-- The list for the items in a workspace -->
+	<div *ngFor="let file of workspaceFiles">
+
+		<div class="fileListItem"
+			 fxLayout="row"
+			 (click)="selectedItem=file">
+
+			<div class="fileItem col1"
+				 fxLayout="row">
+				<mat-icon *ngIf="file.fileType==0" class="mr-20">folder</mat-icon>
+				<mat-icon *ngIf="file.fileType==1" class="mr-20">description</mat-icon>
+				<mat-icon *ngIf="file.fileType==2" class="mr-20">build</mat-icon>
+				<mat-icon *ngIf="file.fileType==3" class="mr-20">table_chart</mat-icon>
+				<mat-icon *ngIf="file.fileType==4" class="mr-20">camera_alt</mat-icon>
+				<mat-icon *ngIf="file.fileType==5" class="mr-20">chat</mat-icon>
+				{{file.name}}
+			</div>
+
+			<div class="fileItem col2">{{file.dateModified | date:'short'}}</div>
+
+			<div class="fileItem col5">
+
+				<mat-icon class="mr-20 editOption" 
+						  matTooltip="General Info" 
+						  matTooltipPosition="below"
+						  (click)="showEdit = showEdit!='properties' ? 'properties' : ''">
+					settings
+				</mat-icon>
+
+				<mat-icon class="mr-20 editOption" 
+						  matTooltip="Edit Permissions" 
+						  matTooltipPosition="below"
+						  (click)="showEdit = showEdit!='permissions' ? 'permissions' : ''">
+					lock
+				</mat-icon>
+
+				<mat-icon class="mr-20 editOption" 
+						  matTooltip="Move Item" 
+						  matTooltipPosition="below"
+						  (click)="showEdit = showEdit!='move' ? 'move' : ''">
+					exit_to_app
+				</mat-icon>
+
+				<mat-icon class="mr-20 editOption" 
+						  matTooltip="Copy Item" 
+						  matTooltipPosition="below"
+						  (click)="showEdit = showEdit!='copy' ? 'copy' : ''">
+					library_add
+				</mat-icon>
+
+				<mat-icon class="editOption" 
+						  matTooltip="Delete Item" 
+						  matTooltipPosition="below"
+						  (click)="deleteFileItem( file.uid )">
+					delete
+				</mat-icon>
+
+			</div>
+
+		</div>
+		<!-- / The list for the items in a workspace -->
+
+
+
+		<!-- The edit properties option -->
+		<edit-properties *ngIf="file.uid==selectedItem.uid && showEdit=='properties' "
+						 [file]="file"
+						 [permissions]="permissions"
+						 [workspaceFiles]="workspaceFiles">
+			
+		</edit-properties>
+		<!-- /The edit properties option -->
+
+
+
+		<!-- The edit permissions option -->
+		<edit-permissions *ngIf="file.uid==selectedItem.uid && showEdit=='permissions' "
+						 [file]="file"
+						 [permissions]="permissions"
+						 [workspaceFiles]="workspaceFiles">
+			
+		</edit-permissions>
+		<!-- /The edit permissions option -->
+
+
+
+		<!-- The move option -->
+		<move-item *ngIf="file.uid==selectedItem.uid && showEdit=='move' "
+						 [file]="file"
+						 [permissions]="permissions"
+						 [workspaceFiles]="workspaceFiles">
+			
+		</move-item>
+		<!-- /The move option -->
+
+
+
+		<!-- The copy option -->
+		<copy-item *ngIf="file.uid==selectedItem.uid && showEdit=='copy' "
+						 [file]="file"
+						 [permissions]="permissions"
+						 [workspaceFiles]="workspaceFiles">
+			
+		</copy-item>
+		<!-- /The copy option -->
+
+
+		<mat-divider></mat-divider>
+
+	</div>
+
+</div>

@@ -21,7 +21,10 @@ import { Permission } from 'app/main/models/permission';
 
 // Services
 import { WorkspaceService } from 'app/main/services/workspace.service';
+import { PermissionsService } from 'app/main/services/permissions.service';
 import { LogService } from 'app/main/services/log.service';
+
+
 
 
 @Component({
@@ -37,24 +40,30 @@ export class WorkspaceComponent implements OnInit, OnDestroy
 	workspaceData 				: CadwolfFile;
 	dataFlag 					: boolean = false;
 	dataFilesFlag 				: boolean = false;
-    permissions           		: Permission[];
+    permissions           		: Permission[] = [];
     private _unsubscribeAll 	: Subject<any>;
+    displayType 				: string = 'view';
 
     addOptionDisplay 			: boolean = false;
+    userData 					: any;
 
 
 	constructor(
         private workspaceService 	: WorkspaceService,
+        private permissionsService 	: PermissionsService,
         private titleService 		: Title,
 		private route 				: ActivatedRoute,
   	) 
 	{        
-        this._unsubscribeAll = new Subject();     
+        this._unsubscribeAll = new Subject();    
     }
 
 
 
 	ngOnInit(): void {
+
+		// Get the user data
+        this.userData = JSON.parse(localStorage.getItem('cadwolfUserData'));
 
 		// Set the title
 		this.titleService.setTitle( 'Workspace in Cadwolf' );
@@ -74,6 +83,11 @@ export class WorkspaceComponent implements OnInit, OnDestroy
             	if ( this.workspaceData.uid )
             	{
             		this.dataFlag = true;
+					this.titleService.setTitle( 'Workspace - '+this.workspaceData.name );
+
+					this.displayType = this.workspaceService.setWorkspaceDisplay( this.userData.uid, this.workspaceData.uid, this.permissions );
+
+
             	}
             });
 
@@ -82,7 +96,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((workspaceFiles)=>
             { 
-            	this.workspaceFiles = workspaceFiles;
+            	this.workspaceFiles = this.workspaceService.sortWorkspaces(workspaceFiles);
             	if ( this.workspaceFiles.length > 0 )
             	{
 	            	this.dataFilesFlag = true;
@@ -92,17 +106,29 @@ export class WorkspaceComponent implements OnInit, OnDestroy
 
 
         // This is an observable for the permissions
-        this.workspaceService.permStatus
+        this.permissionsService.permStatus
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((result)=>
             { 
-                console.log('The permissions are ...');
-                console.log(result);
                 if (result)
                 {
-                	this.permissions.push(result);
+                	for (let a=0; a<result.length; a++)
+                	{
+                		this.permissions.push(result[a]);
+            		}
+            		if ( this.workspaceData.uid )
+            		{
+						this.displayType = this.workspaceService.setWorkspaceDisplay( this.userData.uid, this.workspaceData.uid, this.permissions );
+					}
             	}
+            	this.permissions.sort((a, b) => (a.userId > b.userId) ? 1 : -1)
+
+                console.log('The permissions are ...');
+                console.log(this.permissions);
+
             });
+
+
 
 
 	}
@@ -115,5 +141,22 @@ export class WorkspaceComponent implements OnInit, OnDestroy
         this._unsubscribeAll.complete();
 
   	}	
+
+
+
+
+
+  	/*
+  	*
+  	*
+  	*		PUBLIC FUNCTIONS
+  	*
+  	*
+  	*/
+
+  	newFile( typeNum ):void {
+
+  		this.workspaceService.createNewFile( typeNum, this.workspaceData.uid );
+  	}
 
 }

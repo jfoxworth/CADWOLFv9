@@ -1,0 +1,25 @@
+
+
+<div class="text-center mb-40">
+
+
+	<div style="width:60%; margin:0px 20%">
+
+		<mat-form-field class="mt-20 mb-20" style="width:100%">
+			<mat-label>New location of file</mat-label>
+			<input matInput 
+				   [(ngModel)]="tempLocation">
+		</mat-form-field>
+
+
+		<button mat-raised-button 
+				color="primary"
+				class="mt-20"
+				style="width:225px"
+				(click)="moveItem( file )">
+			Move Item
+		</button>
+
+	</div>
+
+</div>

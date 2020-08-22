@@ -1,0 +1,25 @@
+
+
+<div class="text-center mb-40">
+
+
+	<div style="width:60%; margin:0px 20%">
+
+		<mat-form-field class="mt-20 mb-20" style="width:100%">
+			<mat-label>Name of copied file</mat-label>
+			<input matInput 
+				   [(ngModel)]="tempName">
+		</mat-form-field>
+
+
+		<button mat-raised-button 
+				color="primary"
+				class="mt-20"
+				style="width:225px"
+				(click)="makeCopy( file )">
+			Make copy
+		</button>
+
+	</div>
+
+</div>

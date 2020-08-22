@@ -13,11 +13,18 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatTooltipModule } from '@angular/material/tooltip';
-
+import { MatRadioModule } from '@angular/material/radio';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 // Components
 import { WorkspaceComponent } from './workspace.component';
+import { EditListComponent } from './views/edit-list/edit-list.component';
+import { EditPropertiesComponent } from './views/edit-list/edit-properties/edit-properties.component';
+import { ViewListComponent } from './views/view-list/view-list.component';
+import { EditPermissionsComponent } from './views/edit-list/edit-permissions/edit-permissions.component';
+import { MoveItemComponent } from './views/edit-list/move-item/move-item.component';
+import { CopyItemComponent } from './views/edit-list/copy-item/copy-item.component';
 
 
 // Services
@@ -40,7 +47,13 @@ const routes = [
 
 @NgModule({
 	declarations: [
-		WorkspaceComponent
+		WorkspaceComponent,
+		EditListComponent,
+		EditPropertiesComponent,
+		ViewListComponent,
+		EditPermissionsComponent,
+		MoveItemComponent,
+		CopyItemComponent
 	],
 	imports	 : [
 		RouterModule.forChild(routes),
@@ -51,6 +64,8 @@ const routes = [
 		MatIconModule,
 		MatListModule,
 		MatTooltipModule,
+		MatRadioModule,
+		MatFormFieldModule,
 	],
 	exports	 : [
 		WorkspaceComponent

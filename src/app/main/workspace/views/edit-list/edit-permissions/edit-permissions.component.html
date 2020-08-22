@@ -1,0 +1,223 @@
+
+
+<div fxLayout="column"
+	 class="mb-40">
+
+	<p class="mat-body-2">There are three types of permission settings or workspaces, documents, and datasets. The types are view, edit, and admin. Users can set the view permissions so that everyone can view the item, that only those expressly given permission can view it, or so that the permissions are inherited from the parent folder. Edit and admin permissions can only be set to those on a list or to inherit.</p>
+
+	<p class="mat-body-2">Having permission to view an item means that a user can see the document, see the workspace, or see the dataset. Having permission to edit the items means that you can add, remove, or change the content. Having admin permission means that you can also adjust the permission settings of other users.</p>
+
+
+
+	<div fxLayout="row"
+		 fxLayoutAlign="space-between space-between"
+		 class="mt-20">
+
+		<div class="mat-title mr-8">View Permissions</div>
+
+		<div class="">
+			<mat-radio-group
+				class=""
+				[(ngModel)]="file.viewPermType"
+				(change)="changePermissions( 'view', file.viewPermType )">
+				<mat-radio-button class="ml-20" [value]="0">
+    				Everyone
+				</mat-radio-button>
+
+				<mat-radio-button class="ml-20" [value]="1">
+    				List of Users
+				</mat-radio-button>
+
+				<mat-radio-button class="ml-20" [value]="2">
+    				Inherit from Parent
+				</mat-radio-button>
+
+			</mat-radio-group>
+		</div>
+
+	</div>
+
+
+
+
+	<div fxLayout="row"
+		 fxLayoutAlign="space-between space-between">
+
+		<div class="mat-title mr-8">Edit Permissions</div>
+
+		<div class="">
+			<mat-radio-group
+				class=""
+				[(ngModel)]="file.editPermType"
+				(change)="changePermissions( 'edit', file.editPermType )">
+
+				<mat-radio-button class="ml-148" [value]="1">
+    				List of Users
+				</mat-radio-button>
+
+				<mat-radio-button class="ml-20" [value]="2">
+    				Inherit from Parent
+				</mat-radio-button>
+
+			</mat-radio-group>
+		</div>
+
+	</div>
+
+
+
+
+
+
+
+	<div fxLayout="row"
+		 fxLayoutAlign="space-between space-between"
+		 class="mb-20">
+
+		<div class="mat-title mr-8">Admin Permissions</div>
+
+		<div class="">
+			<mat-radio-group
+				class=""
+				[(ngModel)]="file.adminPermType"
+				(change)="changePermissions( 'admin', file.adminPermType )">
+
+				<mat-radio-button class="ml-128" [value]="1">
+    				List of Users
+				</mat-radio-button>
+
+				<mat-radio-button class="ml-20" [value]="2">
+    				Inherit from Parent
+				</mat-radio-button>
+
+			</mat-radio-group>
+		</div>
+
+	</div>
+
+
+
+	<!-- Place where users can enter individual users or teams -->
+	<div class="mt-40"
+		 fxLayout = "column"
+		 *ngIf="file.viewPermType==1 || file.editPermType==1 || file.adminPermType==1">
+
+		<p class="mat-body-2 mb-20">Enter the name of the user or team that you wish to give edit permissions. The user or team will be found and you can press enter to add that user to the list of approved users. If you wish to add admin permissions or remove the user, you can later delete that user.</p>
+
+
+		<div fxLayout="row"
+			 fxLayoutAlign="space-around space-around"
+			 fxFlex="100">
+
+			<div fxFlex="30"
+				 fxOffset="20">
+				<mat-form-field class="mt-20 mb-20" style="width:100%">
+					<mat-label>Team or User Name</mat-label>
+					<input matInput 
+						   [(ngModel)]="tempName"
+						   (keyup)="checkUserName( tempName )">
+				</mat-form-field>
+
+				<div *ngIf="potentialUserPerm.uid"
+					 class="text-center mb-40">
+					<button mat-raised-button 
+							color="primary"
+							(click)="addUserPerm( potentialUserPerm )">
+						Add User - {{potentialUserPerm.userName}}
+					</button>
+				</div>
+
+				<div class="mb-40" 
+					 *ngIf="!potentialUserPerm.uid && tempName.length>0"
+					 class="text-center">
+					No user found by the name '{{tempName}}'
+				</div>
+
+
+			</div>
+
+		</div>
+
+	</div>
+
+
+
+
+	<!-- Lists of user permissions -->
+	<h1 class="mb-20">Current Permissions</h1>
+
+	<div fxLayout="column">
+
+		<div fxLayout="row"
+			 style="width:60%; margin:0px 20%">
+			<div fxFlex="10" class=""></div>
+			<div fxFlex="50" class=""><strong>User or Team</strong></div>
+			<div fxFlex="30" class=""><strong>Type</strong></div>
+			<div fxFlex="10" class=""></div>
+
+		</div>
+
+
+		<ng-container *ngFor="let perm of permissions; index as i">
+
+			<div fxLayout="row"
+				 fxLayoutAlign="center space-between"
+				 class="mt-12 pb-4"
+				 style="width:60%; margin:0px 20%; border-bottom:1px solid #ccc"
+				 *ngIf="file.uid == perm.itemId">
+
+				<mat-icon class="" 
+						  fxFlex="10"
+						  *ngIf="perm.userType=='team'"
+						  matTooltip="CADWOLF Team"
+						  matTooltipPosition="below">
+					group
+				</mat-icon>
+				
+				<mat-icon class="" 
+						  fxFlex="10"
+						  *ngIf="perm.userType=='user'"
+						  matTooltip="CADWOLF User"
+						  matTooltipPosition="below">
+					person
+				</mat-icon>
+
+				<div fxFlex="50">
+					{{perm.userName}}
+				</div>
+
+				<div fxFlex="30">
+					{{perm.permType}}
+				</div>
+
+				<mat-icon class="" 
+						  fxFlex="10"
+						  *ngIf="perm.userType=='user'"
+						  matTooltip="Remove User"
+						  matTooltipPosition="right"
+						  style="cursor:pointer"
+						  (click)="deletePermission(perm, i)">
+					clear
+				</mat-icon>
+
+				<mat-icon class="" 
+						  fxFlex="10"
+						  *ngIf="perm.userType=='team'"
+						  matTooltip="Remove Team"
+						  matTooltipPosition="right"
+						  style="cursor:pointer"
+						  (click)="deletePermission(perm, i)">
+					clear
+				</mat-icon>
+
+	
+			</div>
+
+
+
+		</ng-container>
+
+	</div>
+
+</div>
+

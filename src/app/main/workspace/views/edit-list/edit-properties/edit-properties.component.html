@@ -1,0 +1,120 @@
+
+<div fxLayout="row">
+
+
+
+	<div fxLayout="column" class="mb-20" style="width:50%">
+
+		<div class="text-center">
+
+			<mat-form-field class="mt-20 mb-20" style="width:100%">
+				<mat-label>File Name</mat-label>
+				<input matInput 
+					   [(ngModel)]="file.name"
+					   (keyup.enter)="updateFile(file)">
+			</mat-form-field>
+
+		</div>
+
+		<div class="text-center">
+
+			<mat-form-field style="width:100%">
+				<mat-label>File Description</mat-label>
+				<textarea matInput
+					cdkTextareaAutosize
+					#autosize="cdkTextareaAutosize"
+					cdkAutosizeMinRows="5"
+					cdkAutosizeMaxRows="20"
+					[(ngModel)]="file.description"
+					(keyup.enter)="updateFile(file)">
+				</textarea>
+			</mat-form-field>
+
+		</div>
+
+	</div>
+
+
+
+
+
+	<div fxLayout="column" class="mb-20 text-center" style="width:50%">
+
+		<div class="text-center mb-8 mt-20"
+			 fxLayout="row"
+			 style="width:50%; margin:0px auto; min-width:240px;">
+
+			<div class="mr-8"><strong>Date Created : </strong></div>
+			<div class="">{{file.dateCreated | date:'short'}}</div>
+
+		</div>
+
+
+		<div class="text-center mb-8"
+			 fxLayout="row"
+			 style="width:50%; margin:0px auto;  min-width:240px;">
+
+			<div class="mr-8"><strong>Date Modified : </strong></div>
+			<div class="">{{file.dateModified | date:'short'}}</div>
+
+		</div>
+
+
+		<div class="text-center mb-8"
+			 fxLayout="row"
+			 style="width:50%; margin:0px auto; min-width:240px;">
+
+			<div class="mr-8"><strong>Version : </strong></div>
+			<div class="">{{file.version}}</div>
+
+		</div>
+
+		<div class="text-center mb-8"
+			 fxLayout="row"
+			 style="width:50%; margin:0px auto; min-width:240px;">
+
+			<div class="mr-8"><strong>Order : </strong></div>
+			<div>
+					<select [(ngModel)]=file.order
+							(change)="updateFile(file)">
+						<option *ngFor="let num of makeArray(workspaceFiles.length); let i = index">
+						{{i}}
+						</option>
+					</select>
+			</div>
+
+		</div>
+
+
+		<div class="text-center mt-12">
+
+			<mat-icon class="mr-20 editOption" 
+					  style="cursor:pointer"
+					  matTooltip="Create New Version" 
+					  matTooltipPosition="below">
+				library_books
+			</mat-icon>
+
+
+			<mat-icon class="mr-20 editOption" 
+					  style="cursor:pointer"
+					  matTooltip="View Log" 
+					  matTooltipPosition="below">
+				create
+			</mat-icon>
+
+
+			<mat-icon class="mr-20 editOption" 
+					  style="cursor:pointer"
+					  matTooltip="View Change History" 
+					  matTooltipPosition="below">
+				create
+			</mat-icon>
+
+
+		</div>
+
+	</div>
+
+
+</div>
