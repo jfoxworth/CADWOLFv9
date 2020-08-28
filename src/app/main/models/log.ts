@@ -4,6 +4,9 @@ export interface LogEntry {
 	entryDate 		: number;
 	entryText 		: string;
 	relatedFileId 	: string;
+	relatedUserId 	: string;
 	messageType 	: string;
 	entryTitle	 	: string;
+	parentId		: string;
+
 }

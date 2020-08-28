@@ -14,6 +14,11 @@ import { Injectable } from '@angular/core';
 
 
 
+// RXJS Stuff
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+
+
+
 // Services
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
@@ -32,9 +37,15 @@ import { LogEntry } from 'app/main/models/log';
 export class LogService {
 
 
+	logStatus 	: BehaviorSubject<any>;				
+
+
 
 	constructor( 	public afs 			: AngularFirestore,
-  					private afStorage 	: AngularFireStorage ) { }
+  					private afStorage 	: AngularFireStorage ) 
+	{ 
+		this.logStatus 			= new BehaviorSubject([]);
+	}
 
 
 
@@ -44,7 +55,7 @@ export class LogService {
   	*	Add a log entry
   	*
   	*/
-	addLogEntry( logData )
+	createLogEntry( logData )
 	{
 		let userData = JSON.parse(localStorage.getItem('cadwolfUserData'));
 
@@ -52,13 +63,35 @@ export class LogService {
 			userId 			: userData.uid,
 			userName 		: userData.userName,
 			entryDate 		: Date.now(),
-			entryText 		: logData.text,
-			relatedFileId 	: logData.fileId,
+			entryText 		: logData.entryText,
+			relatedFileId 	: logData.relatedFileId,
+			relatedUserId 	: logData.relatedUserId,
 			messageType 	: logData.messageType,
-			entryTitle 		: logData.entryTitle
+			entryTitle 		: logData.entryTitle,
+			parentId 		: logData.parentId
 		};
 
 		var docRef = this.afs.collection('logs').add( logEntry );
+
+	}
+
+
+
+	/*
+	*
+	*
+	*
+	*
+	*/
+	getLogData( itemId )
+	{
+		this.afs.collection('logs', ref => ref.where('relatedFileId', '==', itemId))
+		.valueChanges({idField: 'uid'})
+		.subscribe(result=> {
+			console.log('log data is');
+			console.log(result);
+			this.logStatus.next(result);
+		});
 
 	}
 

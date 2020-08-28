@@ -44,12 +44,9 @@ export class PermissionsService {
 	 */
 	getPermsForItem( fileId )
 	{
-		console.log('Getting permissions for '+fileId);
 		this.afs.collection('permissions', ref => ref.where('itemId', '==', fileId))
 		.valueChanges({idField: 'uid'})
 		.subscribe(result=> {
-			console.log('The permissions for '+fileId);
-			console.log(result);
 			this.permStatus.next(result);
 		});
 

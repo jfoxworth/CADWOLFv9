@@ -1,0 +1,80 @@
+<div class="page-layout simple fullwidth">
+
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- CONTENT HEADER -->
+        <div class="header pb-24 pl-48" 
+        	 fxLayout="row" 
+        	 fxLayoutAlign="start center"
+        	 style="background-image:url('/assets/images/backgrounds/topper.png'); height:190px; background-size:cover">
+        	
+        	<h1 class="mt-0" *ngIf="dataFlag">Log for {{fileData.name}}</h1>
+        
+        </div>
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+
+            <!-- CONTENT -->
+            <div class="content p-24">
+
+            	<div class="w-80-p"
+            		 style="margin:0px 10%">
+            		<strong>File path : </strong>
+            		{{filePath}} 
+            		<mat-icon><a [routerLink]="['/'+filePath]">link</a></mat-icon>
+            	</div>
+
+            	<table class="displayTable w-80-p"
+            		   style="margin:0px 10%"
+            		   id="logTable"
+            		   *ngIf="dataFlag">
+
+					<tr	class="projectRow w-100-p">
+						<th class="mat-subheading-2 text-center w-10-p">Date</th>
+						<th class="mat-subheading-2 text-center w-20-p">Title</th>
+						<th class="mat-subheading-2 text-center w-20-p">User Performing Action</th>
+						<th class="mat-subheading-2 text-center w-50-p">Description</th>
+					</tr>
+
+					
+
+					<tr	class="projectRow w-100-p"
+					    *ngFor="let log of logEntries">
+
+						<td class="mat-body-1 text-center  w-10-p">
+							{{log.entryDate | date}}
+						</td>
+
+						<td class="mat-body-1 text-center w-20-p">
+							{{log.entryTitle}}
+						</td>
+
+						<td class="mat-body-1 text-center w-20-p">
+							{{log.userName}}
+						</td>
+
+						<td class="mat-body-1 text-center w-50-p">
+							{{log.entryText}}
+						</td>
+
+
+					</tr>
+
+
+            	</table>
+
+
+            </div>
+            <!-- / CONTENT -->
+
+        </div>
+        <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>

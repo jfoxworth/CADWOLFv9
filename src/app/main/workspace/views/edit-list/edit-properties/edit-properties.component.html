@@ -11,7 +11,7 @@
 				<mat-label>File Name</mat-label>
 				<input matInput 
 					   [(ngModel)]="file.name"
-					   (keyup.enter)="updateFile(file)">
+					   (keyup.enter)="updateFile(file, 'name')">
 			</mat-form-field>
 
 		</div>
@@ -26,7 +26,7 @@
 					cdkAutosizeMinRows="5"
 					cdkAutosizeMaxRows="20"
 					[(ngModel)]="file.description"
-					(keyup.enter)="updateFile(file)">
+					(keyup.enter)="updateFile(file, 'description')">
 				</textarea>
 			</mat-form-field>
 
@@ -76,7 +76,7 @@
 			<div class="mr-8"><strong>Order : </strong></div>
 			<div>
 					<select [(ngModel)]=file.order
-							(change)="updateFile(file)">
+							(change)="updateFile(file, 'order')">
 						<option *ngFor="let num of makeArray(workspaceFiles.length); let i = index">
 						{{i}}
 						</option>
@@ -99,7 +99,8 @@
 			<mat-icon class="mr-20 editOption" 
 					  style="cursor:pointer"
 					  matTooltip="View Log" 
-					  matTooltipPosition="below">
+					  matTooltipPosition="below"
+					  (click)="goToURL('/log/'+file.uid)">
 				create
 			</mat-icon>
 

@@ -1,4 +1,7 @@
+
+// Standard Angular Stuff
 import { Component, OnInit, Input } from '@angular/core';
+import { RouterModule, Router, Routes, ActivatedRoute } from '@angular/router';
 
 
 // Models
@@ -19,12 +22,15 @@ import { PermissionsService } from 'app/main/services/permissions.service';
 })
 export class EditListComponent implements OnInit {
 
-	selectedItem : CadwolfFile;
+	selectedId 		: string;
+	fileTypes		: string[];
 
 
 	constructor(
 		private workspaceService 	: WorkspaceService,
 		private permissionsService 	: PermissionsService,
+		private Router 				: Router,
+		private route 				: ActivatedRoute,
 	) 
 	{ 
 
@@ -39,7 +45,9 @@ export class EditListComponent implements OnInit {
 
 	ngOnInit(): void {
 
-		this.selectedItem = this.workspaceFiles[0];
+		this.selectedId = this.workspaceFiles[0]['uid'];
+
+		this.fileTypes = this.workspaceService.getFileTypes();
 	}
 
 
@@ -54,5 +62,41 @@ export class EditListComponent implements OnInit {
 	{
 		this.workspaceService.deleteFileItem( fileId );
 	}
+
+
+	goToUrl( file )
+	{
+
+		let url = this.Router.url;
+		console.log('Going to '+this.fileTypes[file.fileType]+'Id/'+file.uid);
+		this.Router.navigateByUrl( this.fileTypes[file.fileType]+'Id/'+file.uid );
+	}
+
+
+
+
+
+	goToFile( file )
+	{
+
+		console.log('I should be going to ');
+		console.log(file);
+
+		// If this is another workspace, reload it
+		if ( file.fileType == 0 )
+		{
+			this.Router.navigateByUrl( '/'+this.fileTypes[file.fileType]+'Id/'+file.uid );
+			this.workspaceService.getWorkspaceAndContents( file.uid, 0 )
+
+		}else
+		{
+			this.Router.navigateByUrl( '/'+this.fileTypes[file.fileType]+'Id/'+file.uid );
+		}
+
+
+	}
+
+
+
 
 }

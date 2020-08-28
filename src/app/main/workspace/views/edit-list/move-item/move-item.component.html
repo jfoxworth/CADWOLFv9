@@ -6,16 +6,31 @@
 	<div style="width:60%; margin:0px 20%">
 
 		<mat-form-field class="mt-20 mb-20" style="width:100%">
-			<mat-label>New location of file</mat-label>
+			<mat-label>Enter URL of new parent folder</mat-label>
 			<input matInput 
-				   [(ngModel)]="tempLocation">
+				   [(ngModel)]="tempLocation"
+				   (keyup.enter)="getBaseIdFromString( tempLocation )">
 		</mat-form-field>
+
+
+		<div id="selectionBox">
+
+			<div *ngFor="let folder of tempFolders"
+				 fxLayout="row"
+				 class="folderRow">
+
+				 <mat-icon class="mr-20 ml-20">folder</mat-icon>
+
+			</div>
+
+		</div>
 
 
 		<button mat-raised-button 
 				color="primary"
 				class="mt-20"
 				style="width:225px"
+				*ngIf="validLocation"
 				(click)="moveItem( file )">
 			Move Item
 		</button>

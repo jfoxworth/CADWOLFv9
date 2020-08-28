@@ -34,6 +34,7 @@ import { ResetPasswordModule } from 'app/main/resetpassword/resetpassword.module
 import { MailConfModule } from 'app/main/mailconf/mailconf.module';
 import { TeamsModule } from './main/teams/teams.module';
 import { WorkspaceModule } from './main/workspace/workspace.module';
+import { LogModule } from './main/log/log.module';
 
 
 // Firebase Items
@@ -71,7 +72,7 @@ const appRoutes: Routes = [
 		BrowserModule,
 		BrowserAnimationsModule,
 		HttpClientModule,
-		RouterModule.forRoot(appRoutes),
+		RouterModule.forRoot(appRoutes, {onSameUrlNavigation: 'reload'}),
 
 		TranslateModule.forRoot(),
 
@@ -102,6 +103,7 @@ const appRoutes: Routes = [
 		ResetPasswordModule,
 		MailConfModule,
 		WorkspaceModule,
+		LogModule,
 
 		// Firebase 
         AngularFireModule.initializeApp(environment.firebase),

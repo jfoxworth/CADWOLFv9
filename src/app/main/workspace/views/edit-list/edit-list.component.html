@@ -20,16 +20,17 @@
 
 		<div class="fileListItem"
 			 fxLayout="row"
-			 (click)="selectedItem=file">
+			 (click)="selectedId=file.uid">
 
 			<div class="fileItem col1"
-				 fxLayout="row">
-				<mat-icon *ngIf="file.fileType==0" class="mr-20">folder</mat-icon>
-				<mat-icon *ngIf="file.fileType==1" class="mr-20">description</mat-icon>
-				<mat-icon *ngIf="file.fileType==2" class="mr-20">build</mat-icon>
-				<mat-icon *ngIf="file.fileType==3" class="mr-20">table_chart</mat-icon>
-				<mat-icon *ngIf="file.fileType==4" class="mr-20">camera_alt</mat-icon>
-				<mat-icon *ngIf="file.fileType==5" class="mr-20">chat</mat-icon>
+				 fxLayout="row"
+				 (click)="goToFile(file);">
+				<mat-icon *ngIf="file.fileType==0" class="mr-20 ml-12">folder</mat-icon>
+				<mat-icon *ngIf="file.fileType==1" class="mr-20 ml-12">description</mat-icon>
+				<mat-icon *ngIf="file.fileType==2" class="mr-20 ml-12">build</mat-icon>
+				<mat-icon *ngIf="file.fileType==3" class="mr-20 ml-12">table_chart</mat-icon>
+				<mat-icon *ngIf="file.fileType==4" class="mr-20 ml-12">camera_alt</mat-icon>
+				<mat-icon *ngIf="file.fileType==5" class="mr-20 ml-12">chat</mat-icon>
 				{{file.name}}
 			</div>
 
@@ -80,7 +81,7 @@
 
 
 		<!-- The edit properties option -->
-		<edit-properties *ngIf="file.uid==selectedItem.uid && showEdit=='properties' "
+		<edit-properties *ngIf="file.uid==selectedId && showEdit=='properties' "
 						 [file]="file"
 						 [permissions]="permissions"
 						 [workspaceFiles]="workspaceFiles">
@@ -91,7 +92,7 @@
 
 
 		<!-- The edit permissions option -->
-		<edit-permissions *ngIf="file.uid==selectedItem.uid && showEdit=='permissions' "
+		<edit-permissions *ngIf="file.uid==selectedId && showEdit=='permissions' "
 						 [file]="file"
 						 [permissions]="permissions"
 						 [workspaceFiles]="workspaceFiles">
@@ -102,7 +103,7 @@
 
 
 		<!-- The move option -->
-		<move-item *ngIf="file.uid==selectedItem.uid && showEdit=='move' "
+		<move-item *ngIf="file.uid==selectedId && showEdit=='move' "
 						 [file]="file"
 						 [permissions]="permissions"
 						 [workspaceFiles]="workspaceFiles">
@@ -113,7 +114,7 @@
 
 
 		<!-- The copy option -->
-		<copy-item *ngIf="file.uid==selectedItem.uid && showEdit=='copy' "
+		<copy-item *ngIf="file.uid==selectedId && showEdit=='copy' "
 						 [file]="file"
 						 [permissions]="permissions"
 						 [workspaceFiles]="workspaceFiles">

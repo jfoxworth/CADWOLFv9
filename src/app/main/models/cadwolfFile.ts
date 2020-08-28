@@ -8,6 +8,7 @@ export interface CadwolfFile {
 	name 			: string;
 	needsUpdate 	: boolean;
 	oid 			: string;
+	id 				: string;
 	order 			: number;
 	parentId		: string;
 	version 		: number;

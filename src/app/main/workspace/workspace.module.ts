@@ -35,6 +35,7 @@ import { CopyItemComponent } from './views/edit-list/copy-item/copy-item.compone
 
 
 const routes = [
+/*
 	{
 		path	 : 'workspace',
 		component: WorkspaceComponent
@@ -42,7 +43,46 @@ const routes = [
 	{
 		path	 : 'workspace/:workspacePath',
 		component: WorkspaceComponent,
+	},
+	{
+		path	 : 'Workspace',
+		component: WorkspaceComponent
+	},
+	{
+		path	 : 'Workspace/:workspacePath',
+		component: WorkspaceComponent,
+	},
+*/
+
+	{
+		path: 'workspace',
+//		runGuardsAndResolvers: 'always',
+		children: [
+			{ path: '**', component: WorkspaceComponent },
+		]
+	},
+
+	{
+		path: 'Workspace',
+		children: [
+			{ path: '**', component: WorkspaceComponent },
+		]
+	},
+
+
+
+	{
+		path: 'workspaceId/:workspaceId',
+		component: WorkspaceComponent,
+	},
+
+	{
+		path: 'WorkspaceId/:workspaceId',
+		component: WorkspaceComponent,
 	}
+
+
+
 ];
 
 @NgModule({

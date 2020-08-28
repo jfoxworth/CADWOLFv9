@@ -17,30 +17,54 @@
 			<div class="cadwolfBox">
 
 				<div class="cadwolfBoxToolbar"
-					 layout="row"
-					 layout-align="space-between center">
+					 fxLayout="row"
+					 fxLayoutAlign="space-between center">
+
 					<div class="cadwolfToolbarTools"
-						 flex="90">
+						 fxLayoutAlign="space-between center"
+						 fxFlex="100">
 						{{workspaceData.name}}
+
+					</div>
+
+					<div fxLayout="row" class="cadwolfToolbarTools">
+
+						<mat-icon *ngIf="!isFavorite" 
+								  style="color:#ff0000; cursor:pointer;"
+								  matTooltip="Click to make a favorite"
+								  matTooltipPosition="below"
+								  (click)="addFavorite(workspaceData.uid)">
+							favorite_border
+						</mat-icon>
+
+						<mat-icon *ngIf="isFavorite" 
+								  style="color:#ff0000; cursor:pointer;"
+								  matTooltip="Click to unfavorite"
+								  matTooltipPosition="below"
+								  (click)="removeFavorite(workspaceData.uid)">
+							favorite
+						</mat-icon>
+
+						<mat-icon style="cursor:pointer;"
+								  class="ml-20"
+								  matTooltip="Click to go up one level"
+								  matTooltipPosition="below"
+								  (click)="upOne(workspaceData)">
+							keyboard_arrow_up
+						</mat-icon>
+
 					</div>
 
 				</div>
 
-
-				<div flex="90"
-					 flex-offset="5"
-					 class="md-body-1 workspaceDescription">
-					 {{workspaceData.description}}
-				</div>
-
-
+				
 
 
 				<!-- The add item row -->
-				<div fxLayout = "row"
+				<div fxLayout = "column"
 					 *ngIf="displayType=='edit'"
 					 class="mb-20 mt-40 mb-40"
-					 style="width:50%; margin:0 auto; min-width:500px">
+					 style="width:50%; margin:0 auto; min-width:500px; position:fixed; top:50px; margin:0px 0px 0px 10px">
 
 					<button mat-fab 
 							id="addItem"
@@ -53,7 +77,9 @@
 					</button>
 
 					<div id="addOptions"
-						 *ngIf="addOptionDisplay">
+						 *ngIf="addOptionDisplay"
+						 fxLayout="column"
+						 style="position:relative; right:20px">
 
 
 						<button mat-mini-fab 
@@ -61,10 +87,10 @@
 								aria-label="Add workspace"
 								matTooltip="Add workspace"
 								class="ml-28 mt-8"
-								matTooltipPosition="below"
+								matTooltipPosition="right"
 								(click)="newFile('0')">
-				        	<mat-icon>folder</mat-icon>
-				        </button>
+							<mat-icon>folder</mat-icon>
+						</button>
 
 
 						<button mat-mini-fab 
@@ -72,10 +98,10 @@
 								aria-label="Add document"
 								matTooltip="Add document"
 								class="ml-28 mt-8"
-								matTooltipPosition="below"
+								matTooltipPosition="right"
 								(click)="newFile('1')">
-				        	<mat-icon>description</mat-icon>
-				        </button>
+							<mat-icon>description</mat-icon>
+						</button>
 
 
 						<button mat-mini-fab 
@@ -83,10 +109,10 @@
 								aria-label="Add dataset"
 								matTooltip="Add dataset"
 								class="ml-28 mt-8"
-								matTooltipPosition="below"
+								matTooltipPosition="right"
 								(click)="newFile('2')">
-				        	<mat-icon>build</mat-icon>
-				        </button>
+							<mat-icon>build</mat-icon>
+						</button>
 
 
 
@@ -95,10 +121,10 @@
 								aria-label="Add part tree"
 								matTooltip="Add part tree"
 								class="ml-28 mt-8"
-								matTooltipPosition="below"
+								matTooltipPosition="right"
 								(click)="newFile('3')">
-				        	<mat-icon>table_chart</mat-icon>
-				        </button>
+							<mat-icon>table_chart</mat-icon>
+						</button>
 
 
 
@@ -107,10 +133,10 @@
 								aria-label="Add image"
 								matTooltip="Add image"
 								class="ml-28 mt-8"
-								matTooltipPosition="below"
+								matTooltipPosition="right"
 								(click)="newFile('4')">
-				        	<mat-icon>camera_alt</mat-icon>
-				        </button>
+							<mat-icon>camera_alt</mat-icon>
+						</button>
 
 
 
@@ -119,16 +145,47 @@
 								aria-label="Add forum"
 								matTooltip="Add forum"
 								class="ml-28 mt-8"
-								matTooltipPosition="below"
+								matTooltipPosition="right"
 								(click)="newFile('5')">
-				        	<mat-icon>chat</mat-icon>
-				        </button>
+							<mat-icon>chat</mat-icon>
+						</button>
 
 					</div>
 
 
 				</div>
 				<!-- / The add item row -->
+
+
+				<!-- File path and permalink -->
+				<div flex="90"
+					 flex-offset="5"
+					 class="md-body-2 mt-20 mb-20 workspaceDescription"
+					 fxLayout="row"
+					 fxLayoutAlign="start center">
+
+
+					<div><strong>File Path :</strong></div>
+
+					<div>
+						<span> Workspace /</span>
+						<span *ngFor="let file of heirarchy.reverse()"
+							  (click)="goToFile(file)"
+							  style="cursor:pointer; color:#0000bb">
+							{{file.name}} /
+						</span>
+					</div>
+
+				</div>
+
+
+				<!-- Description -->
+				<div flex="90"
+					 flex-offset="5"
+					 class="md-body-1 workspaceDescription mt-20 mb-20">
+					 {{workspaceData.description}}
+				</div>
+				<!-- /Description -->
 
 
 

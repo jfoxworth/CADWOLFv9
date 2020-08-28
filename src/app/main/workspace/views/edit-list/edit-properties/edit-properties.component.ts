@@ -2,6 +2,7 @@
 // Core Angular things
 import { Component, OnInit, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms'
+import { RouterModule, Router, Routes, ActivatedRoute } from '@angular/router';
 
 
 // Models
@@ -11,6 +12,7 @@ import { Permission } from 'app/main/models/permission';
 
 // Services
 import { WorkspaceService } from 'app/main/services/workspace.service';
+import { LogService } from 'app/main/services/log.service';
 
 
 
@@ -23,7 +25,10 @@ import { WorkspaceService } from 'app/main/services/workspace.service';
 export class EditPropertiesComponent implements OnInit {
 
 	constructor(
-        private workspaceService 	: WorkspaceService,
+		private workspaceService 	: WorkspaceService,
+		private logService 			: LogService,
+		private route 				: ActivatedRoute,
+		private router 				: Router,
 	) { }
 
 
@@ -44,11 +49,10 @@ export class EditPropertiesComponent implements OnInit {
 	*
 	*
 	*/
-	updateFile( file )
+	updateFile( file, item )
 	{
-		console.log('I should be updating ');
-		console.log(file);
-		this.workspaceService.updateFile( file );
+		this.workspaceService.updateFile( file, item );
+
 	}
 
 
@@ -61,6 +65,12 @@ export class EditPropertiesComponent implements OnInit {
 			newArray.push(a);
 		}
 		return newArray
+	}
+
+
+	goToURL( url )
+	{
+		this.router.navigateByUrl( url );
 	}
 
 }

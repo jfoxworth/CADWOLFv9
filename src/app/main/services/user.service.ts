@@ -39,11 +39,9 @@ export class UserService {
 
 			if ( userData.imageType  === undefined )
 			{
-				console.log('The image type is undefined');
 				var path = '/profile/default.jpeg';
 			}else{
 				var path = '/profile/'+userData.uid+'.'+userData.imageType;			
-				console.log('The path is '+path);
 			}
 		}
 
@@ -78,4 +76,94 @@ export class UserService {
 
 
 
+
+
+
+
+
+
+	/*
+	 *
+	 * 	see if item is a favorite
+	 *
+	 * 
+	 */
+	isFavorite( fileId )
+	{
+		let userData = JSON.parse(localStorage.getItem('cadwolfUserData'));
+
+		let flag=false;
+		for ( let a=0; a<userData.favorites.length; a++ )
+		{
+			if ( userData.favorites[a] == fileId )
+			{
+				flag = true;
+			}
+		}
+
+		return flag
+	}
+	
+
+
+
+
+
+
+
+	/*
+	 *
+	 * 	add a favorite
+	 *
+	 * 
+	 */
+	addFavorite( fileId )
+	{
+
+		let userData = JSON.parse(localStorage.getItem('cadwolfUserData'));
+
+		let flag=0;
+		for ( let a=0; a<userData.favorites.length; a++ )
+		{
+			if ( userData.favorites[a] == fileId )
+			{
+				flag = 1;
+			}
+		}
+
+		if ( flag ==0 )
+		{
+			userData.favorites.push( fileId );
+			this.afs.collection('users').doc( userData.uid ).update( { 'favorites' : userData.favorites });
+			localStorage.setItem('cadwolfUserData', JSON.stringify(userData));
+		}
+	}
+	
+
+
+
+
+
+	/*
+	 *
+	 * 	remove a favorite
+	 *
+	 * 
+	 */
+	removeFavorite( fileId )
+	{
+
+		let userData = JSON.parse(localStorage.getItem('cadwolfUserData'));
+
+		for ( let a=0; a<userData.favorites.length; a++ )
+		{
+			if ( userData.favorites[a] == fileId )
+			{
+				userData.favorites.splice(a,1);
+			}
+		}
+
+		this.afs.collection('users').doc( userData.uid ).update( { 'favorites' : userData.favorites });
+		localStorage.setItem('cadwolfUserData', JSON.stringify(userData));
+	}
 }
