@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 // Models
 import { CadwolfFile } from 'app/main/models/cadwolfFile';
 import { LogEntry } from 'app/main/models/log';
+import { Permission } from 'app/main/models/permission';
 
 
 
@@ -321,7 +322,7 @@ export class WorkspaceService {
 
 	/*
 	 *
-	 * 	Get a file ID on the base with a string
+	 * 	Get afile ID on the base with a string
 	 *
 	 * 
 	 */
@@ -347,9 +348,10 @@ export class WorkspaceService {
 	 */
 	getFileContentsWithPromise( docId )
 	{
-		return this.afs.collection('files', ref => ref
+		return this.afs.collection('files')
+			.ref
 			.where('parentId', '==', docId)
-			.where('deleted', '==', false))
+			.where('deleted', '==', false)
 	    	.get()
 	}
 
@@ -450,7 +452,7 @@ export class WorkspaceService {
 	/*---------------------------------------------------------------------------------
 	*
 	*
-	*		CREATE A HEIRARCHY
+	*		HEIRARCHY STUFF
 	*
 	*
 	*
@@ -511,6 +513,22 @@ export class WorkspaceService {
 
 
 
+
+
+
+	/*
+	 *
+	 * 	Populate permissions for a heirarchy
+	 *
+	 * 
+	 */
+	setHeirarchyUserPermissions( heirarchy:CadwolfFile[], 
+								 permissions:Permission[],
+								 userId:string ):CadwolfFile[]
+	{
+
+		return heirarchy
+	}
 
 
 
@@ -816,19 +834,19 @@ export class WorkspaceService {
 	 *
 	 * 
 	 */
-	moveItem( fileId, parentId )
+	moveItem( fileId, newParentId )
 	{
-		console.log('Moving '+fileId+' to '+parentId);
+		console.log('Moving '+fileId+' to '+newParentId);
 
 		let userData = JSON.parse(localStorage.getItem('cadwolfUserData'));
-		this.afs.collection('files').doc( fileId ).update({'parentId':parentId});
+		this.afs.collection('files').doc( fileId ).update({'parentId':newParentId});
 
 		this.logService.createLogEntry({ entryTitle 	: 'File Moved',
 										 messageType 	: 'File Moved',
 										 relatedFileId	: fileId,
 										 relatedUserId 	: userData.uid,
-										 parentId		: parentId,
-										 entryText		: 'This file was moved to the folder with the parentId of '+parentId });
+										 parentId		: newParentId,
+										 entryText		: 'This file was moved to the folder with the parentId of '+newParentId });
 
 	}
 

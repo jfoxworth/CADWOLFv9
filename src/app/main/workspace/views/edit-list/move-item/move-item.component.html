@@ -15,11 +15,12 @@
 
 		<div id="selectionBox">
 
-			<div *ngFor="let folder of tempFolders"
+			<div *ngFor="let folder of moveFiles"
 				 fxLayout="row"
 				 class="folderRow">
 
 				 <mat-icon class="mr-20 ml-20">folder</mat-icon>
+				 {{folder.name}}
 
 			</div>
 

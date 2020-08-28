@@ -36,7 +36,7 @@ export class MoveItemComponent implements OnInit {
 	tempParentId 	: string = '';
 	validLocation 	: boolean = false;
 	dataFilesFlag	: boolean = false;
-	tempFolders 	: CadwolfFile[];
+	moveFiles	 	: CadwolfFile[];
 	private _unsubscribeAll 	: Subject<any>;
 
 
@@ -121,10 +121,26 @@ export class MoveItemComponent implements OnInit {
 	{
 		this.workspaceService.getFileIdFromString( urlString )
 	    	.then(res => {
+	    		let baseData = res.docs[0].data();
 
-	    		console.log('The res is ');
-	    		console.log(res);
-	    		console.log(res.docs[0].data());
+	    		this.workspaceService.getFileContentsWithPromise( baseData.id )
+			    	.then(result => {
+
+		    		this.moveFiles = [];
+	
+		    		for (let a=0; a<result.docs.length; a++)
+		    		{
+		    			let temp=result.docs[a].data();
+		    			if (temp.fileType==0)
+		    			{
+			    			this.moveFiles.push(result.docs[a].data());
+		    			}
+		    		}
+
+				}).catch(err => {
+			        console.log('something went wrong '+ err)
+			    });
+
 
 		}).catch(err => {
 	        console.log('something went wrong '+ err)
@@ -134,10 +150,44 @@ export class MoveItemComponent implements OnInit {
 
 
 
-
-	moveItem( file )
+	/*
+	*
+	*	Get a folders contents
+	*
+	*
+	*/
+	getMoveFolders( folderId )
 	{
-		this.workspaceService.moveItem( file.uid, this.tempParentId );
+		this.workspaceService.getFileContentsWithPromise( folderId )
+	    	.then(result => {
+
+    		this.moveFiles = [];
+
+    		for (let a=0; a<result.docs.length; a++)
+    		{
+    			let temp=result.docs[a].data();
+    			if (temp.fileType==0)
+    			{
+	    			this.moveFiles.push(result.docs[a].data());
+    			}
+    		}
+
+		}).catch(err => {
+	        console.log('something went wrong '+ err)
+	    });
+
+	}
+
+
+	/*
+	*
+	*
+	*	Move a file to a new parent Id
+	*
+	*/
+	moveItem( fileId, newParentId )
+	{
+		this.workspaceService.moveItem( fileId, newParentId );
 	}
 
 
