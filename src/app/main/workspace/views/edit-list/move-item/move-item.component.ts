@@ -64,6 +64,7 @@ export class MoveItemComponent implements OnInit {
 
 
 		// This is an observable for the file contents
+		/*
 		this.workspaceService.workspaceFileStatus
 			.pipe(takeUntil(this._unsubscribeAll))
 			.subscribe((workspaceFiles)=>
@@ -77,7 +78,7 @@ export class MoveItemComponent implements OnInit {
 				}
 
 			});
-
+*/
 
 		// This is an observable for the permissions
 		this.permissionsService.permStatus

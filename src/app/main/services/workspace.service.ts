@@ -518,7 +518,9 @@ export class WorkspaceService {
 
 	/*
 	 *
-	 * 	Populate permissions for a heirarchy
+	 * 	Populate permissions for a heirarchy 
+	 *  File at 0 position of array should be current file.
+	 *  File at end of array should be base folder
 	 *
 	 * 
 	 */
@@ -526,6 +528,80 @@ export class WorkspaceService {
 								 permissions:Permission[],
 								 userId:string ):CadwolfFile[]
 	{
+		let currentFile = '';
+
+
+		for (let a=heirarchy.length-1, a>=0; a--)
+		{
+			currentFile = heirarchy[a].id;
+			heirarchy[a]['viewPerm'] = false;
+			heirarchy[a]['editPerm'] = false;
+			heirarchy[a]['adminPerm'] = false;
+
+			// If anyone has view permission, set it
+			if ( heirarchy[a]['viewPermType'] == 0 )
+			{
+				heirarchy[a]['viewPerm'] = true;
+			}
+
+
+			// If it is a list, check the list
+			if ( ( heirarchy[a]['viewPermType'] == 1 ) ||
+				 ( heirarchy[a]['editPermType'] == 1 ) ||
+				 ( heirarchy[a]['adminPermType'] == 1 ) )
+			{
+				for (let b=0; b<permissions.length; b++)
+				{
+					if ( ( ( permissions[b]['itemId'] == heirarchy[a]['id'] ) &&
+						   ( permissions[b]['userId'] == userId ) &&
+						   ( permissions[b]['permType'] == 'view' ) ) && 
+							heirarchy[a]['viewPermType'] == 1 )
+					{
+						heirarchy[a]['viewPerm'] = true;
+					}
+
+
+					if ( ( ( permissions[b]['itemId'] == heirarchy[a]['id'] ) &&
+						   ( permissions[b]['userId'] == userId ) &&
+						   ( permissions[b]['permType'] == 'edit' ) ) && 
+							heirarchy[a]['editPermType'] == 1 )
+					{
+						heirarchy[a]['editPerm'] = true;
+					}
+
+
+					if ( ( ( permissions[b]['itemId'] == heirarchy[a]['id'] ) &&
+						   ( permissions[b]['userId'] == userId ) &&
+						   ( permissions[b]['permType'] == 'view' ) ) && 
+							heirarchy[a]['adminPermType'] == 1 )
+					{
+						heirarchy[a]['adminPerm'] = true;
+					}
+
+
+				}
+			}
+
+
+			// If it is inherited, set as such
+			if ( heirarchy[a]['viewPermType'] == 2 ) 
+			{
+				heirarchy[a]['viewPermType'] = heirarchy[a+1]['viewPermType'];
+			}
+
+
+			if ( heirarchy[a]['editPermType'] == 2 ) 
+			{
+				heirarchy[a]['editPermType'] = heirarchy[a+1]['editPermType'];
+			}
+
+
+			if ( heirarchy[a]['adminPermType'] == 2 ) 
+			{
+				heirarchy[a]['adminPermType'] = heirarchy[a+1]['adminPermType'];
+			}
+
+		}
 
 		return heirarchy
 	}
