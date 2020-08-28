@@ -19,7 +19,12 @@
 				 fxLayout="row"
 				 class="folderRow">
 
-				 <mat-icon class="mr-20 ml-20">folder</mat-icon>
+				 <mat-icon class="mr-20 ml-20"
+						   matTooltip="Open Folder"
+						   matTooltipPosition="below"
+						   (click)="moveItem( selectedId, folder.id )">
+				 	folder
+				 </mat-icon>
 				 {{folder.name}}
 
 			</div>
