@@ -1,0 +1,103 @@
+<div fxLayout="column"
+	 style="width:100%; 
+	 		background-color:#eee; 
+	 		padding:20px; 
+	 		border-top:1px solid #ccc;
+	 		border-left:1px solid #ccc;
+	 		border-right:1px solid #ccc;
+	 		border-radius:10px;"
+	 class="text-center"
+	 [@animate]="{value:'*',params:{y:'200%'}}">
+
+
+	 <div fxLayoutAlign="end end">
+	 	<mat-icon (click)="component.content.edit=''; 
+	 					   changeComponent(component)"
+	 			  style="cursor:pointer">
+	 		close
+	 	</mat-icon>
+	 </div>
+
+
+
+	<div>
+		<mat-form-field class="wmInput"
+						style="width:200px">
+			<mat-label>Top Margin</mat-label>
+			<input matInput [(ngModel)]="component.content.margintop"
+							(keyup.enter)="changeComponent( component )">
+		</mat-form-field>
+	</div>
+
+
+
+
+
+
+	<div fxLayout="row" 
+		 fxLayoutAlign="space-between center">
+
+
+
+		<div>
+			<mat-form-field class="wmInput"
+							style="width:200px">
+				<mat-label>Left Margin</mat-label>
+				<input matInput [(ngModel)]="component.content.marginleft"
+								(keyup.enter)="changeComponent( component )">
+			</mat-form-field>
+		</div>
+
+
+		<div>
+			<mat-form-field class="wmInput"
+							style="width:200px">
+				<mat-label>Width</mat-label>
+				<input matInput [(ngModel)]="component.content.width"
+								(keyup.enter)="changeComponent( component )">
+			</mat-form-field>
+		</div>
+
+
+		<div>
+			<mat-form-field class="wmInput"
+							style="width:200px">
+				<mat-label>Right Margin</mat-label>
+				<input matInput [(ngModel)]="component.content.marginright"
+								(keyup.enter)="changeComponent( component )">
+			</mat-form-field>
+		</div>
+
+
+	</div>
+
+
+
+	<div>
+		<mat-form-field appearance="outline"
+						style="width:200px">
+			<mat-label>Alignment</mat-label>
+			<mat-select [(ngModel)]="component.content.alignment"
+						(change)="changeComponent( component )">
+				<mat-option [value]="'left'">Left</mat-option>
+				<mat-option [value]="'right'">Right</mat-option>
+				<mat-option [value]="'center'">Center</mat-option>
+			</mat-select>
+		</mat-form-field>
+	</div>
+
+
+
+	<div>
+		<mat-form-field class="wmInput"
+						style="width:200px">
+			<mat-label>Bottom Margin</mat-label>
+			<input matInput [(ngModel)]="component.content.marginbottom"
+							(keyup.enter)="changeComponent( component )">
+		</mat-form-field>
+	</div>
+
+
+
+
+</div>

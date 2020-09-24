@@ -1,0 +1,45 @@
+
+
+<div class="projectRow"
+	 fxLayout="row"
+	 fxLayoutAlign="space-between center">
+
+	 <div class="mat-subheading-2 text-center branchName ml-20"
+	 	  fxLayoutAlign="center left">
+	 	{{branch.name}}
+	 </div>
+
+	 <div fxLayout="row">
+
+
+		 <div class="mat-subheading-2 text-center  w-250">
+			{{branch.dateCreated | date:'medium'}} 
+		 </div>
+
+		<div class="mat-subheading-2 text-center w-160"
+			 fxLayout="row"
+			 fxLayoutAlign="center center">
+
+
+			<button mat-stroked-button
+					class="mr-12"
+					*ngIf="branch.status==0"
+			  		matTooltip="Create New Branch" 
+			  		matTooltipPosition="below"
+			  		(click)="createBranch(branch.uid)">
+				<mat-icon>call_split</mat-icon>
+			</button>			
+
+			<button mat-stroked-button
+					*ngIf="branch.parentBranch && branch.status==1"
+			  		matTooltip="Merge Branch" 
+			  		matTooltipPosition="below">
+				<mat-icon>call_merge</mat-icon>
+			</button>			
+
+		</div>
+
+	</div>
+
+</div>
+

@@ -1,0 +1,119 @@
+<div class="page-layout simple fullwidth"
+	 style="background-color:#FFF">
+
+
+	<!-- CENTER -->
+	<div class="center">
+
+
+		<!-- CONTENT CARD -->
+		<div class="content-card"
+			 *ngIf="fileDataFlag">
+
+			<!-- CONTENT -->
+			<div class="content p-24"
+				 style="width:80%; margin:0px 10%">
+
+				<!-- TITLE -->
+				<div class="mat-headline pb-24 pl-48 mt-20 text-center">
+					Files and Branches for {{fileData[0].name}}
+				</div>
+				<!-- / TITLE -->
+
+
+
+				<!-- TITLE -->
+				<div class="mat-body-1 pb-24 pl-48">
+					{{fileData[0].description}}
+				</div>
+				<!-- / TITLE -->
+
+
+
+				<div fxLayoutAlign="center center"
+					 class="mt-20 mb-20">
+					<mat-button-toggle-group name="display" #display="matButtonToggleGroup" value="files">
+						<mat-button-toggle value="files">Files</mat-button-toggle>
+						<mat-button-toggle value="branches">Branches</mat-button-toggle>
+					</mat-button-toggle-group>
+				</div>
+
+
+
+				<div class="mt-40 pt-20 pb-20 pl-12 pr-12"
+					 *ngIf="display.value=='branches' && branchesDataFlag">
+
+					<div fxLayout="row"
+						 class="projectRow"
+						 fxLayoutAlign="space-between center">
+
+						<div class="mat-title text-center">
+							Branch Name 
+						</div>
+
+						<div fxLayout="row">
+							<div class="mat-title text-center w-200">Date Created</div>
+							<div class="mat-title text-center w-160">Options</div>
+						</div>
+					</div>
+
+
+					<ng-container *ngIf="display.value=='branches'">
+
+						<cadwolf-branch *ngFor="let branch of branches"
+									  [branches]="branches"
+									  [branch]="branch">
+
+						</cadwolf-branch>
+
+					</ng-container>
+
+				</div>
+
+
+
+
+				<div class="mt-40 pt-20 pb-20 pl-12 pr-12"
+					 *ngIf="display.value=='files' && fileDataFlag">
+
+
+					<div fxLayout="row"
+						 class="projectRow"
+						 fxLayoutAlign="space-between center">
+
+						<div class="mat-title text-center">
+							File Name 
+							<span class="mat-caption">(Version/Revision)</span>
+						</div>
+
+						<div fxLayout="row">
+							<div class="mat-title text-center w-260">Branch Name</div>
+							<div class="mat-title text-center w-260">Date Created</div>
+							<div class="mat-title text-center w-300">Options</div>
+						</div>
+					</div>
+
+
+					<ng-container *ngIf="display.value=='files'">
+
+						<cadwolf-branchfile *ngFor="let file of fileData"
+									  [file]="file">
+
+						</cadwolf-branchfile>
+
+					</ng-container>
+
+				</div>
+
+
+
+			</div>
+			<!-- / CONTENT -->
+
+		</div>
+		<!-- / CONTENT CARD -->
+
+	</div>
+	<!-- / CENTER -->
+
+</div>

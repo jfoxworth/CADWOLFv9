@@ -28,9 +28,12 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/@fortawesome/fontawesome-free/css/all.css"
             ],
-            "scripts": [],
+            "scripts": [
+            "node_modules/@fortawesome/fontawesome-free/js/all.js"
+          ],
             "showCircularDependencies": false
           },
           "configurations": {
@@ -124,9 +127,12 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/@fortawesome/fontawesome-free/css/all.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/@fortawesome/fontawesome-free/js/all.js"
+            ]
           }
         },
         "lint": {

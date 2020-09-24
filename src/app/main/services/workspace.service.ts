@@ -6,6 +6,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { CadwolfFile } from 'app/main/models/cadwolfFile';
 import { LogEntry } from 'app/main/models/log';
 import { Permission } from 'app/main/models/permission';
+import { Branch } from 'app/main/models/branch';
 
 
 
@@ -15,6 +16,7 @@ import { AuthService } from 'app/main/services/auth.service';
 import { PermissionsService } from 'app/main/services/permissions.service';
 import { LogService } from 'app/main/services/log.service';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { BranchService } from 'app/main/services/branch.service';
 
 
 
@@ -29,12 +31,8 @@ export class WorkspaceService {
 
 	workspaceStatus 		: BehaviorSubject<any>;					// Handles the data within the workspace
 	workspaceFileStatus 	: BehaviorSubject<any>;					// Handles the data within the workspace
-	workspaceTempStatus 	: BehaviorSubject<any>;					// Handles the data within the workspace
-	workspaceTempFileStatus : BehaviorSubject<any>;					// Handles the data within the workspace
 	fileStatus 				: BehaviorSubject<any>;					// Handles the data within the workspace
-	fileTempStatus 			: BehaviorSubject<any>;					// Handles the data within the workspace
 	urlStatus 				: BehaviorSubject<any>;					// Handles the data within the workspace
-	urlTempStatus 			: BehaviorSubject<any>;					// Handles the data within the workspace
 	permStatus 				: BehaviorSubject<any>;					// Handles the data within the workspace
 	folderStatus 			: BehaviorSubject<any>;					// For folders only requests
 	heirarchyStatus 		: BehaviorSubject<any>;					// Handles the data within the workspace
@@ -53,17 +51,14 @@ export class WorkspaceService {
 
 	constructor(	public afs 					: AngularFirestore,
 					public permissionsService 	: PermissionsService,
-			        private logService 			: LogService)
+			        private logService 			: LogService,
+			        private branchService 		: BranchService )
  	{
 
 		this.workspaceStatus 			= new BehaviorSubject([]);
 		this.workspaceFileStatus 		= new BehaviorSubject([]);
-		this.workspaceTempStatus 		= new BehaviorSubject([]);
-		this.workspaceTempFileStatus 	= new BehaviorSubject([]);
 		this.fileStatus 				= new BehaviorSubject([]);
-		this.fileTempStatus 			= new BehaviorSubject([]);
 		this.urlStatus 					= new BehaviorSubject([]);
-		this.urlTempStatus 				= new BehaviorSubject([]);
 		this.permStatus 				= new BehaviorSubject([]);
 		this.folderStatus 				= new BehaviorSubject([]);
 		this.heirarchyStatus 			= new BehaviorSubject([]);
@@ -104,31 +99,6 @@ export class WorkspaceService {
 		});
 
 
-
-
-
-		// Watch the backup urlStatus. 
-		this.urlTempStatus
-		.subscribe((parentDoc)=>
-		{
-
-			if ( parentDoc[0] )
-			{
-
-				// Increment the URL Index
-				this.urlTempIndex = this.urlTempIndex + 1;
-				
-				// Get next ID in url array or get contents
-				if ( this.urlTempIndex >= this.urlTempArray.length )
-				{
-					this.getTempWorkspaceContents( parentDoc[0] )
-				}else
-				{
-					this.getIdFromParentAndName( parentDoc[0].uid, this.urlTempArray[this.urlTempIndex] )
-				}
-			}
-
-		});
 
 
 	}
@@ -229,9 +199,26 @@ export class WorkspaceService {
 		console.log('The file in getWorkspaceContents is ');
 		console.log(doc);
  
- 		this.afs.collection('files', ref => ref.where('parentId', '==', doc.uid).where('deleted', '==', false))
+ 		this.afs.collection('files', ref => ref
+ 			.where('parentId', '==', doc.uid)
+ 			.where('deleted', '==', false)
+ 			.orderBy("version", "desc")
+ 			.orderBy("revision", "desc"))
 		.valueChanges({idField: 'uid'})
 		.subscribe(result=> {
+
+			// Get rid of doubles
+			for (let a=0; a<result.length-2; a++)
+			{
+				for (let b=a+1; b<result.length; b++)
+				{
+					if ( result[a]['oid'] == result[b]['oid'] )
+					{
+						result.splice(b,1);
+					}
+				}
+			}
+
 			this.workspaceFileStatus.next(result);
 			for (let a=0; a<result.length; a++)
 			{
@@ -358,90 +345,6 @@ export class WorkspaceService {
 
 
 
-	/*---------------------------------------------------------------------------------
-	*
-	*
-	*		FILES RELATING TO THE SECONDARY METHOD OF GETTING A LIST OF FILES
-	*		FOR A FOLDER BASED UPON A GIVEN URL STRING. 
-	*
-	*
-	*
-	*---------------------------------------------------------------------------------*/
-
-
-
-
-
-
-
-	/*
-	 *
-	 *
-	 * 	This is a secondary method of getting a list of files within
-	 *	a parent folder. A separate one is needed to keep from interfering
-	 *	with the normal list of files.
-	 *
-	 * 
-	 */
-	getTempFilesFromUrl( url )
-	{
-
-		// Set the url array and the url index
-		this.urlArray = this.urlToArray( url );
-		this.urlIndex = 0;
-
-		// Call initial function to get top folder
-		this.getTempIdFromParentAndName( '0', this.urlArray[this.urlIndex] )
-
-	}
-
-
-
-	/*
-	 *
-	 * 	Get the folder from the parent ID and name
-	 *
-	 * 
-	 */
-	getTempIdFromParentAndName( parentId, name )
-	{
-		this.afs.collection('files', ref => ref.where('name', '==', name).where('parentId', '==', parentId))
-		.valueChanges({idField: 'uid'})
-		.subscribe(result=> {
-			this.permissionsService.getPermsForItem(result[0].uid);
-			this.urlTempStatus.next(result);
-		});
-
-	}
-
-
-
-
-	/*
-	 *
-	 * 	Get the folder and all of its contents
-	 *
-	 * 
-	 */
-	getTempWorkspaceContents( doc )
-	{
-		this.afs.collection('files', ref => ref.where('parentId', '==', doc.uid).where('deleted', '==', false))
-		.valueChanges({idField: 'uid'})
-		.subscribe(result=> {
-			this.workspaceTempFileStatus.next(result);
-			for (let a=0; a<result.length; a++)
-			{
-				this.permissionsService.getPermsForItem(result[a].uid);
-			}
-		});
-
-
-		this.workspaceTempStatus.next(doc);
-
-
-	}
-
-
 
 
 
@@ -472,6 +375,7 @@ export class WorkspaceService {
 	    	.then(res => {
 	    		let fileData = res.data();
 	    		fileData['uid'] = fileId;
+				this.permissionsService.getPermsForItem( fileId );
 	    		heirarchy.push(fileData);
 	    		if ( fileData.parentId == '0' )
 	    		{
@@ -522,7 +426,7 @@ export class WorkspaceService {
 	 *  File at 0 position of array should be current file.
 	 *  File at end of array should be base folder
 	 *
-	 * 
+	 *	This needs to be updated for teams 
 	 */
 	setHeirarchyUserPermissions( heirarchy:CadwolfFile[], 
 								 permissions:Permission[],
@@ -531,7 +435,7 @@ export class WorkspaceService {
 		let currentFile = '';
 
 
-		for (let a=heirarchy.length-1, a>=0; a--)
+		for (let a=heirarchy.length-1; a>=0; a--)
 		{
 			currentFile = heirarchy[a].id;
 			heirarchy[a]['viewPerm'] = false;
@@ -552,6 +456,7 @@ export class WorkspaceService {
 			{
 				for (let b=0; b<permissions.length; b++)
 				{
+
 					if ( ( ( permissions[b]['itemId'] == heirarchy[a]['id'] ) &&
 						   ( permissions[b]['userId'] == userId ) &&
 						   ( permissions[b]['permType'] == 'view' ) ) && 
@@ -572,7 +477,7 @@ export class WorkspaceService {
 
 					if ( ( ( permissions[b]['itemId'] == heirarchy[a]['id'] ) &&
 						   ( permissions[b]['userId'] == userId ) &&
-						   ( permissions[b]['permType'] == 'view' ) ) && 
+						   ( permissions[b]['permType'] == 'admin' ) ) && 
 							heirarchy[a]['adminPermType'] == 1 )
 					{
 						heirarchy[a]['adminPerm'] = true;
@@ -620,6 +525,19 @@ export class WorkspaceService {
 
 
 
+
+	/*---------------------------------------------------------------------------------
+	*
+	*
+	*		CRUD AND MOVE OPERATIONS FOR FILES
+	*
+	*
+	*
+	*---------------------------------------------------------------------------------*/
+
+
+
+
 	/*
 	 *
 	 * 	Create a new file of any type
@@ -645,14 +563,17 @@ export class WorkspaceService {
 			order 			: 0,
 			parentId		: parentId,
 			version 		: 1,
+			revision 		: 1,
 			description 	: 'Description',
 			deleted			: false,
 			uid 			: '',
 			id 				: '',
 
-			viewPermType 	: 0,
-			editPermType 	: 1,
-			adminPermType 	: 1,
+			branchId 		: '',
+
+			viewPermType 	: 0,				// Everyone can view
+			editPermType 	: 2,				// Inherit edit perms
+			adminPermType 	: 2,				// Inherit admin perms
 
 		}
 
@@ -674,14 +595,25 @@ export class WorkspaceService {
 											 entryText		: 'Automatic File Creation' });
 
 
+			if ( typeNum == 1 )
+			{
+
+				this.branchService.createBranch({ parentBranch 	: 0,
+												  fileId 		: docRef.id,
+												  name 			: 'Master',
+												  isMaster		: true,
+												  status 		: 0,
+												  revision		: 1,
+												  version		: 1 });
+
+			}
+
+
     	}).catch((error) => {
     		window.alert(error.message)
     	});
 
 	}
-
-
-
 
 
 
@@ -748,6 +680,73 @@ export class WorkspaceService {
 
 
 
+	/*
+	 *
+	 * 	delete a file of any type
+	 *
+	 * 
+	 */
+	deleteFileItem( fileId )
+	{
+		let userData = JSON.parse(localStorage.getItem('cadwolfUserData'));
+
+		this.afs.collection('files').doc( fileId ).update({'deleted':true});
+
+		this.logService.createLogEntry({ entryTitle 	: 'File Deleted',
+										 messageType 	: 'File Deleted',
+										 relatedFileId	: fileId,
+										 relatedUserId 	: userData.uid,
+										 parentId		: "NA",
+										 entryText		: 'This file was deleted' });
+
+	}
+
+
+
+
+
+	/*
+	 *
+	 * 	move an item by changing its parent ID
+	 *
+	 * 
+	 */
+	moveItem( fileId, newParentId )
+	{
+		console.log('Moving '+fileId+' to '+newParentId);
+
+		let userData = JSON.parse(localStorage.getItem('cadwolfUserData'));
+		this.afs.collection('files').doc( fileId ).update({'parentId':newParentId});
+
+		this.logService.createLogEntry({ entryTitle 	: 'File Moved',
+										 messageType 	: 'File Moved',
+										 relatedFileId	: fileId,
+										 relatedUserId 	: userData.uid,
+										 parentId		: newParentId,
+										 entryText		: 'This file was moved to the folder with the parentId of '+newParentId });
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+	/*---------------------------------------------------------------------------------
+	*
+	*
+	*		CRUD AND OTHER PERMISSIONS ITEMS
+	*
+	*
+	*
+	*---------------------------------------------------------------------------------*/
+
 
 
 	/*
@@ -809,30 +808,6 @@ export class WorkspaceService {
 
 
 
-	/*
-	 *
-	 * 	delete a file of any type
-	 *
-	 * 
-	 */
-	deleteFileItem( fileId )
-	{
-		let userData = JSON.parse(localStorage.getItem('cadwolfUserData'));
-
-		this.afs.collection('files').doc( fileId ).update({'deleted':true});
-
-		this.logService.createLogEntry({ entryTitle 	: 'File Deleted',
-										 messageType 	: 'File Deleted',
-										 relatedFileId	: fileId,
-										 relatedUserId 	: userData.uid,
-										 parentId		: "NA",
-										 entryText		: 'This file was deleted' });
-
-	}
-
-
-
-
 
 
 
@@ -842,7 +817,7 @@ export class WorkspaceService {
 
 	/*
 	 *
-	 * 	delete a file of any type
+	 * 	set the workspace display type
 	 *
 	 * 
 	 */
@@ -900,31 +875,6 @@ export class WorkspaceService {
 	}
 
 
-
-
-
-
-	/*
-	 *
-	 * 	move an item by changing its parent ID
-	 *
-	 * 
-	 */
-	moveItem( fileId, newParentId )
-	{
-		console.log('Moving '+fileId+' to '+newParentId);
-
-		let userData = JSON.parse(localStorage.getItem('cadwolfUserData'));
-		this.afs.collection('files').doc( fileId ).update({'parentId':newParentId});
-
-		this.logService.createLogEntry({ entryTitle 	: 'File Moved',
-										 messageType 	: 'File Moved',
-										 relatedFileId	: fileId,
-										 relatedUserId 	: userData.uid,
-										 parentId		: newParentId,
-										 entryText		: 'This file was moved to the folder with the parentId of '+newParentId });
-
-	}
 
 
 

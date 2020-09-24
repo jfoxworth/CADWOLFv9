@@ -1,0 +1,58 @@
+
+
+		<div class="projectRow"
+			 fxLayout="row"
+			 fxLayoutAlign="space-between center">
+
+			 <div class="mat-subheading-2 text-center branchName ml-20"
+			 	  fxLayoutAlign="center left">
+			 	{{file.name}}
+			 	<span class="mat-caption">{{file.version}}.{{file.revision}}</span>
+			 </div>
+
+			 <div fxLayout="row">
+
+				 <div class="mat-subheading-2 text-center  w-260">
+					{{file.name}}
+				 </div>
+
+				 <div class="mat-subheading-2 text-center  w-260">
+					{{file.dateCreated | date:'medium'}} 
+				 </div>
+
+				<div class="mat-subheading-2 text-center  w-300"
+					 fxLayout="row"
+					 fxLayoutAlign="center center">
+
+
+					<button mat-stroked-button
+							class="mr-12"
+					  		matTooltip="Go to document" 
+					  		matTooltipPosition="below"
+					  		(click)="goToDoc(file.uid)">
+						<mat-icon>insert_drive_file</mat-icon>
+					</button>			
+
+					<button mat-stroked-button
+							class="mr-12"
+					  		matTooltip="Create New Version" 
+					  		matTooltipPosition="below"
+					  		(click)="newVersion(file.uid)">
+						<mat-icon>library_add</mat-icon>
+					</button>			
+
+					<button mat-stroked-button
+							class="mr-12"
+					  		matTooltip="Create New Revision" 
+					  		matTooltipPosition="below"
+					  		(click)="newRevision(file.uid)">
+						<mat-icon>note_add</mat-icon>
+					</button>			
+
+
+				</div>
+
+			</div>
+
+		</div>
+

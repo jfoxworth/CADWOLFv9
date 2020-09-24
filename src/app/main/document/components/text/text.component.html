@@ -1,0 +1,42 @@
+<!-- Text Editor -->
+<div fxLayout="column">
+
+
+
+
+	<!-- The dropdown menu -->
+	<div style="height:0px; position:relative; top:20px; z-index:9999"
+		 fxLayoutAlign="end end"
+		 *ngIf="currentItem == component.id">
+
+		<button mat-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
+		<mat-menu #menu="matMenu">
+			<button mat-menu-item (click)="component.content.edit='widthMargin'; changeComponent(component);">Width / Margins</button>
+			<button mat-menu-item (click)="currentItem=''; updateComponent(component)">Close Edit Menu</button>
+			<button mat-menu-item (click)="deleteComponent(component)">Delete Item</button>
+		</mat-menu>
+	</div>
+
+
+	
+	<!-- The text editor -->
+	<angular-editor [placeholder]="'Enter text here...'" 
+					[(ngModel)]="component.content.text" 
+					[config]="editorConfig"
+					*ngIf="currentItem == component.id"
+					style="width:100%">
+						
+	</angular-editor>
+
+
+
+
+	<!-- The display text -->
+	<div [innerHTML]="component.content.text"
+		 (click)="currentItem = component.id"
+		 *ngIf="currentItem != component.id">	 
+	</div>
+
+
+</div>
+<!-- /Text Item -->

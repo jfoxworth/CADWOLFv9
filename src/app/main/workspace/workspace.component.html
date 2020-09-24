@@ -62,7 +62,7 @@
 
 				<!-- The add item row -->
 				<div fxLayout = "column"
-					 *ngIf="displayType=='edit'"
+					 *ngIf="heirarchy[heirarchy.length-1]['editPerm']"
 					 class="mb-20 mt-40 mb-40"
 					 style="width:50%; margin:0 auto; min-width:500px; position:fixed; top:50px; margin:0px 0px 0px 10px">
 
@@ -190,8 +190,9 @@
 
 
 				<!-- If the user can edit the workspace -->
-				<workspace-edit-list *ngIf="dataFilesFlag && displayType=='edit'"
+				<workspace-edit-list *ngIf="dataFilesFlag && heirarchy[heirarchy.length-1]['editPerm']"
 							  [permissions]="permissions"
+							  [heirarchy]="heirarchy"
 							  [workspace-data]="workspaceData"
 							  [workspaceFiles]="workspaceFiles">
 
@@ -199,8 +200,9 @@
 
 
 				<!-- If the user cannot edit the workspace -->
-				<workspace-view-list *ngIf="dataFilesFlag && displayType=='view'"
+				<workspace-view-list *ngIf="dataFilesFlag && !heirarchy[heirarchy.length-1]['editPerm']"
 							  [permissions]="permissions"
+							  [heirarchy]="heirarchy"
 							  [workspace-data]="workspaceData"
 							  [workspaceFiles]="workspaceFiles">
 

@@ -48,6 +48,7 @@
 				<mat-icon class="mr-20 editOption" 
 						  matTooltip="Edit Permissions" 
 						  matTooltipPosition="below"
+						  *ngIf="heirarchy[heirarchy.length-1]['adminPerm']"
 						  (click)="showEdit = showEdit!='permissions' ? 'permissions' : ''">
 					lock
 				</mat-icon>

@@ -43,7 +43,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy
 	dataFilesFlag 				: boolean = false;
     permissions           		: Permission[] = [];
     private _unsubscribeAll 	: Subject<any>;
-    displayType 				: string = 'view';
     isFavorite 					: boolean = false;
     filePath 					: string;
     workspaceId 				: string;
@@ -130,8 +129,6 @@ export class WorkspaceComponent implements OnInit, OnDestroy
         		this.dataFlag = true;
 				this.titleService.setTitle( 'Workspace - '+this.workspaceData.name );
 
-				// If the user has edit permissions, display edit list. If not, view only
-				this.displayType = this.workspaceService.setWorkspaceDisplay( this.userData.uid, this.workspaceData.uid, this.permissions );
 
 				// See if this workspace is a favorite
 				this.isFavorite =  this.userService.isFavorite( this.workspaceData.uid );
@@ -177,7 +174,10 @@ export class WorkspaceComponent implements OnInit, OnDestroy
         		}
         		if ( this.workspaceData.uid )
         		{
-					this.displayType = this.workspaceService.setWorkspaceDisplay( this.userData.uid, this.workspaceData.uid, this.permissions );
+					this.permissions = this.permissionsService.removeDuplicatePerms( this.permissions );
+					this.heirarchy = this.workspaceService.setHeirarchyUserPermissions( this.heirarchy, this.permissions, this.userData.uid );
+					console.log('The new heirarchy is ...');
+					console.log(this.heirarchy);
 				}
         	}
         	this.permissions.sort((a, b) => (a.userId > b.userId) ? 1 : -1)
@@ -255,7 +255,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy
 		if ( file.fileType == 0 )
 		{
 			this.workspaceId = file.uid;
-			this.Router.navigateByUrl( '/'+this.fileTypes[file.fileType]+'Id/'+file.uid );
+			this.Router.navigateByUrl( '/Branches/'+file.uid );
 			this.workspaceService.getWorkspaceAndContents( file.uid, 0 )
 
 		}else

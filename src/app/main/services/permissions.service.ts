@@ -112,4 +112,28 @@ export class PermissionsService {
 	}
 
 
+
+
+	/*
+	 *
+	 * 	remove duplicate permissions from the array
+	 * 
+	 */
+	removeDuplicatePerms( permissions )
+	{
+		let a = [];
+		permissions.map(x => {
+			if(!a.includes(x)) {
+				a.push(x)
+	    	}
+		})
+		console.log('The permissions are ...');
+		console.log(a);
+	  	return a
+	}
+
+
+
+
+
 }

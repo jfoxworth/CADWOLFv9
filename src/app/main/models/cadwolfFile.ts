@@ -12,10 +12,16 @@ export interface CadwolfFile {
 	order 			: number;
 	parentId		: string;
 	version 		: number;
+	revision 		: number;
 	deleted 		: boolean;
 	description 	: string;
 
 	viewPermType 	: number;
 	editPermType 	: number;
 	adminPermType 	: number;
+
+	branchId 		: string;
 }
+
+
+

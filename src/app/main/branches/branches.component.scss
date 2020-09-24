@@ -1,0 +1,34 @@
+.displayTable {
+
+    border-spacing:0px;
+}
+
+.displayTable > tr {
+    border-bottom:1px solid #ccc;
+    border-spacing:0px;
+    padding:10px 0px 10px 0px;
+    display:flex;
+    width:100%;
+}
+
+.displayTable > tr > td {
+    border-spacing:0px;
+
+}
+
+
+.branchName {
+	color:#0366d6;
+	background-color:#eaf5ff;
+	cursor:pointer;
+}
+
+.projectRow {
+	border-bottom:1px solid #ccc;
+}
+
+
+.mat-button-toggle {
+    background-color: #FF0000;
+    color: #00FF00;
+}

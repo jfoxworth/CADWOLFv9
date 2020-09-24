@@ -36,7 +36,8 @@ export class MoveItemComponent implements OnInit {
 	tempParentId 	: string = '';
 	validLocation 	: boolean = false;
 	dataFilesFlag	: boolean = false;
-	moveFiles	 	: CadwolfFile[];
+	tempFolders 	: CadwolfFile[];
+	moveFiles 		: any[];
 	private _unsubscribeAll 	: Subject<any>;
 
 
@@ -64,7 +65,6 @@ export class MoveItemComponent implements OnInit {
 
 
 		// This is an observable for the file contents
-		/*
 		this.workspaceService.workspaceFileStatus
 			.pipe(takeUntil(this._unsubscribeAll))
 			.subscribe((workspaceFiles)=>
@@ -78,7 +78,7 @@ export class MoveItemComponent implements OnInit {
 				}
 
 			});
-*/
+
 
 		// This is an observable for the permissions
 		this.permissionsService.permStatus
@@ -115,33 +115,26 @@ export class MoveItemComponent implements OnInit {
 
 	/*
 	*
-	*	Check to see if a location is valid
+	*	Given the string representing the base, get the folder and it's contents
 	*
 	*/
 	getBaseIdFromString( urlString )
 	{
 		this.workspaceService.getFileIdFromString( urlString )
 	    	.then(res => {
-	    		let baseData = res.docs[0].data();
 
-	    		this.workspaceService.getFileContentsWithPromise( baseData.id )
-			    	.then(result => {
+	    		let moveBase = res.docs[0].data();
 
-		    		this.moveFiles = [];
-	
-		    		for (let a=0; a<result.docs.length; a++)
-		    		{
-		    			let temp=result.docs[a].data();
-		    			if (temp.fileType==0)
-		    			{
-			    			this.moveFiles.push(result.docs[a].data());
-		    			}
-		    		}
+	    		this.workspaceService.getFileContentsWithPromise( moveBase.id )
+	    		.then( result =>{
 
-				}).catch(err => {
-			        console.log('something went wrong '+ err)
-			    });
+	    			this.moveFiles = [];
+	    			for (let a=0; a<result.docs.length; a++)
+	    			{
+	    				this.moveFiles.push(result.docs[a].data());
+	    			}
 
+	    		});
 
 		}).catch(err => {
 	        console.log('something went wrong '+ err)
@@ -150,45 +143,32 @@ export class MoveItemComponent implements OnInit {
 	}
 
 
-
 	/*
 	*
-	*	Get a folders contents
-	*
+	*	Get a folder's contents given an ID
 	*
 	*/
-	getMoveFolders( folderId )
+	getFolderContents( folderId )
 	{
+
 		this.workspaceService.getFileContentsWithPromise( folderId )
-	    	.then(result => {
+		.then( result =>{
 
-    		this.moveFiles = [];
+			this.moveFiles = [];
+			for (let a=0; a<result.docs.length; a++)
+			{
+				this.moveFiles.push(result.docs[a].data());
+			}
 
-    		for (let a=0; a<result.docs.length; a++)
-    		{
-    			let temp=result.docs[a].data();
-    			if (temp.fileType==0)
-    			{
-	    			this.moveFiles.push(result.docs[a].data());
-    			}
-    		}
-
-		}).catch(err => {
-	        console.log('something went wrong '+ err)
-	    });
+		});
 
 	}
 
 
-	/*
-	*
-	*
-	*	Move a file to a new parent Id
-	*
-	*/
-	moveItem( fileId, newParentId )
+
+	moveItem( file )
 	{
-		this.workspaceService.moveItem( fileId, newParentId );
+		this.workspaceService.moveItem( file.uid, this.tempParentId );
 	}
 
 

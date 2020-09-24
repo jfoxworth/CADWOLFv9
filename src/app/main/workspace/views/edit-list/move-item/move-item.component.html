@@ -17,15 +17,25 @@
 
 			<div *ngFor="let folder of moveFiles"
 				 fxLayout="row"
-				 class="folderRow">
+				 class="mt-8 mb-8">
 
 				 <mat-icon class="mr-20 ml-20"
+				 		   style="cursor:pointer"
 						   matTooltip="Open Folder"
 						   matTooltipPosition="below"
-						   (click)="moveItem( selectedId, folder.id )">
+						   (click)="getFolderContents( folder.id )">
 				 	folder
 				 </mat-icon>
+
 				 {{folder.name}}
+
+				 <mat-icon class="mr-20 ml-20"
+				 		   style="cursor:pointer"
+						   matTooltip="Move to this folder"
+						   matTooltipPosition="below"
+						   (click)="moveItem( selectedId, folder.id )">
+				 	publish
+				 </mat-icon>
 
 			</div>
 

@@ -1,0 +1,36 @@
+
+
+#mainColumn {
+	margin:20px 250px 20px 20px;
+	min-height:100px;
+}
+
+
+#docColumn {
+	background-color:#FFFFFF;
+	width:850px;
+	min-height:100px;
+	margin:auto;
+	padding:0px 25px;
+}
+
+#sideColumn {
+	width:200px;
+	margin:20px 20px 0px 0px;
+	background-color:#FFFFFF;
+}
+
+#firstItem {
+	width:80%;
+	margin:0px 10%;
+	background-color:#ccc;
+	height:20px;
+}
+
+
+.example-custom-placeholder {
+  background: #ccc;
+  border: dotted 3px #999;
+  min-height: 60px;
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}

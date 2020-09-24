@@ -1,0 +1,150 @@
+<div class="page-layout simple fullwidth">
+
+	<div id="mainColumn">
+
+		<div id="docColumn"
+			 cdkDropListGroup
+			 *ngIf="fileDataFlag">
+
+			<h1 class="pt-28 text-center mb-20"
+				*ngIf="fileData.itemData.titleOn">
+				{{fileData.itemData.title}}
+			</h1>
+
+			<h3 class="pt-28 text-center mb-28"
+				*ngIf="fileData.itemData.subtitleOn">
+				{{fileData.itemTitle.subtitle}}
+			</h3>
+
+
+
+			<!-- The document -->
+			<div id="docItems"
+				 *ngIf="componentDataFlag"
+ 				 cdkDropList
+				 [cdkDropListData]="component"
+				 (cdkDropListDropped)="dropItem($event)">
+
+
+				<!-- The add item row -->
+				<div fxLayout = "row"
+					 class="mb-20 mt-40 mb-40"
+					 style="position:fixed; top:50px; margin:0px 0px 0px -55px">
+
+
+					<button mat-fab 
+							id="addItem"
+							color="warn" 
+							aria-label="Example icon button with a home icon"
+							matTooltip="Add Item"
+							matTooltipPosition="below"
+							(click)="addOptionDisplay=!addOptionDisplay">
+						<mat-icon class="">add</mat-icon>
+					</button>
+
+					<div id="addOptions"
+						 *ngIf="addOptionDisplay"
+						 fxLayout="column"
+						 style="position:relative; right:20px">
+
+
+
+						<div fxLayout="row"
+							 *ngIf="componentData.length==0">
+
+							<button *ngFor="let cbutton of addButtons"
+									mat-mini-fab 
+									color="#2D323E"
+									aria-label="Add Text Item"
+									matTooltip="{{cbutton.toolTip}}"
+									class="ml-28 mt-8"
+									matTooltipPosition="above"
+									(click)="addComponent(cbutton.addItem, 0)">
+								<mat-icon>{{cbutton.icon}}</mat-icon>
+							</button>
+
+						</div>
+
+
+						<div fxLayout="row"
+							 *ngIf="componentData.length>0">
+
+							<div *ngFor="let cbutton of addButtons"
+									mat-mini-fab 
+									color="#2D323E"
+									aria-label="Add Text Item"
+									matTooltip="{{cbutton.toolTip}}"
+									class="ml-28 mt-8"
+									matTooltipPosition="above"
+									cdkDrag
+									[cdkDragData]="cbutton"
+									cdkDragBoundary="#docColumn">
+								<mat-icon>{{cbutton.icon}}</mat-icon>
+								<div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+							</div>
+
+						</div>
+
+					</div>
+
+
+				</div>
+				<!-- / The add item row -->
+
+
+				<div *ngFor="let component of componentData"
+					[ngStyle]="{'width':component.content.width+'px',
+								'margin-top' : component.content.margintop+'px',
+								'margin-left' : component.content.marginleft+'px',
+								'margin-right' : component.content.marginright+'px',
+								'margin-bottom' : component.content.marginbottom+'px'}">
+
+
+					<ng-container [ngSwitch]="component.componentType">
+						
+
+						<cadwolf-width-margin [component]="component"
+											  *ngIf="component.content.edit=='widthMargin' && currentItem == component.id"
+											  (onComponentChanged)="onComponentChanged($event)">
+						</cadwolf-width-margin>
+
+
+						<cadwolf-text *ngSwitchCase="'text'"
+									  [component]="component"
+									  [currentItem]="currentItem"
+									  [editItem]="editItem"
+									  (click)="currentItem = component.id"
+									  (onComponentChanged)="onComponentChanged($event)">
+						</cadwolf-text>
+
+
+
+
+
+
+					</ng-container>
+
+				</div>
+
+
+			</div>
+			<!-- / The document -->
+
+
+		</div>
+
+	</div>
+
+
+
+	<document-settings [fileData]="fileData"
+					   [editItem]="editItem"
+					   (onEditDisplayChanged)="onEditDisplayChanged($event)">
+	</document-settings>
+
+
+	<document-settings-properties *ngIf="editItem=='properties'"
+								  [fileData]="fileData">
+	</document-settings-properties>
+
+</div>

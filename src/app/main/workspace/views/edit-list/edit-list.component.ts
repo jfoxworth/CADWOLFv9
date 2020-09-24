@@ -40,6 +40,7 @@ export class EditListComponent implements OnInit {
 
 	@Input() workspaceData : CadwolfFile;
 	@Input() workspaceFiles : CadwolfFile[];
+	@Input() heirarchy : CadwolfFile[];
 	@Input() permissions : Permission[];
 
 
@@ -87,6 +88,10 @@ export class EditListComponent implements OnInit {
 		{
 			this.Router.navigateByUrl( '/'+this.fileTypes[file.fileType]+'Id/'+file.uid );
 			this.workspaceService.getWorkspaceAndContents( file.uid, 0 )
+
+		}else if ( file.fileType == 1 )
+		{
+			this.Router.navigateByUrl( '/Branches/'+file.uid );
 
 		}else
 		{
