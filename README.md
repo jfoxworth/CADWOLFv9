@@ -26,7 +26,7 @@ Workflows are a Gantt chart style system where users can control and establish t
 There are a number of primary Angular components within the system that handle the four main components as well as the additional needed items.
 
 - Workspace
-  -Branches
+  - Branches
 - Document
 - Dataset
 - Part Tree
