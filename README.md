@@ -25,7 +25,7 @@ Workflows are a Gantt chart style system where users can control and establish t
 ## Angular Components
 There are a number of primary Angular components within the system that handle the four main components as well as the additional needed items.
 
-- Workspace
+- Workspace 
   - Branches
 - Document
 - Dataset
@@ -35,6 +35,35 @@ There are a number of primary Angular components within the system that handle t
 - Constants
 - Log
 - Profile
+
+
+## Model and Service Patterns
+
+For every database table, there is a corresponding model in the angular app. For each model, there is a service that handles the CRUD aspects of that model. The CRUD commands are all standard except for the read commands. Each model has multiple read commands. One could represent fetching a single model using an ID. Another could represent grabbing all model entries owned by a user, etc.
+
+For each component, there is a corresposing service. These serivces handle all aspects of that component's work that is not related to the fetching of data for the models in use.
+
+
+## Component Design Pattern
+
+In each compnent, the ngOnInit life cycle hook calls a function named "subscribeToData." That function subscribes to the necessary observables for that component. The ngOnInit hook also calls the necessary functions within the services for those models to retrieve the data.
+
+
+## Models
+
+This is a list of the models in use by CADWOLF. As noted, each model has its own service that handles the various CRUD functions.
+
+- bases 
+- branch
+- cadwolfComponents
+- cadwolfFile
+- constants
+- log
+- permission
+- team
+- teamMember
+- unit
+- users
 
 
 

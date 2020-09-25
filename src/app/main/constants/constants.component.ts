@@ -38,16 +38,20 @@ export class ConstantsComponent implements OnInit, OnDestroy
 
 
 
+
+    // -----------------------------------------------------------------------------------------------------
+    //
+    // @ LIFE CYCLE HOOKS
+    //
+    // -----------------------------------------------------------------------------------------------------
+
 	ngOnInit(): void {
 
-
+        // Set the title
 		this.titleService.setTitle( 'Constants in Cadwolf' );
 
-        // This is a one time get for the constants. It is not an observable
-        this.ConstantsService.constantsStatus
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((constants)=>{this.constants = constants;});
-
+        // Subscribe to the observable data
+        this.subscribeToData();
 	}
 
 
@@ -58,5 +62,33 @@ export class ConstantsComponent implements OnInit, OnDestroy
         this._unsubscribeAll.complete();
 
   	}	
+
+
+
+
+    // -----------------------------------------------------------------------------------------------------
+    //
+    // @ FUNCTIONS
+    //
+    // -----------------------------------------------------------------------------------------------------
+
+
+    // -----------------------------------------------------------------------------------------------------
+    //
+    // @ FUNCTIONS TO SUBSCRIBE TO DATA
+    //
+    // -----------------------------------------------------------------------------------------------------
+
+    subscribeToData()
+    {
+        // This is a one time get for the constants. It is not an observable
+        this.ConstantsService.constantsStatus
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((constants)=>{this.constants = constants;});
+
+    }
+
+
+
 
 }

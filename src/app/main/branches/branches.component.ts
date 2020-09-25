@@ -53,6 +53,11 @@ export class BranchesComponent implements OnInit {
 
 
 
+
+	// -----------------------------------------------------------------------------------------------------
+	// @ Life cycle hooks
+	// -----------------------------------------------------------------------------------------------------
+
 	ngOnInit(): void {
 	
 
@@ -68,6 +73,28 @@ export class BranchesComponent implements OnInit {
 		this.branchService.getFiles( this.fileId );
 		this.branchService.getBranches( this.fileId );
 
+
+		// Subscribe to the observable data items
+		this.subscribeToData();
+
+	}
+
+
+	// -----------------------------------------------------------------------------------------------------
+	// @ Functions
+	// -----------------------------------------------------------------------------------------------------
+
+
+
+	// -----------------------------------------------------------------------------------------------------
+	//
+	// @ FUNCTIONS TO SUBSCRIBE TO DATA
+	//
+	// -----------------------------------------------------------------------------------------------------
+
+
+	subscribeToData()
+	{
 
 		// This is an observable for the file data
 		this.branchService.fileStatus
