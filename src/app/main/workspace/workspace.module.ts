@@ -2,6 +2,8 @@
 // Standard angular items
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 // Fuse specific items
 import { FuseSharedModule } from '@fuse/shared.module';
@@ -27,32 +29,9 @@ import { MoveItemComponent } from './views/edit-list/move-item/move-item.compone
 import { CopyItemComponent } from './views/edit-list/copy-item/copy-item.component';
 
 
-// Services
-
-
-
-// Material Imports
 
 
 const routes = [
-/*
-	{
-		path	 : 'workspace',
-		component: WorkspaceComponent
-	},
-	{
-		path	 : 'workspace/:workspacePath',
-		component: WorkspaceComponent,
-	},
-	{
-		path	 : 'Workspace',
-		component: WorkspaceComponent
-	},
-	{
-		path	 : 'Workspace/:workspacePath',
-		component: WorkspaceComponent,
-	},
-*/
 
 	{
 		path: 'workspace',
@@ -106,6 +85,7 @@ const routes = [
 		MatTooltipModule,
 		MatRadioModule,
 		MatFormFieldModule,
+		BrowserAnimationsModule,
 	],
 	exports	 : [
 		WorkspaceComponent

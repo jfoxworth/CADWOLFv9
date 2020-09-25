@@ -37,6 +37,8 @@ import { WorkspaceModule } from './main/workspace/workspace.module';
 import { LogModule } from './main/log/log.module';
 import { BranchesModule } from './main/branches/branches.module';
 import { DocumentModule } from './main/document/document.module';
+import { DatasetModule } from './main/dataset/dataset.module';
+
 
 
 // Firebase Items
@@ -54,6 +56,7 @@ import { ProfileService } from 'app/main/services/profile.service';
 import { TeamsService } from 'app/main/services/teams.service';
 import { WorkspaceService } from 'app/main/services/workspace.service';
 import { LogService } from 'app/main/services/log.service';
+import { DatasetService } from 'app/main/services/dataset.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
@@ -109,6 +112,7 @@ const appRoutes: Routes = [
 		LogModule,
 		BranchesModule,
 		DocumentModule,
+		DatasetModule,
 
 		// Firebase 
         AngularFireModule.initializeApp(environment.firebase),
@@ -126,7 +130,8 @@ const appRoutes: Routes = [
         ProfileService,
         TeamsService,
         WorkspaceService,
-        LogService
+        LogService,
+        DatasetService
     ],
 
 	bootstrap   : [

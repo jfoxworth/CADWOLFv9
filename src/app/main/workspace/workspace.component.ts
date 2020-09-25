@@ -1,9 +1,11 @@
 
 // Standard angular items
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Title }     from '@angular/platform-browser';
+import { Title }	 from '@angular/platform-browser';
 import { Pipe, PipeTransform } from '@angular/core';
 import { RouterModule, Router, Routes, ActivatedRoute } from '@angular/router';
+import { fuseAnimations } from '@fuse/animations';
+
 
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -29,9 +31,10 @@ import { UserService } from 'app/main/services/user.service';
 
 
 @Component({
-    selector: 'workspace',
-    templateUrl: './workspace.component.html',
-    styleUrls: ['./workspace.component.scss']
+	selector: 'workspace',
+	templateUrl: './workspace.component.html',
+	styleUrls: ['./workspace.component.scss'],
+	animations   : fuseAnimations
 })
 export class WorkspaceComponent implements OnInit, OnDestroy
 {
@@ -41,29 +44,29 @@ export class WorkspaceComponent implements OnInit, OnDestroy
 	workspaceData 				: CadwolfFile;
 	dataFlag 					: boolean = false;
 	dataFilesFlag 				: boolean = false;
-    permissions           		: Permission[] = [];
-    private _unsubscribeAll 	: Subject<any>;
-    isFavorite 					: boolean = false;
-    filePath 					: string;
-    workspaceId 				: string;
-    heirarchy 					: any =[];
-    fileTypes 					: string[];
+	permissions		   			: Permission[] = [];
+	private _unsubscribeAll 	: Subject<any>;
+	isFavorite 					: boolean = false;
+	filePath 					: string;
+	workspaceId 				: string;
+	heirarchy 					: any =[];
+	fileTypes 					: string[];
 
-    addOptionDisplay 			: boolean = false;
-    userData 					: any;
+	addOptionDisplay 			: boolean = false;
+	userData 					: any;
 
 
 	constructor(
-        private workspaceService 	: WorkspaceService,
-        private userService 		: UserService,
-        private permissionsService 	: PermissionsService,
-        private titleService 		: Title,
+		private workspaceService 	: WorkspaceService,
+		private userService 		: UserService,
+		private permissionsService 	: PermissionsService,
+		private titleService 		: Title,
 		private route 				: ActivatedRoute,
 		private Router 				: Router,
   	) 
-	{        
-        this._unsubscribeAll = new Subject();    
-    }
+	{		
+		this._unsubscribeAll = new Subject();	
+	}
 
 
 
@@ -73,7 +76,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy
 		this.fileTypes = this.workspaceService.getFileTypes();
 
 		// Get the user data
-        this.userData = JSON.parse(localStorage.getItem('cadwolfUserData'));
+		this.userData = JSON.parse(localStorage.getItem('cadwolfUserData'));
 
 
 		// Get URL
@@ -112,88 +115,8 @@ export class WorkspaceComponent implements OnInit, OnDestroy
 
 
 
+		this.subscribeToData();
 
-
-
-        // This is an observable for the file data
-        this.workspaceService.workspaceStatus
-        .pipe(takeUntil(this._unsubscribeAll))
-        .subscribe((workspace)=>
-        { 
-        	console.log('The workspace status is ...');
-        	console.log(workspace);
-
-        	this.workspaceData = workspace;
-        	if ( this.workspaceData.uid )
-        	{
-        		this.dataFlag = true;
-				this.titleService.setTitle( 'Workspace - '+this.workspaceData.name );
-
-
-				// See if this workspace is a favorite
-				this.isFavorite =  this.userService.isFavorite( this.workspaceData.uid );
-
-				// Build the heirarchy data
-				this.workspaceService.buildHeirarchy( this.workspaceData.uid, [] );
-
-        	}
-        });
-
-
-
-        // This is an observable for the file contents
-        this.workspaceService.workspaceFileStatus
-        .pipe(takeUntil(this._unsubscribeAll))
-        .subscribe((workspaceFiles)=>
-        { 
-        	console.log('The workspace files status is ...');
-        	console.log(workspaceFiles);
-
-        	this.workspaceFiles = this.workspaceService.sortWorkspaces(workspaceFiles);
-        	if ( this.workspaceFiles.length > 0 )
-        	{
-            	this.dataFilesFlag = true;
-            }
-
-        });
-
-
-        // This is an observable for the permissions
-        this.permissionsService.permStatus
-        .pipe(takeUntil(this._unsubscribeAll))
-        .subscribe((result)=>
-        { 
-        	console.log('The permissions is ...');
-        	console.log(result);
-
-            if (result)
-            {
-            	for (let a=0; a<result.length; a++)
-            	{
-            		this.permissions.push(result[a]);
-        		}
-        		if ( this.workspaceData.uid )
-        		{
-					this.permissions = this.permissionsService.removeDuplicatePerms( this.permissions );
-					this.heirarchy = this.workspaceService.setHeirarchyUserPermissions( this.heirarchy, this.permissions, this.userData.uid );
-					console.log('The new heirarchy is ...');
-					console.log(this.heirarchy);
-				}
-        	}
-        	this.permissions.sort((a, b) => (a.userId > b.userId) ? 1 : -1)
-
-        });
-
-
-
-
-        // This is an observable for the heirarchy
-        this.workspaceService.heirarchyStatus
-        .pipe(takeUntil(this._unsubscribeAll))
-        .subscribe((result)=>
-        { 
-        	this.heirarchy = result;
-        });
 
 
 	}
@@ -208,9 +131,9 @@ export class WorkspaceComponent implements OnInit, OnDestroy
 
 	ngOnDestroy():void {
 
-        // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
-        this._unsubscribeAll.complete();
+		// Unsubscribe from all subscriptions
+		this._unsubscribeAll.next();
+		this._unsubscribeAll.complete();
 
   	}	
 
@@ -218,14 +141,135 @@ export class WorkspaceComponent implements OnInit, OnDestroy
 
 
 
-  	/*
-  	*
-  	*
-  	*		PUBLIC FUNCTIONS
-  	*
-  	*
-  	*/
 
+
+
+	// -----------------------------------------------------------------------------------------------------
+	// @ Functions
+	// -----------------------------------------------------------------------------------------------------
+
+
+
+	// -----------------------------------------------------------------------------------------------------
+	//
+	// @ FUNCTIONS TO SUBSCRIBE TO DATA
+	//
+	// -----------------------------------------------------------------------------------------------------
+
+	subscribeToData()
+	{
+
+
+		// This is an observable for the file data
+		this.workspaceService.workspaceStatus
+		.pipe(takeUntil(this._unsubscribeAll))
+		.subscribe((workspace)=>
+		{ 
+			console.log('The workspace status is ...');
+			console.log(workspace);
+
+			this.workspaceData = workspace;
+			if ( this.workspaceData.uid )
+			{
+				this.dataFlag = true;
+				this.titleService.setTitle( 'Workspace - '+this.workspaceData.name );
+
+
+				// See if this workspace is a favorite
+				this.isFavorite =  this.userService.isFavorite( this.workspaceData.uid );
+
+				// Build the heirarchy data
+				this.workspaceService.buildHeirarchy( this.workspaceData.uid, [] );
+
+			}
+		});
+
+
+
+		// This is an observable for the file contents
+		this.workspaceService.workspaceFileStatus
+		.pipe(takeUntil(this._unsubscribeAll))
+		.subscribe((workspaceFiles)=>
+		{ 
+			console.log('The workspace files status is ...');
+			console.log(workspaceFiles);
+
+			this.workspaceFiles = this.workspaceService.sortWorkspaces(workspaceFiles);
+			if ( this.workspaceFiles.length > 0 )
+			{
+				this.dataFilesFlag = true;
+			}
+
+		});
+
+
+		// This is an observable for the permissions
+		this.permissionsService.permStatus
+		.pipe(takeUntil(this._unsubscribeAll))
+		.subscribe((result)=>
+		{ 
+			console.log('The permissions is ...');
+			console.log(result);
+
+			if (result)
+			{
+				for (let a=0; a<result.length; a++)
+				{
+					this.permissions.push(result[a]);
+				}
+				if ( this.workspaceData.uid )
+				{
+					this.permissions = this.permissionsService.removeDuplicatePerms( this.permissions );
+					this.heirarchy = this.workspaceService.setHeirarchyUserPermissions( this.heirarchy, this.permissions, this.userData.uid );
+					console.log('The new heirarchy is ...');
+					console.log(this.heirarchy);
+				}
+			}
+			this.permissions.sort((a, b) => (a.userId > b.userId) ? 1 : -1)
+
+		});
+
+
+
+
+		// This is an observable for the heirarchy
+		this.workspaceService.heirarchyStatus
+		.pipe(takeUntil(this._unsubscribeAll))
+		.subscribe((result)=>
+		{ 
+			this.heirarchy = result;
+		});
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	// -----------------------------------------------------------------------------------------------------
+	//
+	// @ FUNCTIONS TO HANDKE ITEMS FROM THE WORKSPACE PAGE
+	//
+	// -----------------------------------------------------------------------------------------------------
   	newFile( typeNum ):void {
 
   		this.workspaceService.createNewFile( typeNum, this.workspaceData.uid );
