@@ -1,38 +1,87 @@
 <div class="page-layout simple fullwidth">
 
 
-	<!-- CENTER -->
-	<div class="center">
+	<!-- CONTENT -->
+	<div class="content" 
+		 md-background-bg 
+		 layout="row" 
+		 layout-fill 
+		 layout-align="start start">
 
-		<!-- CONTENT HEADER -->
-		<div class="header pb-24 pl-48" 
-			 fxLayout="row" 
-			 fxLayoutAlign="start center"
-			 style="background-image:url('/assets/images/backgrounds/topper.png'); height:190px; background-size:cover">
-		
-			<h1 class="mt-0"
-				*ngIf="fileData.id">
-				Dataset
-			</h1>
-		
-		</div>
-		<!-- / CONTENT HEADER -->
+		<div class="mainColumn" ms-scroll>
 
-		<!-- CONTENT CARD -->
-		<div class="content-card">
+			<!-- List View -->
+			<div class="cadwolfBox">
+
+				<div class="cadwolfBoxToolbar"
+					 fxLayout="row"
+					 fxLayoutAlign="space-between center">
+
+					<div class="cadwolfToolbarTools"
+						 fxLayoutAlign="space-between center"
+						 fxFlex="100">
+						{{fileData.name}}
+
+					</div>
+
+					<div fxLayout="row" class="cadwolfToolbarTools">
+
+						<mat-icon style="color:#898989; cursor:pointer;"
+								  class="mr-20"
+								  matTooltip="Click to Save"
+								  matTooltipPosition="below"
+								  (click)="saveFile()">
+							save
+						</mat-icon>
 
 
-			<!-- CONTENT -->
-			<div class="content p-24">
+						<mat-icon *ngIf="!isFavorite" 
+								  style="color:#ff0000; cursor:pointer;"
+								  matTooltip="Click to make a favorite"
+								  matTooltipPosition="below"
+								  (click)="addFavorite(fileData.uid)">
+							favorite_border
+						</mat-icon>
+
+						<mat-icon *ngIf="isFavorite" 
+								  style="color:#ff0000; cursor:pointer;"
+								  matTooltip="Click to unfavorite"
+								  matTooltipPosition="below"
+								  (click)="removeFavorite(fileData.uid)">
+							favorite
+						</mat-icon>
+
+					</div>
+
+				</div>
 
 
-				<div class="w-80-p"
-					 style="margin-left:10%">
+
+				<div class="w-90-p mt-20"
+					 style="margin-left:5%">
 
 					<mat-tab-group mat-align-tabs="center">
-						<mat-tab label="First">Content 1</mat-tab>
-						<mat-tab label="Second">Content 2</mat-tab>
-						<mat-tab label="Third">Content 3</mat-tab>
+						
+						<mat-tab label="Settings">
+
+							<dataset-settings [fileData]="fileData">
+								
+							</dataset-settings>
+
+						</mat-tab>
+
+						<mat-tab label="Input Text">
+							
+							<dataset-input-text [fileData]="fileData">
+								
+							</dataset-input-text>
+
+						</mat-tab>
+
+
+						<mat-tab label="Results"></mat-tab>
+
+
 					</mat-tab-group>
 
 				</div>

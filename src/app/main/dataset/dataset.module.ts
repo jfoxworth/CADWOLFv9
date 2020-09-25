@@ -33,6 +33,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 // Components
 import { DatasetComponent } from './dataset.component';
+import { SettingsComponent } from './settings/settings.component';
+import { InputTextComponent } from './input-text/input-text.component';
+import { ResultsComponent } from './results/results.component';
 
 
 
@@ -74,6 +77,9 @@ const routes = [
 @NgModule({
     declarations: [
         DatasetComponent,
+        SettingsComponent,
+        InputTextComponent,
+        ResultsComponent,
     ],
     imports  : [
         RouterModule.forChild(routes),

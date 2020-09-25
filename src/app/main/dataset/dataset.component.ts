@@ -28,6 +28,7 @@ import { CadwolfFile } from 'app/main/models/cadwolfFile';
 // Services
 import { DatasetService } from 'app/main/services/dataset.service';
 import { WorkspaceService } from 'app/main/services/workspace.service';
+import { UserService } from 'app/main/services/user.service';
 
 
 
@@ -45,10 +46,12 @@ export class DatasetComponent implements OnInit {
 	fileData 					: CadwolfFile;
 	datasetId 					: string;
 	dataFlag 					: boolean = false;
+	isFavorite 					: boolean = false;
 
 	constructor(
 		private datasetService 		: DatasetService,
 		private workspaceService 	: WorkspaceService,
+		private userService 		: UserService,
 		private Router 				: Router,
 		private route 				: ActivatedRoute,
         private titleService 		: Title
@@ -133,23 +136,50 @@ export class DatasetComponent implements OnInit {
 			console.log(file);
 
 			this.fileData = file;
-			if ( this.fileData )
+			if ( this.fileData.id )
 			{
 				this.dataFlag = true;
 				this.titleService.setTitle( 'Dataset - '+this.fileData.name );
 
 
 				// See if this workspace is a favorite
-//				this.isFavorite =  this.userService.isFavorite( this.fileData.uid );
+				this.isFavorite =  this.userService.isFavorite( this.fileData.id );
 
 				// Build the heirarchy data
-//				this.workspaceService.buildHeirarchy( this.workspaceData.uid, [] );
+				this.workspaceService.buildHeirarchy( this.fileData.id, [] );
+
+
+				if ( typeof(this.fileData.itemData) == 'string')
+				{
+					this.fileData.itemData = JSON.parse( this.fileData.itemData );
+				}
+
+				console.log(`The file data is $[this.fileData]`);
+
+				if ( !this.fileData.itemData.parsers )
+				{
+					this.fileData.itemData.parsers = ['*'];
+				}
 
 			}
 		});
 
 	}
 
+
+
+
+
+	// -----------------------------------------------------------------------------------------------------
+	//
+	// @ STANDARD FUNCTIONS REACTING TO COMPONENTS ACTIONS
+	//
+	// -----------------------------------------------------------------------------------------------------
+
+	saveFile()
+	{
+
+	}
 
 
 }

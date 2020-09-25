@@ -92,6 +92,8 @@ export class UserService {
 	{
 		let userData = JSON.parse(localStorage.getItem('cadwolfUserData'));
 
+		if ( !userData.favorites ){ userData.favorites = []; }
+
 		let flag=false;
 		for ( let a=0; a<userData.favorites.length; a++ )
 		{

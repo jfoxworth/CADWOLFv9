@@ -1,0 +1,90 @@
+
+
+<div *ngIf="fileData.itemData">
+
+
+	<h2 class="mt-40">Equation Name</h2>
+
+	<p class="mt-20">Variables in CADWOLF documents have names, which is how they are identified in equations. This name is the name that will be given to this dataset when it is pulled into a document.</p>
+
+	<div class="text-center">
+		<mat-form-field class="mt-20 w-50-p">
+			<mat-label>Equation Name</mat-label>
+			<input matInput [(ngModel)]="fileData.itemData.eqName">
+		</mat-form-field>
+	</div>
+
+
+	<h2 class="mt-20">Data</h2>
+
+	<div fxLayout="row"
+		 class="mt-20 text-center">
+
+		<div class="w-40-p">Date Created</div><div>{{fileData.dateCreated | date:'short'}}</div>
+
+	</div>
+
+
+	<div fxLayout="row"
+		 class="mt-20 text-center">
+
+		<div class="w-40-p">Date Modified</div><div>{{fileData.dateModified | date:'short'}}</div>
+
+	</div>
+
+
+	<div fxLayout="row"
+		 class="mt-20 text-center">
+
+		<div class="w-40-p">Parsed Data Size</div><div></div>
+
+	</div>
+
+
+
+
+	<h2 class="mt-40">Parsers</h2>
+
+	<p class="mb-20">Parsers are the text that is used to divide up the raw text into rows and columns. Raw text with one parser will be one long row with several columns. Two parsers will produce a table of rows and columns, etc.</p>
+
+
+	<div class="text-center">
+
+		<div *ngFor="let parser of fileData.itemData.parsers; let i = index"
+			 fxLayout="row"
+			 class="mt-20 text-center w-50-p">
+
+			 <mat-icon matTooltip="Click to delete parser"
+					   matTooltipPosition="below"
+					   style="cursor:pointer"
+					   (click)="deleteParser(index)">
+				cancel
+			</mat-icon>
+
+
+			<div class="text-center w-200">
+				<mat-form-field class="w-200">
+					<mat-label>Parser character(s)</mat-label>
+					<input matInput 
+						   class="w-200"
+						   [(ngModel)]="fileData.itemData.parsers[i]">
+				</mat-form-field>
+			</div>
+
+
+			 <mat-icon matTooltip="Click to add parser"
+					   matTooltipPosition="below"
+					   style="cursor:pointer"
+					   (click)="addParser(index)">
+				add_circle_outline
+			</mat-icon>
+
+
+		</div>
+
+	</div>
+
+
+
+
+</div>

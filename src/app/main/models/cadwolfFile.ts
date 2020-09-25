@@ -4,7 +4,7 @@ export interface CadwolfFile {
 	dateCreated 	: number;
 	dateModified 	: number;
 	fileType 		: number;
-	itemData 		: string;
+	itemData 		: any;
 	name 			: string;
 	needsUpdate 	: boolean;
 	oid 			: string;
