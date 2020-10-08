@@ -9,6 +9,9 @@ import { fuseAnimations } from '@fuse/animations';
 // Angular Material Items
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatButtonModule } from '@angular/material/button';
+
 
 
 
@@ -38,18 +41,42 @@ export class InputTextComponent implements OnInit {
 
 
 
-	@Input() fileData : CadwolfFile;
+	@Input() fileData 	: CadwolfFile;
+	addDataType 		: string = 'substitute';
+	textData 			: string = '';
 
 
-	constructor() { }
+
+	constructor(
+		private datasetService 	: DatasetService
+	) { }
 
 
 
+	// -----------------------------------------------------------------------------------------------------
+	//
+	// @ Life cycle hooks
+	//
+	// -----------------------------------------------------------------------------------------------------
 
 	ngOnInit(): void {
 
 	}
 
+
+
+
+	// -----------------------------------------------------------------------------------------------------
+	//
+	// @ FUNCTIONS
+	//
+	// -----------------------------------------------------------------------------------------------------
+
+	parseText()
+	{
+		this.fileData.itemData.realArray 	= this.datasetService.parseText( this.fileData, this.textData );
+		this.fileData.itemData.size 		= this.datasetService.getSize( this.fileData );
+	}
 
 
 }

@@ -1,3 +1,19 @@
+
+
+/*
+
+	This is the service for the Permissions model. Permissions 
+	are entries that give users and teams access to files and
+	folders.
+
+	There is no update function for permissions. There is one
+	additional function not a direct CRUD function. There is 
+	one function to fund and remove duplicate permissions.
+
+*/
+
+
+// Standard Angular Items
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
@@ -35,49 +51,14 @@ export class PermissionsService {
 
 
 
-
-	/*
-	 *
-	 * 	Get all permissions for a file/folder/etc
-	 *
-	 * 
-	 */
-	getPermsForItem( fileId )
-	{
-		this.afs.collection('permissions', ref => ref.where('itemId', '==', fileId))
-		.valueChanges({idField: 'uid'})
-		.subscribe(result=> {
-			this.permStatus.next(result);
-		});
-
-	}
+	// -----------------------------------------------------------------------------------------------------
+	//
+	// @ CRUD FUNCTIONS
+	//
+	// -----------------------------------------------------------------------------------------------------
 
 
-
-
-
-	/*
-	 *
-	 * 	Take a user and a doc id and return the permissions for that 
-	 *  file or folder
-	 * 
-	 */
-	getPermission( userObj )
-	{
-	}
-
-
-
-
-
-
-
-
-	/*
-	 *
-	 * 	Add a user permission for a given file and type
-	 * 
-	 */
+	//  Create a user permission for a given file and type
 	addPermission( file, user, type, userType )
 	{
 
@@ -96,6 +77,23 @@ export class PermissionsService {
     		window.alert(error.message)
     	});
 	}
+
+
+
+
+
+
+	//  Get all permissions for a file/folder/etc
+	getPermsForItem( fileId )
+	{
+		this.afs.collection('permissions', ref => ref.where('itemId', '==', fileId))
+		.valueChanges({idField: 'uid'})
+		.subscribe(result=> {
+			this.permStatus.next(result);
+		});
+
+	}
+
 
 
 

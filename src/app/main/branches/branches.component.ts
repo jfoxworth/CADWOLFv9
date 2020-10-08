@@ -1,4 +1,14 @@
 
+/*
+
+	This is the component for the branches view. Branches
+	are the CADWOLF adaptation of branching and merging
+	for documents in a Git like manner. 
+
+
+*/
+
+
 // Angular Stuff
 import { Component, OnInit } from '@angular/core';
 import { Title }	 from '@angular/platform-browser';
@@ -70,7 +80,7 @@ export class BranchesComponent implements OnInit {
 
 
 		// Get the file and builds from the database
-		this.branchService.getFiles( this.fileId );
+		this.branchService.getFilesForBranch( this.fileId );
 		this.branchService.getBranches( this.fileId );
 
 
@@ -97,7 +107,7 @@ export class BranchesComponent implements OnInit {
 	{
 
 		// This is an observable for the file data
-		this.branchService.fileStatus
+		this.branchService.branchFileStatus
 		.pipe(takeUntil(this._unsubscribeAll))
 		.subscribe((file)=>
 		{ 

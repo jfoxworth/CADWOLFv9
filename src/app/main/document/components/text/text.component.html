@@ -1,18 +1,21 @@
 <!-- Text Editor -->
-<div fxLayout="column">
 
-
+<!-- When the user can edit the text -->
+<div fxLayout="column"
+	 *ngIf="editperm"
+	 (mouseover)="component.content.showIcons=true"
+	 (mouseout)="component.content.showIcons=false">
 
 
 	<!-- The dropdown menu -->
 	<div style="height:0px; position:relative; top:20px; z-index:9999"
 		 fxLayoutAlign="end end"
-		 *ngIf="currentItem == component.id">
+		 *ngIf="(currentItem == component.id)">
 
 		<button mat-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
 		<mat-menu #menu="matMenu">
-			<button mat-menu-item (click)="component.content.edit='widthMargin'; changeComponent(component);">Width / Margins</button>
-			<button mat-menu-item (click)="currentItem=''; updateComponent(component)">Close Edit Menu</button>
+			<button mat-menu-item (click)="showEditItem=true; changeComponent(component);">Width / Margins</button>
+			<button mat-menu-item (click)="component.content.edit=''; currentItem=''; updateComponent(component)">Close Edit Menu</button>
 			<button mat-menu-item (click)="deleteComponent(component)">Delete Item</button>
 		</mat-menu>
 	</div>
@@ -39,4 +42,17 @@
 
 
 </div>
+<!-- / End of edit perm component -->
+
+
+
+<!-- When the user has only view permissions -->
+<div fxLayout="column"
+	 *ngIf="!editperm">
+
+	<div [innerHTML]="component.content.text"></div>
+
+</div>
+
+
 <!-- /Text Item -->

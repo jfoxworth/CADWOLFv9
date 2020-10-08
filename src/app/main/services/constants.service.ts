@@ -1,3 +1,19 @@
+
+/*
+
+	This is the service for constants in CADWOLF. A constant is a 
+	mathematical item that can be used in CADWOLF calculations. Users
+	cannot add, alter, or delete constants. These are items like pi,
+	Avagadros number, etc.
+
+	There is a view component that simply displays the constants so
+	that users can see what constants exist and how to use them. 
+	This service handles that view and the pulling of the data.
+
+*/
+
+
+// Standard Angular Items
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
@@ -22,12 +38,14 @@ export class ConstantsService {
 	constants : Constant[];
 	constantsStatus : BehaviorSubject<any>;
 
-	constructor(	public afs: AngularFirestore )   					// Inject Firestore service
+	constructor(	public afs: AngularFirestore )  
  	{
 
+ 		// The observable for the data that is subscribed to in the components
 		this.constantsStatus = new BehaviorSubject([]);
 
 
+		// The call to get the data in the constructor
 		this.getConstants();
 
  	
@@ -35,13 +53,14 @@ export class ConstantsService {
 
 
 
+	// -----------------------------------------------------------------------------------------------------
+	//
+	// @ READ FUNCTION FOR CONSTANTS
+	//
+	// -----------------------------------------------------------------------------------------------------
 
-	/*
-	 *
-	 * 	Get all of the constants for use in CADWOLF equations
-	 *
-	 * 
-	 */
+
+	//  Get all of the constants for use in CADWOLF equations
 	getConstants( )
 	{
 		this.afs.collection('constants').get()
@@ -62,5 +81,8 @@ export class ConstantsService {
 
 
 	}
+
+
+	
 
 }

@@ -1,1 +1,39 @@
-<p>input-text works!</p>
+
+
+<div class="w-80-p mt-40"
+	 style="margin-left:10%">
+
+	<p>In the area below, you can choose to enter data by pasting it into the area below, choosing a text file from your computer, or choosing an excel file from your computer.</p>
+
+	<p>Before doing that, you can choose whether or not the current data will be added to the already present data or will overwrite the data already in place.</p>
+
+
+	<div class="text-center w-100-p mt-40 mb-20">
+		<mat-button-toggle-group name="addDataType" aria-label="Data Type">
+			<mat-button-toggle value="substitute">Substitute Data</mat-button-toggle>
+			<mat-button-toggle value="append">Append Data to End</mat-button-toggle>
+		</mat-button-toggle-group>
+	</div>
+
+
+	<div class="text-center">
+		<button mat-raised-button 
+				color="primary"
+				(click)="parseText()">
+			Parse Text
+		</button>
+	</div>
+
+
+	<div class="text-center mt-40"
+		 style="border:1px solid #ccc; border-radius:5px">
+		<mat-form-field class="w-600">
+			<textarea matInput 
+					  class="w-600"
+					  rows="20" cols="150"
+					  [(ngModel)]="textData">
+			</textarea>
+		</mat-form-field>
+	</div>
+
+</div>

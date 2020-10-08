@@ -1,0 +1,59 @@
+<!-- Header Editor -->
+
+
+<!-- When the user has permission to edit -->
+<div fxLayout="column"
+	 *ngIf="editperm"
+	 (mouseover)="component.content.showIcons=true"
+	 (mouseout)="component.content.showIcons=false">
+
+
+	<!-- The dropdown menu -->
+	<div style="height:0px; position:relative; top:20px; z-index:9999"
+		 fxLayoutAlign="end end"
+		 *ngIf="currentItem">
+
+
+		<!-- The button and drop down menu to edit the component -->
+		<button mat-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></button>
+		<mat-menu #menu="matMenu">
+			<button mat-menu-item (click)="showEditItem=true; changeShowEditItem(true);">Width / Margins</button>
+			<button mat-menu-item (click)="component.content.hClass='h1'; changeComponent(component);">Header 1</button>
+			<button mat-menu-item (click)="component.content.hClass='h2'; changeComponent(component);">Header 2</button>
+			<button mat-menu-item (click)="component.content.hClass='h3'; changeComponent(component);">Header 3</button>
+			<button mat-menu-item (click)="component.content.hClass='h4'; changeComponent(component);">Header 4</button>
+			<button mat-menu-item (click)="deleteComponent(component)">Delete Item</button>
+		</mat-menu>
+
+	</div>
+
+
+    <div (dblclick)="component.content.showEdit=true"
+         [innerHTML]="component.content.text"
+         [ngClass]="component.content.hClass">
+    </div>
+
+
+	<mat-form-field class="mt-12"
+					*ngIf="component.content.showEdit">
+    	<mat-label>Enter Header Text</mat-label>
+    	<input matInput 
+    		   [(ngModel)]="component.content.text"
+    		   (keyup.enter)="component.content.showEdit=false">
+	</mat-form-field>
+
+
+</div>
+
+
+
+<!-- Display Only - no editing -->
+<div fxLayout="column"
+	 *ngIf="!editperm">
+
+	<div [innerHTML]="component.content.text"
+		 [ngClass]="component.content.hClass"> 
+	</div>
+
+</div>
+<!-- /Header Item -->

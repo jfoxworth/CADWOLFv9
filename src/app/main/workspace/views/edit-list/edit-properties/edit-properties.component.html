@@ -25,7 +25,7 @@
 					#autosize="cdkTextareaAutosize"
 					cdkAutosizeMinRows="5"
 					cdkAutosizeMaxRows="20"
-					[(ngModel)]="file.description"
+					[(ngModel)]="file.itemData.description"
 					(keyup.enter)="updateFile(file, 'description')">
 				</textarea>
 			</mat-form-field>

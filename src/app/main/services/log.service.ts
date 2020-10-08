@@ -1,11 +1,11 @@
 /*
-*
-*
-*		This service is to place a log entry in the database and to pull
-*		those entries when needed. The log is called from a number of functions
-*		to show when an item is created, edited, etc.
-*
-*
+
+		This service is to place a log entry in the database and to pull
+		those entries when needed. The log is called from a number of functions
+		to show when an item is created, edited, etc.
+
+		Log entries are not updated nor deleted, so no functions exist
+		to do those things
 */
 
 
@@ -50,11 +50,14 @@ export class LogService {
 
 
 
-  	/*
-  	*
-  	*	Add a log entry
-  	*
-  	*/
+
+	// -----------------------------------------------------------------------------------------------------
+	//
+	// @ CRUD FUNCTIONS
+	//
+	// -----------------------------------------------------------------------------------------------------
+
+  	//  Create a log entry
 	createLogEntry( logData )
 	{
 		let userData = JSON.parse(localStorage.getItem('cadwolfUserData'));
@@ -77,12 +80,7 @@ export class LogService {
 
 
 
-	/*
-	*
-	*
-	*
-	*
-	*/
+	//  Read log entries for a an item
 	getLogData( itemId )
 	{
 		this.afs.collection('logs', ref => ref.where('relatedFileId', '==', itemId))

@@ -42,7 +42,8 @@ export class TextComponent implements OnInit {
 
 	@Input() component 		: CadwolfFile;
 	@Input() currentItem 	: string;
-	@Input() editItems 		: any;
+	@Input() showEditItem 	: boolean;
+	@Input() editperm 		: boolean;
 
 
 	@Output() onComponentChanged: EventEmitter<any> = new EventEmitter<any>();

@@ -1,4 +1,15 @@
 
+/*
+
+	This is the service to handle all items for the document
+	component. The document is the primary item on the platform.
+	While a separate service handles all CRUD operations for a 
+	file, this service handles all actions related to the viewing
+	of a document.
+
+*/
+
+// Standard Angular Items
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
@@ -25,56 +36,33 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firest
 export class DocumentService {
 
 
-	fileStatus 		: BehaviorSubject<any>;
-
 
 	constructor(
 		public afs 		: AngularFirestore,
 	) 
 	{ 
-		this.fileStatus 			= new BehaviorSubject([]);
 	}
 
 
 
 
 
-	/*
-	 *
-	 * 	Get a file using an ID
-	 *
-	 * 
-	 */
-	getFileById( fileId )
-	{
-
-		this.afs.collection('files').doc(fileId)
-		.valueChanges()
-		.subscribe((result:CadwolfFile[]) => {
-
-			// Send to observable
-			this.fileStatus.next(result);
-			
-		});
-
-	}
 
 
 
 
-	/*-----------------------------------------------------------------------------
-	*
-	*
-	*	FUNCTIONS TO CREATE DOCUMENT ITEMS
-	*
-	*
-	*-----------------------------------------------------------------------------*/
+	// -----------------------------------------------------------------------------------------------------
+	//
+	// @ FUNCTIONS TO CREATE DOCUMENT ITEMS
+	//
+	// -----------------------------------------------------------------------------------------------------
+
 
 
 	/*
 	*
 	*
-	*	Options Array for kolkov editor
+	*	Options Array for kolkov text editor
 	*
 	*
 	*/
@@ -125,212 +113,138 @@ export class DocumentService {
 	*
 	*
 	*/
-	getAddComponentItems()
+	getButton1Items()
 	{
 		return [
 			{
 				addItem : 'text',
 				icon 	: 'font_download',
-				toolTip : 'Add Text Item'
+				toolTip : 'Add Text Item',
+				row1 	: true
 			},
 			{
 				addItem : 'header',
-				icon 	: 'format_bold',
-				toolTip : 'Add Header Item'
+				icon 	: 'title',
+				toolTip : 'Add Header Item',
+				row1 	: true
+			},
+			{
+				addItem : 'equation',
+				icon 	: 'functions',
+				toolTip : 'Add Equation',
+				row1 	: true
+			},
+			{
+				addItem : 'slider',
+				icon 	: 'toggle_off',
+				toolTip : 'Add Slider',
+				row1 	: true
+			},
+			{
+				addItem : 'radio',
+				icon 	: 'radio_button_checked',
+				toolTip : 'Add Radio Select',
+				row1 	: true
+			},
+			{
+				addItem : 'select',
+				icon 	: 'edit_attributes',
+				toolTip : 'Add Dropdown Select',
+				row1 	: true
+			},
+			{
+				addItem : 'Symbolic Equation',
+				icon 	: 'create',
+				toolTip : 'Add Symbolic Equation',
+				row1 	: true
 			}
 		]
 	}
 
-	/*
+	getButton2Items()
+	{
+		return [
+			{
+				addItem : 'card',
+				icon 	: 'collections',
+				toolTip : 'Add Card',
+				row2 	: true
+			},
+			{
+				addItem : 'Table',
+				icon 	: 'grid_on',
+				toolTip : 'Add Table',
+				row2 	: true
+			},
+			{
+				addItem : 'forLoop',
+				icon 	: 'loop',
+				toolTip : 'Add For Loop',
+				row2 	: true
+			},
+			{
+				addItem : 'whileLoop',
+				icon 	: 'low_priority',
+				toolTip : 'Add While Loop',
+				row2 	: true
+			},
+			{
+				addItem : 'ifElse',
+				icon 	: 'call_split',
+				toolTip : 'Add If Else',
+				row2 	: true
+			},
+			{
+				addItem : 'plot',
+				icon 	: 'bar_chart',
+				toolTip : 'Add Plot',
+				row2 	: true
+			},
+			{
+				addItem : 'chart',
+				icon 	: 'bubble_chart',
+				toolTip : 'Add Chart',
+				row3 	: true
+			}
+		]
+	}
+	
+	getButton3Items()
+	{
+		return [
+			{
+				addItem : 'image',
+				icon 	: 'camera_alt',
+				toolTip : 'Add Image',
+				row2 	: true
+			},
+			{
+				addItem : 'video',
+				icon 	: 'videocam',
+				toolTip : 'Add Video',
+				row3 	: true
+			},
+			{
+				addItem : 'lineBreak',
+				icon 	: 'vertical_align_center',
+				toolTip : 'Add Line Break',
+				row3 	: true
+			},
+			{
+				addItem : 'freeBodyDiagram',
+				icon 	: 'widgets',
+				toolTip : 'Add Free Body Diagram',
+				row3 	: true
+			},
+			{
+				addItem : 'requirement',
+				icon 	: 'security',
+				toolTip : 'Add Requirement',
+				row3 	: true
+			},
+		]
+	}
 
-						<button mat-mini-fab 
-								color="#2D323E"
-								aria-label="Add Equation Item"
-								matTooltip="Add Equation Item"
-								class="ml-28 mt-8"
-								matTooltipPosition="above"
-								(click)="addComponent('equation')">
-							<mat-icon>functions</mat-icon>
-						</button>
-
-						<button mat-mini-fab 
-								color="#2D323E"
-								aria-label="Add Symbolic Equation"
-								matTooltip="Add Symbolic Equation"
-								class="ml-28 mt-8"
-								matTooltipPosition="above"
-								(click)="addComponent('slider')">
-							<mat-icon>table_chart</mat-icon>
-						</button>
-
-						<button mat-mini-fab 
-								color="#2D323E"
-								aria-label="Add Table Item"
-								matTooltip="Add Table Item"
-								class="ml-28 mt-8"
-								matTooltipPosition="above"
-								(click)="addComponent('radio')">
-							<mat-icon>table_chart</mat-icon>
-						</button>
-
-						<button mat-mini-fab 
-								color="#2D323E"
-								aria-label="Add forum"
-								matTooltip="Add forum"
-								class="ml-28 mt-8"
-								matTooltipPosition="above"
-								(click)="addComponent('select')">
-							<mat-icon>chat</mat-icon>
-						</button>
-
-						<button mat-mini-fab 
-								color="#2D323E"
-								aria-label="Add forum"
-								matTooltip="Add forum"
-								class="ml-28 mt-8"
-								matTooltipPosition="above"
-								(click)="addComponent('symbolic')">
-							<mat-icon>chat</mat-icon>
-						</button>
-
-						<button mat-mini-fab 
-								color="#2D323E"
-								aria-label="Add forum"
-								matTooltip="Add forum"
-								class="ml-28 mt-8"
-								matTooltipPosition="above"
-								(click)="addComponent('card')">
-							<mat-icon>chat</mat-icon>
-						</button>
-
-						<button mat-mini-fab 
-								color="#2D323E"
-								aria-label="Add forum"
-								matTooltip="Add forum"
-								class="ml-28 mt-8"
-								matTooltipPosition="above"
-								(click)="addComponent('table')">
-							<mat-icon>chat</mat-icon>
-						</button>
-
-						<button mat-mini-fab 
-								color="#2D323E"
-								aria-label="Add Image Item"
-								matTooltip="Add Image Item"
-								class="ml-28 mt-8"
-								matTooltipPosition="above"
-								(click)="addComponent('forLoop')">
-							<mat-icon>local_see</mat-icon>
-						</button>
-
-					</div>
-
-
-
-
-					<div fxLayout="row">
-
-						<button mat-mini-fab 
-								color="#2D323E"
-								aria-label="Add forum"
-								matTooltip="Add forum"
-								class="ml-28 mt-8"
-								matTooltipPosition="below"
-								(click)="addComponent('whileLoop')">
-							<mat-icon>chat</mat-icon>
-						</button>
-
-						<button mat-mini-fab 
-								color="#2D323E"
-								aria-label="Add Video Item"
-								matTooltip="Add Video Item"
-								class="ml-28 mt-8"
-								matTooltipPosition="below"
-								(click)="addComponent('ifElse')">
-							<mat-icon>movie</mat-icon>
-						</button>
-
-						<button mat-mini-fab 
-								color="#2D323E"
-								aria-label="Add forum"
-								matTooltip="Add forum"
-								class="ml-28 mt-8"
-								matTooltipPosition="below"
-								(click)="addComponent('plot')">
-							<mat-icon>chat</mat-icon>
-						</button>
-
-						<button mat-mini-fab 
-								color="#2D323E"
-								aria-label="Add forum"
-								matTooltip="Add forum"
-								class="ml-28 mt-8"
-								matTooltipPosition="below"
-								(click)="addComponent('chart')">
-							<mat-icon>chat</mat-icon>
-						</button>
-
-						<button mat-mini-fab 
-								color="#2D323E"
-								aria-label="Add forum"
-								matTooltip="Add forum"
-								class="ml-28 mt-8"
-								matTooltipPosition="below"
-								(click)="addComponent('image')">
-							<mat-icon>chat</mat-icon>
-						</button>
-
-						<button mat-mini-fab 
-								color="#2D323E"
-								aria-label="Add forum"
-								matTooltip="Add forum"
-								class="ml-28 mt-8"
-								matTooltipPosition="below"
-								(click)="addComponent('video')">
-							<mat-icon>chat</mat-icon>
-						</button>
-
-						<button mat-mini-fab 
-								color="#2D323E"
-								aria-label="Add forum"
-								matTooltip="Add forum"
-								class="ml-28 mt-8"
-								matTooltipPosition="below"
-								(click)="addComponent('lineBreak')">
-							<mat-icon>chat</mat-icon>
-						</button>
-
-						<button mat-mini-fab 
-								color="#2D323E"
-								aria-label="Add forum"
-								matTooltip="Add forum"
-								class="ml-28 mt-8"
-								matTooltipPosition="below"
-								(click)="addComponent('freeBodyDiagram')">
-							<mat-icon>chat</mat-icon>
-						</button>
-
-						<button mat-mini-fab 
-								color="#2D323E"
-								aria-label="Add forum"
-								matTooltip="Add forum"
-								class="ml-28 mt-8"
-								matTooltipPosition="below"
-								(click)="addComponent('requirement')">
-							<mat-icon>chat</mat-icon>
-						</button>
-
-					</div>
-
-
-				</div>
-
-
-			</div>
-			<!-- / The add item row -->
-
-
-		*/
 
 
 

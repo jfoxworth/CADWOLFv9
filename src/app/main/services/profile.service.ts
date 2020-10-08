@@ -1,3 +1,11 @@
+
+/*
+
+	This is the service that handles items for the profile component.
+
+*/
+
+// Standard Angular Items
 import { Injectable } from '@angular/core';
 
 // Services
@@ -30,6 +38,8 @@ export class ProfileService {
 		let userData = JSON.parse(localStorage.getItem('cadwolfUserData'));
 		this.profileImageStatus = new BehaviorSubject(this.UserService.getProfileImage( userData ));
 	}
+
+
 
 
 

@@ -1,4 +1,19 @@
 
+/*
+
+
+	This is the service that handles all CRUD related items for 
+	the components. Components are the items that make up a 
+	document. A component can be text, an equation, a plot,
+	or any other item.
+
+	Any time a component is created, read, updated, or deleted,
+	it is done from this service.
+
+
+*/
+
+
 
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
@@ -42,57 +57,14 @@ export class ComponentService {
 
 
 
-	/*******************************************************************************
-	*
-	*
-	*	GET COMPONENTS FOR A FILE
-	*
-	*
-	*******************************************************************************/
-
-	/*
-	 *
-	 * 	Get the components for a document ID
-	 *
-	 * 
-	 */
-	getComponentsForFile( fileId )
-	{
-
- 		this.afs.collection('components', ref => ref
- 			.where('fileId', '==', fileId )
- 			.where('deleted', '==', false)
- 			.orderBy("order", "asc"))
-		.valueChanges({idField: 'uid'})
-		.subscribe(result=> {
-
-			console.log('The components in the service are ');
-			console.log(result);
-			this.componentStatus.next(result);
-
-		});
-
-	}
+	// -----------------------------------------------------------------------------------------------------
+	//
+	// @ CRUD FUNCTIONS FOR COMPONENTS
+	//
+	// -----------------------------------------------------------------------------------------------------
 
 
-
-
-
-
-	/*******************************************************************************
-	*
-	*
-	*	CRUD FUNCTIONS FOR COMPONENTS
-	*
-	*
-	*******************************************************************************/
-
-
-	/*
-  	*
-  	*	Create a component
-  	*
-  	*/
+  	//  Create a component
 	createComponent( objData )
 	{
 		let userData = JSON.parse(localStorage.getItem('cadwolfUserData'));
@@ -117,13 +89,7 @@ export class ComponentService {
 	}
 
 
-
-
-	/*
-  	*
-  	*	Set the initial component data
-  	*
-  	*/
+  	//  Set the initial component data
 	setInitialComponentData( objData )
 	{
 
@@ -179,7 +145,33 @@ export class ComponentService {
 		{   
 			templateObj['content']['text']='<p>Enter text here.</p>';
 			templateObj['content']['showEdit']=false;
+			templateObj['content']['showIcons']=false;
 			templateObj['componentTypeId']=1;
+		}
+
+
+
+		// Set the header specific properties
+		if (objData.componentType=="header")
+		{   
+			templateObj['content']['text']='Header Text';
+			templateObj['content']['showEdit']=false;
+			templateObj['content']['showIcons']=false;
+			templateObj['componentTypeId']=2;
+			templateObj['content']['hClass']='h1';
+		}
+
+
+
+
+		// Set the equation specific items
+		if (objData.componentType=="equation")
+		{   
+			templateObj['name'] = 'newEquation';
+			templateObj['content']['text']='Header Text';
+			templateObj['componentTypeId']=3;
+			templateObj['content']['eqType']='center';
+			templateObj['content']['showEdit']=false;
 		}
 
 
@@ -191,14 +183,33 @@ export class ComponentService {
 
 
 
+	//  Get the components for a document ID
+	getComponentsForFile( fileId )
+	{
+
+ 		this.afs.collection('components', ref => ref
+ 			.where('fileId', '==', fileId )
+ 			.where('deleted', '==', false)
+ 			.orderBy("order", "asc"))
+		.valueChanges({idField: 'uid'})
+		.subscribe(result=> {
+
+			console.log('The components in the service are ');
+			console.log(result);
+			this.componentStatus.next(result);
+
+		});
+
+	}
 
 
 
-	/*
-  	*
-  	*	Update a component
-  	*
-  	*/
+
+
+
+
+
+  	//  Update a component
 	updateComponent( objData )
 	{
 		let userData = JSON.parse(localStorage.getItem('cadwolfUserData'));
@@ -217,11 +228,23 @@ export class ComponentService {
 
 
 
-	/*
-  	*
-  	*	Delete a component
-  	*
-  	*/
+  	//  Update one field of a component
+	updateOrder( componentId, newValue )
+	{
+		let userData = JSON.parse(localStorage.getItem('cadwolfUserData'));
+		this.afs.collection('components').doc( componentId ).update( {'dateModified': Date.now(),
+																	  'order' : newValue } );
+
+	}
+
+
+
+
+
+
+
+
+  	//  Delete a component
 	deleteComponent( component )
 	{
 		this.afs.collection('components').doc(component.id).update({ 'deleted':true });

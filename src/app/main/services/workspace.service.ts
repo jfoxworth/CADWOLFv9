@@ -1,3 +1,13 @@
+
+/*
+
+	This is the service that handles all items for
+	the workspace component.
+
+*/
+
+
+// Standard Angular Items
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
@@ -543,7 +553,7 @@ export class WorkspaceService {
 	 * 	Create a new file of any type
 	 *
 	 * 
-	 */
+	 *
 	createNewFile( typeNum, parentId )
 	{
 		console.log('Creating a new file with '+typeNum+' and '+parentId);
@@ -626,7 +636,7 @@ export class WorkspaceService {
 	 * 	Update a file
 	 *
 	 * 
-	 */
+	 *
 	updateFile( file, item )
 	{
 		this.afs.collection('files').doc(file.uid).update( file );
@@ -685,7 +695,7 @@ export class WorkspaceService {
 	 * 	delete a file of any type
 	 *
 	 * 
-	 */
+	 *
 	deleteFileItem( fileId )
 	{
 		let userData = JSON.parse(localStorage.getItem('cadwolfUserData'));

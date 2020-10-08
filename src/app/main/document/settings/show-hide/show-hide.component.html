@@ -1,0 +1,92 @@
+
+
+<div class="mat-title mt-40 mb-20 text-center">Show / Hide Components</div>
+
+
+<p class="mt-20 w-80-p" style="margin-left:10%">You can hide any type of item you want. You can hide everything but the equations if you just want to see the math, or hide everything but text, etc. This does not change anything in the document, it simply hides those items while the appropriate box is unchecked below.</p>
+
+
+<div fxLayout="column" 
+	 fxLayoutAlign="center center">
+
+
+	<div fxLayout="row" class="mt-20">
+		<mat-checkbox class="w-28" [(ngModel)]="fileData.itemData.showHeaders"></mat-checkbox>
+		<div class="ml-12 pt-4 w-200">Headers</div>
+	</div>
+
+
+	<div fxLayout="row" class="mt-20">
+		<mat-checkbox class="w-28" [(ngModel)]="fileData.itemData.showText"></mat-checkbox>
+		<div class="ml-12 pt-4 w-200">Text</div>
+	</div>
+
+
+	<div fxLayout="row" class="mt-20">
+		<mat-checkbox class="w-28" [(ngModel)]="fileData.itemData.showEquations"></mat-checkbox>
+		<div class="ml-12 pt-4 w-200">Equations</div>
+	</div>
+
+
+	<div fxLayout="row" class="mt-20">
+		<mat-checkbox class="w-28" [(ngModel)]="fileData.itemData.showSymbolics"></mat-checkbox>
+		<div class="ml-12 pt-4 w-200">Symbolics</div>
+	</div>
+
+
+	<div fxLayout="row" class="mt-20">
+		<mat-checkbox class="w-28" [(ngModel)]="fileData.itemData.showTables"></mat-checkbox>
+		<div class="ml-12 pt-4 w-200">Table</div>
+	</div>
+
+
+	<div fxLayout="row" class="mt-20">
+		<mat-checkbox class="w-28" [(ngModel)]="fileData.itemData.showForLoops"></mat-checkbox>
+		<div class="ml-12 pt-4 w-200">For Loops</div>
+	</div>
+
+
+	<div fxLayout="row" class="mt-20">
+		<mat-checkbox class="w-28" [(ngModel)]="fileData.itemData.showWhileLoops"></mat-checkbox>
+		<div class="ml-12 pt-4 w-200">While Loops</div>
+	</div>
+
+
+	<div fxLayout="row" class="mt-20">
+		<mat-checkbox class="w-28" [(ngModel)]="fileData.itemData.showIfElses"></mat-checkbox>
+		<div class="ml-12 pt-4 w-200">If Else</div>
+	</div>
+
+
+	<div fxLayout="row" class="mt-20">
+		<mat-checkbox class="w-28" [(ngModel)]="fileData.itemData.showPlots"></mat-checkbox>
+		<div class="ml-12 pt-4 w-200">Plots</div>
+	</div>
+
+
+	<div fxLayout="row" class="mt-20">
+		<mat-checkbox class="w-28" [(ngModel)]="fileData.itemData.showCharts"></mat-checkbox>
+		<div class="ml-12 pt-4 w-200">3D Charts</div>
+	</div>
+
+
+	<div fxLayout="row" class="mt-20">
+		<mat-checkbox class="w-28" [(ngModel)]="fileData.itemData.showImages"></mat-checkbox>
+		<div class="ml-12 pt-4 w-200">Images</div>
+	</div>
+
+
+	<div fxLayout="row" class="mt-20">
+		<mat-checkbox class="w-28" [(ngModel)]="fileData.itemData.showVideos"></mat-checkbox>
+		<div class="ml-12 pt-4 w-200">Videos</div>
+	</div>
+
+
+	<div fxLayout="row" class="mt-20">
+		<mat-checkbox class="w-28" [(ngModel)]="fileData.itemData.showLineBreaks"></mat-checkbox>
+		<div class="ml-12 pt-4 w-200">Line Breaks</div>
+	</div>
+
+
+
+</div>

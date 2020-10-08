@@ -13,6 +13,7 @@ import { Permission } from 'app/main/models/permission';
 // Services
 import { WorkspaceService } from 'app/main/services/workspace.service';
 import { LogService } from 'app/main/services/log.service';
+import { CadwolfFileService } from 'app/main/services/cadwolf-file.service';
 
 
 
@@ -27,6 +28,7 @@ export class EditPropertiesComponent implements OnInit {
 	constructor(
 		private workspaceService 	: WorkspaceService,
 		private logService 			: LogService,
+		private cadwolfFileService 	: CadwolfFileService,
 		private route 				: ActivatedRoute,
 		private router 				: Router,
 	) { }
@@ -51,7 +53,7 @@ export class EditPropertiesComponent implements OnInit {
 	*/
 	updateFile( file, item )
 	{
-		this.workspaceService.updateFile( file, item );
+		this.cadwolfFileService.updateCadwolfFile( file, item );
 
 	}
 

@@ -1,4 +1,12 @@
 
+/*
+
+    This is the service that handles all of the authorization items
+    for logged in users in Firebase.
+
+*/
+
+
 // Core angular items
 import { Injectable, NgZone } from '@angular/core';
 import { Router } from "@angular/router";

@@ -21,15 +21,15 @@
 			<!-- The document -->
 			<div id="docItems"
 				 *ngIf="componentDataFlag"
- 				 cdkDropList
-				 [cdkDropListData]="component"
-				 (cdkDropListDropped)="dropItem($event)">
+ 				 cdkDropListGroup>
 
 
 				<!-- The add item row -->
 				<div fxLayout = "row"
 					 class="mb-20 mt-40 mb-40"
-					 style="position:fixed; top:50px; margin:0px 0px 0px -55px">
+					 style="position:fixed; 
+					 		top:50px; 
+					 		margin:0px 0px 0px -100px">
 
 
 					<button mat-fab 
@@ -45,7 +45,7 @@
 					<div id="addOptions"
 						 *ngIf="addOptionDisplay"
 						 fxLayout="column"
-						 style="position:relative; right:20px">
+						 style="">
 
 
 
@@ -59,29 +59,82 @@
 									matTooltip="{{cbutton.toolTip}}"
 									class="ml-28 mt-8"
 									matTooltipPosition="above"
-									(click)="addComponent(cbutton.addItem, 0)">
+									(click)="addComponent(cbutton.addItem, 0)"
+									style="cursor:pointer">
 								<mat-icon>{{cbutton.icon}}</mat-icon>
 							</button>
 
 						</div>
 
 
-						<div fxLayout="row"
-							 *ngIf="componentData.length>0">
+						<div fxLayout="column"
+							 *ngIf="componentData.length>0"
+							 style="margin:0px 0px 0px 70px">
 
-							<div *ngFor="let cbutton of addButtons"
-									mat-mini-fab 
-									color="#2D323E"
-									aria-label="Add Text Item"
-									matTooltip="{{cbutton.toolTip}}"
-									class="ml-28 mt-8"
-									matTooltipPosition="above"
-									cdkDrag
-									[cdkDragData]="cbutton"
-									cdkDragBoundary="#docColumn">
-								<mat-icon>{{cbutton.icon}}</mat-icon>
-								<div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+							<div fxLayout="row"
+								 cdkDropList
+								 [cdkDropListData]="addButtons1">
+
+								<div *ngFor="let cbutton of addButtons1"
+									 cdkDrag
+									 [cdkDragData]="cbutton"
+									 cdkDragBoundary="#docColumn"
+									 fxLayout="row"
+									 mat-mini-fab 
+									 color="#2D323E"
+									 aria-label="Add Text Item"
+									 matTooltip="{{cbutton.toolTip}}"
+									 class="ml-28 mt-8"
+									 matTooltipPosition="above"
+									 style="cursor:pointer">
+									<mat-icon>{{cbutton.icon}}</mat-icon>
+								</div>
+
 							</div>
+
+							<div fxLayout="row"
+								 cdkDropList
+								 [cdkDropListData]="addButtons2">
+
+								<div *ngFor="let cbutton of addButtons2"
+									 cdkDrag
+									 [cdkDragData]="cbutton"
+									 cdkDragBoundary="#docColumn"
+									 fxLayout="row"
+									 mat-mini-fab 
+									 color="#2D323E"
+									 aria-label="Add Text Item"
+									 matTooltip="{{cbutton.toolTip}}"
+									 class="ml-28 mt-8"
+									 matTooltipPosition="above"
+									 style="cursor:pointer">
+									<mat-icon>{{cbutton.icon}}</mat-icon>
+								</div>
+
+							</div>
+
+
+							<div fxLayout="row"
+								 cdkDropList
+								 [cdkDropListData]="addButtons3">
+
+								<div *ngFor="let cbutton of addButtons3"
+									 cdkDrag
+									 [cdkDragData]="cbutton"
+									 cdkDragBoundary="#docColumn"
+									 fxLayout="row"
+									 mat-mini-fab 
+									 color="#2D323E"
+									 aria-label="Add Text Item"
+									 matTooltip="{{cbutton.toolTip}}"
+									 class="ml-28 mt-8"
+									 matTooltipPosition="above"
+									 style="cursor:pointer">
+									<mat-icon>{{cbutton.icon}}</mat-icon>
+								</div>
+
+							</div>
+
 
 						</div>
 
@@ -92,31 +145,76 @@
 				<!-- / The add item row -->
 
 
+
+
+				<!-- The component list -->
+				<div cdkDropList 
+					 [cdkDropListData]="componentData"
+					 (cdkDropListDropped)="dropItem($event)">
+
 				<div *ngFor="let component of componentData"
-					[ngStyle]="{'width':component.content.width+'px',
+					 cdkDrag
+					 [id]="component.id"
+					 (click)="currentItem = component"
+					 [ngStyle]="{'width':component.content.width+'px',
 								'margin-top' : component.content.margintop+'px',
 								'margin-left' : component.content.marginleft+'px',
 								'margin-right' : component.content.marginright+'px',
 								'margin-bottom' : component.content.marginbottom+'px'}">
 
 
+
 					<ng-container [ngSwitch]="component.componentType">
-						
-
-						<cadwolf-width-margin [component]="component"
-											  *ngIf="component.content.edit=='widthMargin' && currentItem == component.id"
-											  (onComponentChanged)="onComponentChanged($event)">
-						</cadwolf-width-margin>
 
 
+
+					<!-- The drag handle -->
+					<mat-icon cdkDragHandle
+							  *ngIf="(currentItem == component)" 
+							  style="cursor:pointer; height:24px; width:24px; position:relative; top:10px; z-index=9999">
+						open_with
+					</mat-icon>
+
+					<div cdkDragHandle
+							  *ngIf="(currentItem != component)" 
+							  style="cursor:pointer; height:24px; width:24px; position:relative; top:10px; z-index=-9999">
+					</div>
+
+
+						<!-- The text object -->
 						<cadwolf-text *ngSwitchCase="'text'"
 									  [component]="component"
-									  [currentItem]="currentItem"
-									  [editItem]="editItem"
-									  (click)="currentItem = component.id"
+									  [currentItem]="currentItem==component"
+									  [showEditItem]="showEditItem"
+									  [editperm]="editPerm"
+									  (onShowEditChanged)="onShowEditChanged($event)"
 									  (onComponentChanged)="onComponentChanged($event)">
 						</cadwolf-text>
 
+
+
+						<!-- The header object -->
+						<cadwolf-header *ngSwitchCase="'header'"
+									  [component]="component"
+									  [currentItem]="currentItem==component"
+									  [showEditItem]="showEditItem"
+									  [editperm]="editPerm"
+									  (onShowEditChanged)="onShowEditChanged($event)"
+									  (onComponentChanged)="onComponentChanged($event)">
+						</cadwolf-header>
+
+
+
+
+						<!-- The equation object -->
+						<cadwolf-equation *ngSwitchCase="'equation'"
+									  [component]="component"
+									  [currentItem]="currentItem==component"
+									  [showEditItem]="showEditItem"
+									  [editperm]="editPerm"
+									  (onShowEditChanged)="onShowEditChanged($event)"
+									  (onComponentChanged)="onComponentChanged($event)">
+						</cadwolf-equation>
 
 
 
@@ -124,12 +222,17 @@
 
 					</ng-container>
 
+					<div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+
 				</div>
+				<!-- / The component list -->
+
+				</div>
+
 
 
 			</div>
 			<!-- / The document -->
-
 
 		</div>
 
@@ -137,14 +240,71 @@
 
 
 
+
+
+	<!-- Button to show edit panel -->
+	<div style="position:fixed !important;
+				top:100px; 
+				right:0px; 
+				background-color:#616161; 
+				color:#FFFFFF;
+				border-left:1px solid #ccc; 
+				border-top:1px solid #ccc; 
+				border-bottom:1px solid #ccc; 
+				border-radius:5px 0px 0px 5px; 
+				position:relative;
+				right:-1px;
+				width:70px;
+				height:40px;
+				cursor:pointer;
+				padding:8px 8px 0px 8px;
+				z-index:9999"
+		 (click)="showEditPanel=!showEditPanel">
+
+		<div fxLayout="row"
+			 *ngIf="showEditPanel"
+			 style="width:60px; height:40px"
+			  matTooltip="Close Edit Panel"
+			  matTooltipPosition="left">
+			<mat-icon class="">chevron_right</mat-icon>
+			<mat-icon>description</mat-icon>
+		</div>
+
+		<div fxLayout="row"
+			 *ngIf="!showEditPanel"
+			 style="width:60px; height:40px"
+			  matTooltip="Open Edit Panel"
+			  matTooltipPosition="left">
+			<mat-icon class="">chevron_left</mat-icon>
+			<mat-icon>description</mat-icon>
+		</div>
+
+
+	</div>
+
+
+
+	<!-- The settings panel itself -->
 	<document-settings [fileData]="fileData"
-					   [editItem]="editItem"
-					   (onEditDisplayChanged)="onEditDisplayChanged($event)">
+					   [showEditItem]="showEditItem"
+					   (onFileChanged)="onFileChanged($event)"
+					   *ngIf="showEditPanel"
+					   inner-scroll>
 	</document-settings>
 
 
-	<document-settings-properties *ngIf="editItem=='properties'"
-								  [fileData]="fileData">
-	</document-settings-properties>
+
+
+
+	<!-- The section above each item setting the width and margin -->
+	<cadwolf-edititem [component]="currentItem"
+					  *ngIf="showEditItem"
+					  (onComponentChanged)="onComponentChanged($event)"
+					  (onShowEditChanged)="onShowEditChanged($event)"
+					  [showEditItem]="showEditItem">
+	</cadwolf-edititem>
+
+
 
 </div>
+

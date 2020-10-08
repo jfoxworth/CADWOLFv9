@@ -1,5 +1,15 @@
 
 
+/*
+
+	This is the service for branches. It handles all of the CRUD functions
+	for the branches database. The service will also handle any additional
+	functions for the branches view. This is because there is little to
+	no additional functionality from the branches view component.
+
+
+*/
+
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
@@ -25,15 +35,16 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firest
 })
 export class BranchService {
 
-	fileStatus 		: BehaviorSubject<any>;
-	branchesStatus 	: BehaviorSubject<any>;
+	branchFileStatus 	: BehaviorSubject<any>;
+	branchesStatus 		: BehaviorSubject<any>;
 
 
 	constructor(
-		public afs 		: AngularFirestore,
+		public afs 			: AngularFirestore,
+		private logService 	: LogService,
 	) 
 	{ 
-		this.fileStatus 			= new BehaviorSubject([]);
+		this.branchFileStatus 		= new BehaviorSubject([]);
 		this.branchesStatus 		= new BehaviorSubject([]);
 	}
 
@@ -41,78 +52,17 @@ export class BranchService {
 
 
 
-	/*
-	 *
-	 * 	Get a file using an ID
-	 *
-	 * 
-	 */
-	getFileById( fileId )
-	{
-
-		this.afs.collection('files').doc(fileId)
-		.valueChanges()
-		.subscribe((result:CadwolfFile[]) => {
-
-			result['uid'] = fileId;
-			// Send to observable
-			this.fileStatus.next(result);
-			
-		});
-
-	}
+	
+	// -----------------------------------------------------------------------------------------------------
+	//
+	// @ CRUD FUNCTIONS FOR BRANCHES
+	//
+	// -----------------------------------------------------------------------------------------------------
 
 
 
-	/*
-	 *
-	 * 	Get the branches for a file
-	 *
-	 * 
-	 */
-	getBranches( fileId )
-	{
- 
- 		this.afs.collection('branches', ref => ref.where('fileId', '==', fileId ))
-		.valueChanges({idField: 'uid'})
-		.subscribe(result=> {
-			this.branchesStatus.next(result);
-		});
-
-	}
-
-
-
-	/*
-	 *
-	 * 	Get all of the files associated with this one. This is based on the OID for a file
-	 *
-	 * 
-	 */
-	getFiles( fileId )
-	{
- 
- 		this.afs.collection('files', ref => ref
- 			.where('oid', '==', fileId )
- 			.where('deleted', '==', false)
- 			.orderBy("dateCreated", "desc"))
-		.valueChanges({idField: 'uid'})
-		.subscribe(result=> {
-
-			this.fileStatus.next(result);
-
-		});
-
-	}
-
-
-
-
-  	/*
-  	*
-  	*	Create a branch
-  	*
-  	*/
+  	
+  	//	Create a branch
 	createBranch( branchData )
 	{
 		let userData = JSON.parse(localStorage.getItem('cadwolfUserData'));
@@ -136,6 +86,63 @@ export class BranchService {
 		});
 
 	}
+
+
+
+	
+	// Get the branches for a file
+	getBranches( fileId )
+	{
+ 
+ 		this.afs.collection('branches', ref => ref.where('fileId', '==', fileId ))
+		.valueChanges({idField: 'uid'})
+		.subscribe(result=> {
+			this.branchesStatus.next(result);
+		});
+
+	}
+
+
+
+	
+	// Get all of the files associated with this branch. This is based on the OID for a file
+	getFilesForBranch( fileId )
+	{
+ 
+ 		this.afs.collection('files', ref => ref
+ 			.where('oid', '==', fileId )
+ 			.where('deleted', '==', false)
+ 			.orderBy("dateCreated", "desc"))
+		.valueChanges({idField: 'uid'})
+		.subscribe(result=> {
+
+			this.branchFileStatus.next(result);
+
+		});
+
+	}
+
+
+
+
+
+	// delete a branch
+	deleteBranch( branchId, relatedFileId )
+	{
+		let userData = JSON.parse(localStorage.getItem('cadwolfUserData'));
+
+		this.afs.collection('branches').doc( branchId ).update({'deleted':true});
+
+		this.logService.createLogEntry({ entryTitle 	: 'Branch Deleted',
+										 messageType 	: 'Branch Deleted',
+										 relatedFileId	: relatedFileId,
+										 relatedUserId 	: userData.uid,
+										 parentId		: "NA",
+										 entryText		: 'This branch was deleted' });
+
+	}
+
+
 
 
 

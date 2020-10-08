@@ -31,6 +31,7 @@ import { CadwolfComponent } from 'app/main/models/cadwolfComponent';
 // Services
 import { DocumentService } from 'app/main/services/document.service';
 import { ComponentService } from 'app/main/services/component.service';
+import { CadwolfFileService } from 'app/main/services/cadwolf-file.service';
 
 
 // Text Editor
@@ -53,19 +54,25 @@ export class DocumentComponent implements OnInit {
 	componentData				: CadwolfComponent[];
 	componentDataFlag 			: boolean = false;
 
-	private _unsubscribeAll 	: Subject<any>;
 	userData 					: any;
 	fileId 						: string;
 	addOptionDisplay 			: boolean =  false;
-	addButtons 					: any[];
+	addButtons1 				: any[];
+	addButtons2 				: any[];
+	addButtons3 				: any[];
 	currentItem 				: CadwolfComponent;
-	editItem 					: string = 'this is it';
+	editItem 					: string = 'properties';
+	showEditPanel 				: boolean = false;
+	showEditItem 				: boolean = false;
+	editPerm 					: boolean = true;
 
 	editorConfig 				: AngularEditorConfig = this.documentService.kolkovSettings();
+	private _unsubscribeAll 	: Subject<any>;
 
 	constructor(
 		private documentService 	: DocumentService,
 		private componentService 	: ComponentService,
+		private cadwolfFileService 	: CadwolfFileService,
 		private route 				: ActivatedRoute,
 		private titleService 		: Title,
 	) 
@@ -89,7 +96,7 @@ export class DocumentComponent implements OnInit {
 
 
 		// Get the file and builds from the database
-		this.documentService.getFileById( this.fileId );
+		this.cadwolfFileService.getFileById( this.fileId );
 
 
 		// Get the components for this file
@@ -97,11 +104,38 @@ export class DocumentComponent implements OnInit {
 
 
 		// Get the add Item buttons
-		this.addButtons = this.documentService.getAddComponentItems();
+		this.addButtons1 = this.documentService.getButton1Items();
+		this.addButtons2 = this.documentService.getButton2Items();
+		this.addButtons3 = this.documentService.getButton3Items();
+
+
+		// Subscribe to data
+		this.subscribeToData();
+
+	}
+
+
+
+
+	// -----------------------------------------------------------------------------------------------------
+	// @ Functions
+	// -----------------------------------------------------------------------------------------------------
+
+
+
+	// -----------------------------------------------------------------------------------------------------
+	//
+	// @ FUNCTIONS TO SUBSCRIBE TO DATA
+	//
+	// -----------------------------------------------------------------------------------------------------
+
+
+	subscribeToData()
+	{
 
 
 		// This is an observable for the file data
-		this.documentService.fileStatus
+		this.cadwolfFileService.fileStatus
 		.pipe(takeUntil(this._unsubscribeAll))
 		.subscribe((file)=>
 		{ 
@@ -113,15 +147,10 @@ export class DocumentComponent implements OnInit {
 					this.fileData = file;
 					if ( typeof(this.fileData.itemData) == 'string' )
 					{
-					console.log('The file data is ');
-					console.log(this.fileData);
 						this.fileData.itemData = JSON.parse( this.fileData.itemData );
 					}
 					this.titleService.setTitle( this.fileData.name );
 					this.fileDataFlag = true;
-
-					console.log('The file data is ');
-					console.log(this.fileData);
 
 				}
 
@@ -145,8 +174,7 @@ export class DocumentComponent implements OnInit {
 					components[a].content = JSON.parse(components[a].content);
 				}
 			}
-			console.log('The components are ');
-			console.log(components);
+
 			this.componentData = components;
 			this.componentDataFlag = true;	
 		});
@@ -159,31 +187,14 @@ export class DocumentComponent implements OnInit {
 
 
 
-
-	/*
-	*
-	*
-	*	PUBLIC FUNCTIONS
-	*
-	*
-	*/
+	// -----------------------------------------------------------------------------------------------------
+	//
+	// @ CRUD FUNCTIONS
+	//
+	// -----------------------------------------------------------------------------------------------------
 
 
-	/*******************************************************************************
-	*
-	*
-	*	CRUD FUNCTIONS FOR COMPONENTS
-	*
-	*
-	*******************************************************************************/
-
-
-	/* 
-	*
-	*
-	*	Add a component to this document
-	*
-	*/
+	//  Add a component to this document
 	addComponent( componentType:string, order:number )
 	{
 		this.componentService.createComponent( { 'componentType' 	: componentType, 
@@ -192,30 +203,14 @@ export class DocumentComponent implements OnInit {
 	}
 
 
-
-
-	/* 
-	*
-	*
-	*	Update a component
-	*
-	*/
+	//  Update a component
 	updateComponent( component:CadwolfComponent )
 	{
-		console.log('The component is ...');
-		console.log(component);
-
 		this.componentService.updateComponent( component );
 	}
 
 
-
-	/* 
-	*
-	*
-	*	Delete a component
-	*
-	*/
+	//  Delete a component
 	deleteComponent( component:CadwolfComponent )
 	{
 		this.componentService.deleteComponent( component );
@@ -225,20 +220,59 @@ export class DocumentComponent implements OnInit {
 
 
 
-	/*******************************************************************************
-	*
-	*
-	*	DRAG AND DROP FUNCTIONS
-	*
-	*
-	*******************************************************************************/
+
+
+	// -----------------------------------------------------------------------------------------------------
+	//
+	// @ DRAG AND DROP FUNCTIONS
+	//
+	// -----------------------------------------------------------------------------------------------------
 
 	dropItem( event : CdkDragDrop<string[]> )
 	{
 		console.log(event);
-		this.componentService.createComponent( { 'componentType' 	: event.item.data.addItem,
-												 'order' 			: event.currentIndex,
-												 'fileId' 			: this.fileData.id } );
+
+
+		// If this is a drag/drop from the add item list to the document
+		if ( event.previousContainer.id == 'cdk-drop-list-1' )
+		{
+
+			// Create the component
+			this.componentService.createComponent( { 'componentType' 	: event.item.data.addItem,
+													 'order' 			: event.currentIndex,
+													 'fileId' 			: this.fileData.id } );
+
+			// Move down all of the other components
+			this.componentData.forEach(component => {
+				if (component.order >= event.currentIndex)
+				{
+					this.componentService.updateOrder(component.id, component.order+1);
+				}
+			});
+
+		}
+
+
+		// If this is a drag/drop within the document list
+		if ( event.previousContainer.id == 'cdk-drop-list-0' )
+		{
+
+			// Update the component with the new order
+			this.componentService.updateOrder( event.item.element.nativeElement.id, event.currentIndex );
+
+
+			// Move down all of the other components
+			this.componentData.forEach(component => {
+				if ( ( component.order >= event.currentIndex ) && ( component.order < event.previousIndex ) )
+				{
+					this.componentService.updateOrder(component.id, component.order+1);
+				}
+			});
+
+		}
+
+
+
 
 	}
 
@@ -252,18 +286,14 @@ export class DocumentComponent implements OnInit {
 
 
 
+	// -----------------------------------------------------------------------------------------------------
+	//
+	// @ FUNCTIONS RELATED TO EVENT EMITTORS IN CHILDREN
+	//
+	// -----------------------------------------------------------------------------------------------------
 
-	/*******************************************************************************
-	*
-	*
-	*	FUNCTIONS RELATED TO EVENT EMITTORS IN CHILDREN
-	*
-	*
-	*******************************************************************************/
-
-	onEditDisplayChanged( val: string ) {
-		console.log('new val is '+val);
-	    this.editItem = val;
+	onFileChanged( val: any ) {
+	    this.fileData = val;
 	}
 
 
@@ -282,6 +312,13 @@ export class DocumentComponent implements OnInit {
 		}
 
 	}
+
+
+	onShowEditChanged( val : boolean ) {
+		console.log('In the emitter');
+		this.showEditItem = val;
+	}
+
 
 
 

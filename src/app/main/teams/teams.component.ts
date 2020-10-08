@@ -49,9 +49,6 @@ export class TeamsComponent implements OnInit {
 		// Get the user data
 		this.userData = JSON.parse(localStorage.getItem('cadwolfUserData'));
 
-		console.log('the user data is ...');
-		console.log(this.userData);
-
 		if ( ( this.userData === undefined ) || 
 			 ( this.userData === null ) ||
 			 ( this.userData == null ) )

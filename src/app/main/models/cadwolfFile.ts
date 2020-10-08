@@ -14,7 +14,6 @@ export interface CadwolfFile {
 	version 		: number;
 	revision 		: number;
 	deleted 		: boolean;
-	description 	: string;
 
 	viewPermType 	: number;
 	editPermType 	: number;

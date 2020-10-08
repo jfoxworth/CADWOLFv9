@@ -27,10 +27,23 @@
 	height:20px;
 }
 
+#addOptions {
+	background-color:#fff;
+	border-radius:10px;
+	padding:10px 0px 20px 0px;
+	width:460px;
+	margin:-30px 0px 0px -70px;
+	box-shadow:3px 3px 8px 2px #CECECE;
+}
 
 .example-custom-placeholder {
   background: #ccc;
-  border: dotted 3px #999;
-  min-height: 60px;
+  border: dotted 1px #999;
+  min-height: 20px;
+  min-width:825px;
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.inEdit {
+	background-color:#EEE;
 }

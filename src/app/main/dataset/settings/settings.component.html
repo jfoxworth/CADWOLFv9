@@ -10,7 +10,7 @@
 	<div class="text-center">
 		<mat-form-field class="mt-20 w-50-p">
 			<mat-label>Equation Name</mat-label>
-			<input matInput [(ngModel)]="fileData.itemData.eqName">
+			<input matInput [(ngModel)]="fileData.itemData.name">
 		</mat-form-field>
 	</div>
 
@@ -36,7 +36,7 @@
 	<div fxLayout="row"
 		 class="mt-20 text-center">
 
-		<div class="w-40-p">Parsed Data Size</div><div></div>
+		<div class="w-40-p">Parsed Data Size</div><div>{{fileData.itemData.size}}</div>
 
 	</div>
 
@@ -52,17 +52,19 @@
 
 		<div *ngFor="let parser of fileData.itemData.parsers; let i = index"
 			 fxLayout="row"
-			 class="mt-20 text-center w-50-p">
+			 class="mt-40 text-center w-30-p"
+			 style="margin:auto">
 
 			 <mat-icon matTooltip="Click to delete parser"
 					   matTooltipPosition="below"
-					   style="cursor:pointer"
-					   (click)="deleteParser(index)">
+					   style="cursor:pointer;  position:relative; top:10px"
+					   (click)="deleteParser(index)"
+					   *ngIf="fileData.itemData.parsers.length>1">
 				cancel
 			</mat-icon>
 
 
-			<div class="text-center w-200">
+			<div class="text-center w-200 ml-8 mr-8">
 				<mat-form-field class="w-200">
 					<mat-label>Parser character(s)</mat-label>
 					<input matInput 
@@ -74,8 +76,9 @@
 
 			 <mat-icon matTooltip="Click to add parser"
 					   matTooltipPosition="below"
-					   style="cursor:pointer"
-					   (click)="addParser(index)">
+					   style="cursor:pointer; position:relative; top:10px"
+					   (click)="addParser(index)"
+					   *ngIf="fileData.itemData.parsers.length<=3">
 				add_circle_outline
 			</mat-icon>
 

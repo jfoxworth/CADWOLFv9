@@ -1,3 +1,14 @@
+
+/*
+
+	This service handles the items for both the teams model
+	as well as the teams component.
+
+*/
+
+
+
+// Standard Angular Components
 import { Injectable } from '@angular/core';
 
 
@@ -34,10 +45,10 @@ export class TeamsService {
 				 public UserService : UserService,
 				  ) 
 	{
-		this.teamsStatus = new BehaviorSubject([]);
-		this.teamStatus = new BehaviorSubject([]);
-		this.teamMembersStatus = new BehaviorSubject([]);
-		this.teamInvitedMembersStatus = new BehaviorSubject([]);
+		this.teamsStatus 				= new BehaviorSubject([]);
+		this.teamStatus 				= new BehaviorSubject([]);
+		this.teamMembersStatus 			= new BehaviorSubject([]);
+		this.teamInvitedMembersStatus 	= new BehaviorSubject([]);
 		let userData = JSON.parse(localStorage.getItem('cadwolfUserData'));
 		if ( userData )
 		{
@@ -48,68 +59,15 @@ export class TeamsService {
 
 
 
-
-
-  	/*
-  	*
-  	*	Get a team from an ID
-  	*
-  	*/
-	getTeam( teamId )
-	{
-		console.log('In the get team function');
-
-		this.afs.collection('teams').doc(teamId)
-		.valueChanges()
-		.subscribe(result=> {
-			result['uid'] = teamId;
-			console.log('In the get team function with ');
-			console.log(result);
-
-			this.teamStatus.next(result);
-		});
-
-
-	}
+	// -----------------------------------------------------------------------------------------------------
+	//
+	// @ CRUD FUNCTIONS
+	//
+	// -----------------------------------------------------------------------------------------------------
 
 
 
-
-  	/*
-  	*
-  	*	Get all teams for a user
-  	*
-  	*/
-	getTeams( userId )
-	{
-
-		let userData = JSON.parse(localStorage.getItem('cadwolfUserData'));
-
-		if ( userData.uid == userId )
-		{
-			this.afs.collection('teams', ref => ref.where('members', 'array-contains', userId))
-			.valueChanges({idField: 'uid'})
-			.subscribe(result=> {
-				result.forEach(obj => {
-					obj['teamImage'] = this.getTeamImage(obj);
-				});
-				console.log('The teams array for userId '+userId+' is ');
-				console.log(result);
-				this.teamsStatus.next(result);
-			});
-
-		}
-
-	}
-
-
-
-
-  	/*
-  	*
-  	*	Add a new team
-  	*
-  	*/
+	//  Add a new team
 	addTeam( userData )
 	{
 		let teamObj : Team ={
@@ -147,82 +105,50 @@ export class TeamsService {
 
 
 
+	//  Get a team from an ID
+	getTeam( teamId )
+	{
+		console.log('In the get team function');
 
-  	/*
-  	*
-  	*	Get the members for a team
-  	*
-  	*/
-	getMembers( teamId )
+		this.afs.collection('teams').doc(teamId)
+		.valueChanges()
+		.subscribe(result=> {
+			result['uid'] = teamId;
+			console.log('In the get team function with ');
+			console.log(result);
+
+			this.teamStatus.next(result);
+		});
+
+
+	}
+
+
+	//  Get all teams for a user
+	getTeams( userId )
 	{
 
-		this.afs.collection('teamMembers', ref => ref.where('teamId', '==', teamId).where('invitationStatus', '==', 1))
+		let userData = JSON.parse(localStorage.getItem('cadwolfUserData'));
+
+		if ( userData.uid == userId )
+		{
+			this.afs.collection('teams', ref => ref.where('members', 'array-contains', userId))
 			.valueChanges({idField: 'uid'})
 			.subscribe(result=> {
-
 				result.forEach(obj => {
-					this.afs.collection('users').doc(obj['userId'])
-					.get()
-					.subscribe(userResult=> {
-						obj['imageType'] = userResult['imageType'];
-						obj['profileImage'] = this.UserService.getProfileImage(userResult.data());
-					});
-
+					obj['teamImage'] = this.getTeamImage(obj);
 				});
+				this.teamsStatus.next(result);
+			});
 
-				this.teamMembersStatus.next(result);
-		});
+		}
 
 	}
 
 
 
 
-
-
-
-
-
-
-  	/*
-  	*
-  	*	Get the members for a team
-  	*
-  	*/
-	getInvitedMembers( teamId )
-	{
-
-		this.afs.collection('teamMembers', ref => ref.where('teamId', '==', teamId).where('invitationStatus', '==', 0))
-			.valueChanges({idField: 'uid'})
-			.subscribe(result=> {
-
-				result.forEach(obj => {
-					this.afs.collection('users').doc(obj['userId'])
-					.get()
-					.subscribe(userResult=> {
-						obj['imageType'] = userResult['imageType'];
-						obj['profileImage'] = this.UserService.getProfileImage(userResult.data());
-					});
-
-				});
-
-				this.teamInvitedMembersStatus.next(result);
-		});
-
-	}
-
-
-
-
-
-
-
-
-  	/*
-  	*
-  	*	Get the image for the team
-  	*
-  	*/
+	//  Get the image for the team
 	getTeamImage( teamObj )
 	{
 
@@ -250,15 +176,42 @@ export class TeamsService {
 
 
 
+	// Update Team 
+	saveChanges( teamData )
+	{
+		var docRef = this.afs.collection('teams').doc(teamData.uid);
+		docRef.update(teamData);
+
+	}
+
+
+
+	// Delete a team 
+	deleteTeam( teamObj, userId )
+	{
+		for (let a=0; a<teamObj['admins'].length; a++)
+		{
+			if ( teamObj.admins[a] == userId )
+			{
+				this.afs.collection('teams').doc(teamObj.uid).delete().then(function() {
+					console.log("Document successfully deleted!");
+				}).catch(function(error) {
+					console.error("Error removing document: ", error);
+				});
+			}
+		}
+	}
 
 
 
 
-  	/*
-  	*
-  	*	Set the team display status
-  	*
-  	*/
+	// -----------------------------------------------------------------------------------------------------
+	//
+	// @ FUNCTIONS FOR TEAM COMPONENT
+	//
+	// -----------------------------------------------------------------------------------------------------
+
+	//  Set the team display status
 	setTeamStatus( teamObj, userObj )
 	{
 		console.log('In set team status with ...');
@@ -286,57 +239,6 @@ export class TeamsService {
 	}
 
 
-
-
-	saveChanges( teamData )
-	{
-		var docRef = this.afs.collection('teams').doc(teamData.uid);
-		docRef.update(teamData);
-
-	}
-
-
-
-
-
-
-	deleteTeamMember( teamObj, userId )
-	{
-		for (let a=0; a<teamObj['admins'].length; a++)
-		{
-			if ( teamObj.admins[a] == userId )
-			{
-				this.afs.collection('teamMembers').doc(teamObj.uid).delete().then(function() {
-				    console.log("Document successfully deleted!");
-				}).catch(function(error) {
-				    console.error("Error removing document: ", error);
-				});
-			}
-		}
-	}
-
-
-
-
-
-	inviteUserToTeam( userData, userObj, teamData )
-	{
-
-		let teamUserData = {
-			adderId 			: userData.uid,
-			adderUserName 		: userData.userName,
-			dateCreated 		: Date.now(),
-			invitationStatus 	: 0,
-			teamId 				: teamData.uid,
-			userId 				: userObj.uid,
-			userName 			: userObj.userName
-		};
-		this.afs.collection('teamMembers').add(teamUserData)
-		.then(function() {
-    		console.log('Done');
-		});
-
-	}
 
 
 

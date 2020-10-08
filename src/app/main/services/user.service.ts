@@ -1,3 +1,19 @@
+
+/*
+
+	This is the service for the user component - not the model. It 
+	handles a number of other functions.
+
+	- retrieve the images for the user
+	- check if a user name exists
+	- check if a doc is a favorite
+	- add item as a favorite
+	- remove items as a favorite
+
+*/
+
+
+// Standard Angular Items
 import { Injectable } from '@angular/core';
 
 
@@ -168,4 +184,7 @@ export class UserService {
 		this.afs.collection('users').doc( userData.uid ).update( { 'favorites' : userData.favorites });
 		localStorage.setItem('cadwolfUserData', JSON.stringify(userData));
 	}
+
+
+	
 }

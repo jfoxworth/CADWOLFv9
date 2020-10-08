@@ -1,71 +1,171 @@
-<div id="settingsColumn">
+<div id="settingsColumn" >
 
-	<div class="columnHeader text-center pt-12">Document Properties</div>
+	<div class="columnHeader text-center pt-12 mat-headline">Document Settings</div>
 
-	<div class="settingsItem pt-4 pb-8"
-		 (click)="changeEditDisplay('properties')">
-		<mat-icon style="position:relative; top:4px;" class="ml-12 mr-12 pt-8">open_with</mat-icon>
-		Properties
-	</div>
+	<div fxLayout="row"
+		 fxLayoutAlign="center center"
+		 class="w-300 text-center ml-48">
+
+		<div class="settingsItem pt-4 pb-8"
+			 (click)="editItem = 'properties'">
+			<mat-icon style="position:relative; top:4px;" 
+					  class="ml-12 mr-12 pt-8"
+					  matTooltip="Properties"
+					  matTooltipPosition="above">
+				open_with
+			</mat-icon>
+		</div>
 		
-	<div class="settingsItem pt-4 pb-8"
-		 (click)="changeEditDisplay('hideShow')">
-		<mat-icon style="position:relative; top:4px;" class="ml-12 mr-12 pt-8">visibility</mat-icon>
-		Hide/Show Items
+
+		<div class="settingsItem pt-4 pb-8"
+			 (click)="editItem = 'showhide'">
+			<mat-icon style="position:relative; top:4px;" 
+					  class="ml-12 mr-12 pt-8"
+					  matTooltip="Hide/Show Items"
+					  matTooltipPosition="above">
+				visibility
+			</mat-icon>
+		</div>
+
+
+		<div class="settingsItem pt-4 pb-8"
+			 (click)="editItem = 'properties'">
+			<mat-icon style="position:relative; top:4px;" 
+					  class="ml-12 mr-12 pt-8"
+					  matTooltip="Link to CAD"
+					  matTooltipPosition="above">
+				wallpaper
+			</mat-icon>
+		</div>
+
+
+		<div class="settingsItem pt-4 pb-8"
+			 (click)="editItem = 'tableOfContents'">
+			<mat-icon style="position:relative; top:4px;" 
+					  class="ml-12 mr-12 pt-8"
+					  matTooltip="Table of Contents"
+					  matTooltipPosition="above">
+				toc
+			</mat-icon>
+		</div>
+
+
+		<div class="settingsItem pt-4 pb-8"
+			 (click)="editItem = 'bibliography'">
+			<mat-icon style="position:relative; top:4px;" 
+					  class="ml-12 mr-12 pt-8"
+					  matTooltip="Bibliography"
+					  matTooltipPosition="above">
+				book
+			</mat-icon>
+		</div>
+
+
+
+		<div class="settingsItem pt-4 pb-8"
+			 (click)="editItem = 'fileAsFunction'">
+			<mat-icon style="position:relative; top:4px;" 
+					  class="ml-12 mr-12 pt-8"
+					  matTooltip="File as a Function"
+					  matTooltipPosition="above">
+				settings
+			</mat-icon>
+		</div>
+
 	</div>
 
-	<div class="settingsItem pt-4 pb-8"
-		 (click)="changeEditDisplay('linkToCad')">
-		<mat-icon style="position:relative; top:4px;" class="ml-12 mr-12 pt-8">settings</mat-icon>
-		Link to CAD
+
+
+	<div fxLayout="row"
+		 class="w-300 text-center ml-52">
+
+
+		<div class="settingsItem pt-4 pb-8"
+			 (click)="editItem = 'fileInputs'">
+			<mat-icon style="position:relative; top:4px;" 
+					  class="ml-12 mr-12 pt-8"
+					  matTooltip="File Inputs"
+					  matTooltipPosition="below">
+				redo
+			</mat-icon>
+		</div>
+
+
+
+		<div class="settingsItem pt-4 pb-8"
+			 (click)="editItem = 'dataset'">
+			<mat-icon style="position:relative; top:4px;" 
+					  class="ml-12 mr-12 pt-8"
+					  matTooltip="Dataset Inputs"
+					  matTooltipPosition="below">
+				storage
+			</mat-icon>
+		</div>
+
+
+		<div class="settingsItem pt-4 pb-8"
+			 (click)="editItem = 'importedFunctions'">
+			<mat-icon style="position:relative; top:4px;" 
+					  class="ml-12 mr-12 pt-8"
+					  matTooltip="Imported Functions"
+					  matTooltipPosition="below">
+				cached
+			</mat-icon>
+		</div>
+
+
+		<div class="settingsItem pt-4 pb-8"
+			 (click)="editItem = 'properties'">
+			<mat-icon style="position:relative; top:4px;" 
+					  class="ml-12 mr-12 pt-8"
+					  matTooltip="Dependent Files"
+					  matTooltipPosition="below">
+				build
+			</mat-icon>
+		</div>
+
+
+
+		<div class="settingsItem pt-4 pb-8"
+			 (click)="editItem = 'forums'">
+			<mat-icon style="position:relative; top:4px;" 
+					  class="ml-12 mr-12 pt-8"
+					  matTooltip="Forums"
+					  matTooltipPosition="below">
+				speaker_notes
+			</mat-icon>
+		</div>
+
 	</div>
 
-	<div class="settingsItem pt-4 pb-8"
-		 (click)="changeEditDisplay('toc')">
-		<mat-icon style="position:relative; top:4px;" class="ml-12 mr-12 pt-8">toc</mat-icon>
-		Table of Contents
-	</div>
 
-	<div class="settingsItem pt-4 pb-8"
-		 (click)="changeEditDisplay('bibliography')">
-		<mat-icon style="position:relative; top:4px;" class="ml-12 mr-12 pt-8">book</mat-icon>
-		Bibliography
-	</div>
 
-	<div class="settingsItem pt-4 pb-8"
-		 (click)="changeEditDisplay('fileAsFunction')">
-		<mat-icon style="position:relative; top:4px;" class="ml-12 mr-12 pt-8">settings</mat-icon>
-		File as a Function
-	</div>
 
-	<div class="settingsItem pt-4 pb-8"
-		 (click)="changeEditDisplay('fileInputs')">
-		<mat-icon style="position:relative; top:4px;" class="ml-12 mr-12 pt-8">settings</mat-icon>
-		File Inputs
-	</div>
+	<document-settings-properties *ngIf="editItem=='properties'"
+								  [fileData]="fileData"
+								  (onFileChanged)="onFileChanged($event)">
+	</document-settings-properties>
 
-	<div class="settingsItem pt-4 pb-8"
-		 (click)="changeEditDisplay('datasetInputs')">
-		<mat-icon style="position:relative; top:4px;" class="ml-12 mr-12 pt-8">settings</mat-icon>
-		Dataset Inputs
-	</div>
 
-	<div class="settingsItem pt-4 pb-8"
-		 (click)="changeEditDisplay('importedFunctions')">
-		<mat-icon style="position:relative; top:4px;" class="ml-12 mr-12 pt-8">settings</mat-icon>
-		Imported Functions
-	</div>
 
-	<div class="settingsItem pt-4 pb-8"
-		 (click)="changeEditDisplay('dependentFiles')">
-		<mat-icon style="position:relative; top:4px;" class="ml-12 mr-12 pt-8">settings</mat-icon>
-		Dependent Files
-	</div>
+	<document-settings-show-hide *ngIf="editItem=='showhide'"
+								  [fileData]="fileData"
+								  (onFileChanged)="onFileChanged($event)">
+	</document-settings-show-hide>
 
-	<div class="settingsItem pt-4 pb-8"
-		 (click)="changeEditDisplay('forums')">
-		<mat-icon style="position:relative; top:4px;" class="ml-12 mr-12 pt-8">settings</mat-icon>
-		Forums
-	</div>
+
+	<document-settings-toc *ngIf="editItem=='tableOfContents'"
+								  [fileData]="fileData"
+								  (onFileChanged)="onFileChanged($event)">
+	</document-settings-toc>
+
+
+	<document-settings-bibliography *ngIf="editItem=='bibliography'"
+								  [fileData]="fileData"
+								  (onFileChanged)="onFileChanged($event)">
+	</document-settings-bibliography>
+
+
+
 
 </div>

@@ -36,7 +36,7 @@ export const fuseConfig: FuseConfig = {
             position             : 'below-fixed'
         },
         sidepanel: {
-            hidden  : true,
+            hidden  : false,
             position: 'right'
         }
     }

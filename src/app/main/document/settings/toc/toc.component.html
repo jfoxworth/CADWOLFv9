@@ -1,0 +1,141 @@
+
+
+<div class="mat-title mt-40 mb-20 text-center">Table fo Contents</div>
+
+
+<div fxLayout="row" 
+	 fxLayoutAlign="space-around center"
+	 class="mt-20 w-100-p">
+
+
+	<mat-form-field appearance="outline" class="w-80-p">
+		<mat-label>Show / Hide Table of Contents</mat-label>
+		<mat-select [(ngModel)]="fileData.itemData.tableOfContents.show">
+			<mat-option [value]="1">Show</mat-option>
+			<mat-option [value]="0">Hide</mat-option>
+		</mat-select>
+	</mat-form-field>
+
+</div>
+
+
+
+<div fxLayout="row" 
+	 fxLayoutAlign="space-around center"
+	 class="mt-20 w-100-p">
+
+	<mat-form-field appearance="outline" class="w-80-p">
+		<mat-label>Items in the Table of Contents</mat-label>
+		<mat-select [(ngModel)]="fileData.itemData.tableOfContents.showType">
+			<mat-option [value]="'headers'">Headers Only</mat-option>
+			<mat-option [value]="'types'">Selected Types</mat-option>
+		</mat-select>
+	</mat-form-field>
+
+</div>
+
+
+
+<div fxLayout="row"
+	 fxLayoutAlign="space-around center"
+	 class="mt-20 w-100-p">
+
+	<mat-form-field appearance="outline" class="w-80-p">
+		<mat-label>Show Level</mat-label>
+		<mat-select [(ngModel)]="fileData.itemData.tableOfContents.showLevel">
+			<mat-option [value]="'H1'">H1</mat-option>
+			<mat-option [value]="'H2'">H2</mat-option>
+			<mat-option [value]="'H3'">H3</mat-option>
+			<mat-option [value]="'H4'">H4</mat-option>
+			<mat-option [value]="'H5'">H5</mat-option>
+		</mat-select>
+	</mat-form-field>
+
+</div>
+
+
+<div fxLayout="column" 
+	 fxLayoutAlign="center center"
+	 *ngIf="fileData.itemData.tableOfContents.showType=='types'">
+
+
+	<div fxLayout="row" class="mt-20">
+		<mat-checkbox class="w-28" [(ngModel)]="fileData.itemData.tableOfContents.headers"></mat-checkbox>
+		<div class="ml-12 pt-4 w-200">Headers</div>
+	</div>
+
+
+	<div fxLayout="row" class="mt-20">
+		<mat-checkbox class="w-28" [(ngModel)]="fileData.itemData.tableOfContents.text"></mat-checkbox>
+		<div class="ml-12 pt-4 w-200">Text</div>
+	</div>
+
+
+	<div fxLayout="row" class="mt-20">
+		<mat-checkbox class="w-28" [(ngModel)]="fileData.itemData.tableOfContents.equations"></mat-checkbox>
+		<div class="ml-12 pt-4 w-200">Equations</div>
+	</div>
+
+
+	<div fxLayout="row" class="mt-20">
+		<mat-checkbox class="w-28" [(ngModel)]="fileData.itemData.tableOfContents.symbolics"></mat-checkbox>
+		<div class="ml-12 pt-4 w-200">Symbolics</div>
+	</div>
+
+
+	<div fxLayout="row" class="mt-20">
+		<mat-checkbox class="w-28" [(ngModel)]="fileData.itemData.tableOfContents.tables"></mat-checkbox>
+		<div class="ml-12 pt-4 w-200">Table</div>
+	</div>
+
+
+	<div fxLayout="row" class="mt-20">
+		<mat-checkbox class="w-28" [(ngModel)]="fileData.itemData.tableOfContents.forLoops"></mat-checkbox>
+		<div class="ml-12 pt-4 w-200">For Loops</div>
+	</div>
+
+
+	<div fxLayout="row" class="mt-20">
+		<mat-checkbox class="w-28" [(ngModel)]="fileData.itemData.tableOfContents.whileLoops"></mat-checkbox>
+		<div class="ml-12 pt-4 w-200">While Loops</div>
+	</div>
+
+
+	<div fxLayout="row" class="mt-20">
+		<mat-checkbox class="w-28" [(ngModel)]="fileData.itemData.tableOfContents.ifElses"></mat-checkbox>
+		<div class="ml-12 pt-4 w-200">If Else</div>
+	</div>
+
+
+	<div fxLayout="row" class="mt-20">
+		<mat-checkbox class="w-28" [(ngModel)]="fileData.itemData.tableOfContents.plots"></mat-checkbox>
+		<div class="ml-12 pt-4 w-200">Plots</div>
+	</div>
+
+
+	<div fxLayout="row" class="mt-20">
+		<mat-checkbox class="w-28" [(ngModel)]="fileData.itemData.tableOfContents.charts"></mat-checkbox>
+		<div class="ml-12 pt-4 w-200">3D Charts</div>
+	</div>
+
+
+	<div fxLayout="row" class="mt-20">
+		<mat-checkbox class="w-28" [(ngModel)]="fileData.itemData.tableOfContents.images"></mat-checkbox>
+		<div class="ml-12 pt-4 w-200">Images</div>
+	</div>
+
+
+	<div fxLayout="row" class="mt-20">
+		<mat-checkbox class="w-28" [(ngModel)]="fileData.itemData.tableOfContents.videos"></mat-checkbox>
+		<div class="ml-12 pt-4 w-200">Videos</div>
+	</div>
+
+
+	<div fxLayout="row" class="mt-20">
+		<mat-checkbox class="w-28" [(ngModel)]="fileData.itemData.tableOfContents.lineBreaks"></mat-checkbox>
+		<div class="ml-12 pt-4 w-200">Line Breaks</div>
+	</div>
+
+
+
+</div>

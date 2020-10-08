@@ -21,7 +21,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
-
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 
 
@@ -96,6 +96,7 @@ const routes = [
         DragDropModule,
         AngularEditorModule,
         MatSelectModule,
+        MatButtonToggleModule,
         MatTabsModule,
         FontAwesomeModule,
         BrowserAnimationsModule

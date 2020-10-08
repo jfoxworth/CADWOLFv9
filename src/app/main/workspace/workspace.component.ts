@@ -26,6 +26,7 @@ import { Permission } from 'app/main/models/permission';
 import { WorkspaceService } from 'app/main/services/workspace.service';
 import { PermissionsService } from 'app/main/services/permissions.service';
 import { UserService } from 'app/main/services/user.service';
+import { CadwolfFileService } from 'app/main/services/cadwolf-file.service';
 
 
 
@@ -60,6 +61,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy
 		private workspaceService 	: WorkspaceService,
 		private userService 		: UserService,
 		private permissionsService 	: PermissionsService,
+		private cadwolfFileService 	: CadwolfFileService,
 		private titleService 		: Title,
 		private route 				: ActivatedRoute,
 		private Router 				: Router,
@@ -239,6 +241,9 @@ export class WorkspaceComponent implements OnInit, OnDestroy
 		{ 
 			this.heirarchy = result;
 		});
+
+
+
 	}
 
 
@@ -272,7 +277,7 @@ export class WorkspaceComponent implements OnInit, OnDestroy
 	// -----------------------------------------------------------------------------------------------------
   	newFile( typeNum ):void {
 
-  		this.workspaceService.createNewFile( typeNum, this.workspaceData.uid );
+  		this.cadwolfFileService.createCadwolfFile( typeNum, this.workspaceData.uid );
   	}
 
 

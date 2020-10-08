@@ -30,9 +30,9 @@ There are a number of primary Angular components within the system that handle t
 - Document
 - Dataset
 - Part Tree
-- Teams
-- Units
-- Constants
+- Teams	
+- Units	
+- constants 
 - Log
 - Profile
 
@@ -42,6 +42,8 @@ There are a number of primary Angular components within the system that handle t
 For every database table, there is a corresponding model in the angular app. For each model, there is a service that handles the CRUD aspects of that model. The CRUD commands are all standard except for the read commands. Each model has multiple read commands. One could represent fetching a single model using an ID. Another could represent grabbing all model entries owned by a user, etc.
 
 For each component, there is a corresposing service. These serivces handle all aspects of that component's work that is not related to the fetching of data for the models in use.
+
+In some cases, one service handles both the CRUD for the model and the additional component items. Examples are the Team, Branches, and Log items. In most cases, the model service handles only the CRUD for the model and there are separate services for the components. No CRUD should be done in the component services.
 
 
 ## Component Design Pattern

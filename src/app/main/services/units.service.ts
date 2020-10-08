@@ -1,3 +1,14 @@
+
+/*
+
+	This is the service for the units model and the units component.
+	Users cannot add/edit/delete units. The service pulls down all
+	units upon creation.
+*/
+
+
+
+// Standard Angular Items
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
@@ -15,7 +26,7 @@ import { Unit } from 'app/main/models/units';
 
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class UnitsService {
 
@@ -25,9 +36,10 @@ export class UnitsService {
 	constructor(	public afs: AngularFirestore )   					// Inject Firestore service
  	{
 
+ 		// Create the observer
 		this.unitsStatus = new BehaviorSubject([]);
 
-
+		// Get the units from the database
 		this.getUnits();
 
  	
@@ -59,12 +71,4 @@ export class UnitsService {
 	}
 
 
-	/*
-	 * 	Get all of the units for use in CADWOLF equations
-	 *
-	 */
-	updateUnits( )
-	{
-		this.unitsStatus.next(this.units);
-	}
 }

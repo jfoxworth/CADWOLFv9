@@ -1,5 +1,114 @@
-<div style="position:absolute; bottom:300px; width:100%; background-color:#fff; border-top:3px solid #000">
 
-properties
+
+<div class="mat-title mt-40 mb-20 text-center">Document Properties</div>
+
+
+
+
+
+
+<div class="mat-subheading-2 text-center">Title and Subtitle</div>
+
+
+<div fxLayout="row"
+	 fxLayoutAlign="space-around center">
+
+	<mat-checkbox class="pt-8" [(ngModel)]="fileData.itemData.showTitle"></mat-checkbox>
+
+	<mat-form-field class="w-280">
+	    <mat-label>Document Title</mat-label>
+    	<input matInput [(ngModel)]="fileData.itemData.title">
+	</mat-form-field>
 
 </div>
+
+
+<div fxLayout="row"
+	 fxLayoutAlign="space-around center">
+
+	<mat-checkbox class="pt-8" [(ngModel)]="fileData.itemData.showSubtitle"></mat-checkbox>
+
+	<mat-form-field class="w-280">
+	    <mat-label>Document Subtitle</mat-label>
+    	<input matInput [(ngModel)]="fileData.itemData.subTitle">
+	</mat-form-field>
+
+</div>
+
+
+
+
+
+
+
+<div class="mat-subheading-2 text-center mt-40">Width and Side Margins</div>
+
+
+<div class="text-center">
+	<mat-form-field class="w-280">
+	    <mat-label>Document Width</mat-label>
+		<input matInput [(ngModel)]="fileData.itemData.docWidth">
+	</mat-form-field>
+</div>
+
+
+<div class="text-center">
+	<mat-form-field class="w-280">
+	    <mat-label>Document Side Margin</mat-label>
+		<input matInput [(ngModel)]="fileData.itemData.docMargin">
+	</mat-form-field>
+</div>
+
+
+
+
+
+
+<div class="mat-subheading-2 text-center mt-40">Where the equations are solved</div>
+
+
+
+<div fxLayout="row"
+	 class="mt-12"
+	 fxLayoutAlign="space-around center">
+
+    <mat-icon style="color:#00FF00" class="w-40 ml-20">check_circle</mat-icon>
+
+    <div class="mat-body-1 w-300">Solve Equations in the browser</div>
+
+</div>
+
+
+<div fxLayout="row"
+	 class="mt-12"
+	 fxLayoutAlign="space-around center">
+
+    <mat-icon style="color:#FF0000" class="w-40 ml-20">check_circle</mat-icon>
+
+    <div class="mat-body-1 w-300">Solve equations in Python on your computer</div>
+
+</div>
+
+
+
+
+
+
+
+<div class="mat-subheading-2 text-center mt-40">Description</div>
+
+
+<div class="mt-20 mb-60 w-90-p text-center"
+	 style="margin-left:5%">
+	<!-- The text editor -->
+	<angular-editor [placeholder]="'Enter text here...'" 
+					[(ngModel)]="fileData.itemData.description" 
+					[config]="editorConfig"
+					style="width:100%; margin-left:5%">
+						
+	</angular-editor>
+
+</div>
+
+
+

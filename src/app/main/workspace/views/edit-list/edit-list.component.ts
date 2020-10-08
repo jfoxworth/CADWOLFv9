@@ -11,6 +11,7 @@ import { Permission } from 'app/main/models/permission';
 
 // Services
 import { WorkspaceService } from 'app/main/services/workspace.service';
+import { CadwolfFileService } from 'app/main/services/cadwolf-file.service';
 import { PermissionsService } from 'app/main/services/permissions.service';
  
 
@@ -29,6 +30,7 @@ export class EditListComponent implements OnInit {
 	constructor(
 		private workspaceService 	: WorkspaceService,
 		private permissionsService 	: PermissionsService,
+		private cadwolfFileService 	: CadwolfFileService,
 		private Router 				: Router,
 		private route 				: ActivatedRoute,
 	) 
@@ -61,7 +63,7 @@ export class EditListComponent implements OnInit {
 	*/
 	deleteFileItem( fileId )
 	{
-		this.workspaceService.deleteFileItem( fileId );
+		this.cadwolfFileService.deleteCadwolfFile( fileId );
 	}
 
 

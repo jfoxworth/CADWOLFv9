@@ -1,16 +1,17 @@
 #settingsColumn {
-	width:240px;
-	min-width:240px;
-	max-width:240px;
+	width:400px;
+	min-width:400px;
+	max-width:400px;
+	height:100%;
 	padding:0px;
-	margin:0px 0px 20px 0px;
-	background-color :#FFF;
-	border:1px solid #ccc;
-	border-radius:5px;
-	position:absolute;
-	top:20px;
-	right:20px;
-
+	margin:0px 0px 0px 0px;
+	background-color :#FFFFFF;
+	position:fixed;
+	top:0px;
+	right:0px;
+	box-shadow:0 2px 8px 0 rgba(0,0,0,.35);
+	display:block;
+	overflow-y:scroll;
 
 
 	.columnHeader {

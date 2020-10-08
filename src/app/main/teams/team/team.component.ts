@@ -8,6 +8,7 @@ import { RouterModule, Routes, ActivatedRoute } from '@angular/router';
 // Services
 import { TeamsService } from 'app/main/services/teams.service';
 import { UserService } from 'app/main/services/user.service';
+import { TeamMembersService } from 'app/main/services/team-members.service';
 
 
 // Models
@@ -51,11 +52,12 @@ export class TeamComponent implements OnInit {
 	private _unsubscribeAll: Subject<any>;
 
 	constructor(
-			private titleService	: Title,
-			public TeamsService 	: TeamsService,
-			public UserService 		: UserService,
-			private route 			: ActivatedRoute,
-	        private afStorage 		: AngularFireStorage,
+			private titleService		: Title,
+			public TeamsService 		: TeamsService,
+			public TeamMembersService 	: TeamMembersService,
+			public UserService 			: UserService,
+			private route 				: ActivatedRoute,
+	        private afStorage 			: AngularFireStorage,
 		) 
 	{ 
 		this._unsubscribeAll = new Subject();
@@ -77,10 +79,10 @@ export class TeamComponent implements OnInit {
 		this.TeamsService.getTeam( this.teamId );
 
 		// Pull the team members
-		this.TeamsService.getMembers( this.teamId );
+		this.TeamMembersService.getMembers( this.teamId );
 
 		// Pull the people invited to the team
-		this.TeamsService.getInvitedMembers( this.teamId );
+		this.TeamMembersService.getInvitedMembers( this.teamId );
 
 		// Subscribe to the team observable
 		this.TeamsService.teamStatus
@@ -104,7 +106,7 @@ export class TeamComponent implements OnInit {
 
 
 		// Subscribe to the team members observable
-		this.TeamsService.teamMembersStatus
+		this.TeamMembersService.teamMembersStatus
 			.pipe(takeUntil(this._unsubscribeAll))
 			.subscribe((teamMemberData)=>{
 			
@@ -114,7 +116,7 @@ export class TeamComponent implements OnInit {
 
 
 		// Subscribe to the team members observable
-		this.TeamsService.teamInvitedMembersStatus
+		this.TeamMembersService.teamInvitedMembersStatus
 			.pipe(takeUntil(this._unsubscribeAll))
 			.subscribe((teamInvitedMemberData)=>{
 			
@@ -208,7 +210,7 @@ export class TeamComponent implements OnInit {
 
 		console.log('Going to delete '+teamObj.uid);
 
-		this.TeamsService.deleteTeamMember( teamObj, userId );
+		this.TeamMembersService.deleteTeamMember( teamObj, userId );
 	}
 
 
@@ -264,7 +266,7 @@ export class TeamComponent implements OnInit {
 	**/
 	inviteUserToTeam( ):void{
 
-		this.TeamsService.inviteUserToTeam( this.userData, this.inviteeObj, this.teamData );
+		this.TeamMembersService.inviteUserToTeam( this.userData, this.inviteeObj, this.teamData );
 		this.inviteeFound = false;
 		this.inviteeObj = '';
 		this.hintColor = '#CCCCCC';

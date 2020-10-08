@@ -22,6 +22,7 @@ import { takeUntil } from 'rxjs/operators';
 
 // Models
 import { CadwolfFile } from 'app/main/models/cadwolfFile';
+import { Permission } from 'app/main/models/permission';
 
 
 
@@ -29,6 +30,8 @@ import { CadwolfFile } from 'app/main/models/cadwolfFile';
 import { DatasetService } from 'app/main/services/dataset.service';
 import { WorkspaceService } from 'app/main/services/workspace.service';
 import { UserService } from 'app/main/services/user.service';
+import { PermissionsService } from 'app/main/services/permissions.service';
+import { CadwolfFileService } from 'app/main/services/cadwolf-file.service';
 
 
 
@@ -47,11 +50,16 @@ export class DatasetComponent implements OnInit {
 	datasetId 					: string;
 	dataFlag 					: boolean = false;
 	isFavorite 					: boolean = false;
+	editPerm					: boolean = false;
+	heirarchy 					: CadwolfFile[];
+	permissions 				: Permission[];
 
 	constructor(
 		private datasetService 		: DatasetService,
 		private workspaceService 	: WorkspaceService,
 		private userService 		: UserService,
+		private permissionsService 	: PermissionsService,
+		private cadwolfFileService 	: CadwolfFileService,
 		private Router 				: Router,
 		private route 				: ActivatedRoute,
         private titleService 		: Title
@@ -164,6 +172,13 @@ export class DatasetComponent implements OnInit {
 			}
 		});
 
+
+
+
+
+
+
+
 	}
 
 
@@ -178,7 +193,9 @@ export class DatasetComponent implements OnInit {
 
 	saveFile()
 	{
-
+		console.log('I am saving ...');
+		console.log(this.fileData);
+		this.cadwolfFileService.updateCadwolfFile( this.fileData, '' )
 	}
 
 

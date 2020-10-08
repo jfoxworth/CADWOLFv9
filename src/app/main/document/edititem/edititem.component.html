@@ -1,0 +1,35 @@
+
+
+<div style="position:fixed;
+			bottom:10px;
+			right:10px;
+			width:600px;
+			height:500px;
+			background-color:#FFF;
+			border:1px solid #ccc;
+			border-radius:10px;
+			padding:10px;
+			z-index:9999">
+
+	 <div fxLayoutAlign="end end">
+	 	<mat-icon (click)="showEditItem=false; closeEditItem();"
+	 			  style="cursor:pointer">
+	 		close
+	 	</mat-icon>
+	 </div>
+
+
+	<mat-tab-group mat-align-tabs="start">
+
+		<!-- The tab controlling the width and the margin of each item -->
+		<mat-tab label="Width & Margins">
+			<cadwolf-width-margin [component]="component"></cadwolf-width-margin>
+		</mat-tab>
+		
+		<mat-tab label="Second">Content 2</mat-tab>
+		
+		<mat-tab label="Third">Content 3</mat-tab>
+
+	</mat-tab-group>
+
+</div>
